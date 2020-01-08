@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{078D1380-1883-4FD9-AF20-37EB2293EADD}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="：WacomTabletVCL\WacomTabletVCL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="WacomTablet.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="WacomTabletVCL">
+        <MSBuild Projects="：WacomTabletVCL\WacomTabletVCL.dproj"/>
+    </Target>
+    <Target Name="WacomTabletVCL:Clean">
+        <MSBuild Projects="：WacomTabletVCL\WacomTabletVCL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WacomTabletVCL:Make">
+        <MSBuild Projects="：WacomTabletVCL\WacomTabletVCL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WacomTablet">
+        <MSBuild Projects="WacomTablet.dproj"/>
+    </Target>
+    <Target Name="WacomTablet:Clean">
+        <MSBuild Projects="WacomTablet.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WacomTablet:Make">
+        <MSBuild Projects="WacomTablet.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="WacomTabletVCL;WacomTablet"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="WacomTabletVCL:Clean;WacomTablet:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="WacomTabletVCL:Make;WacomTablet:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
