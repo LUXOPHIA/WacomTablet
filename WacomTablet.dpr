@@ -4,7 +4,7 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   Main in 'Main.pas' {Form1},
-  WinTab32 in 'ÅFWacomTabletVCL\_LIBRARY\LI-Qingrui\WinTab32.pas';
+  WinTab32 in '_LIBRARY\WinTab32.pas';
 
 {$R *.res}
 
