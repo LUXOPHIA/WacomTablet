@@ -20,8 +20,8 @@ extern "C" {
 (* Messages *)
 {$IFNDEF NOWTMESSAGES }
 
-    #define WT_DEFBASE           0x7FF0
-    #define WT_MAXOFFSET         0xF
+    #define WT_DEFBASE           $7FF0
+    #define WT_MAXOFFSET         $F
 
     #define _WT_PACKET(b)        ((b)+0)
     #define _WT_CTXOPEN(b)       ((b)+1)
@@ -64,20 +64,20 @@ typedef DWORD WTPKT; (* packet mask *)
 {$IFNDEF NOWTPKT }
 
     (* WTPKT bits *)
-    #define PK_CONTEXT             0x0001 (* reporting context *)
-    #define PK_STATUS              0x0002 (* status bits *)
-    #define PK_TIME                0x0004 (* time stamp *)
-    #define PK_CHANGED             0x0008 (* change bit vector *)
-    #define PK_SERIAL_NUMBER       0x0010 (* packet serial number *)
-    #define PK_CURSOR              0x0020 (* reporting cursor *)
-    #define PK_BUTTONS             0x0040 (* button information *)
-    #define PK_X                   0x0080 (* x axis *)
-    #define PK_Y                   0x0100 (* y axis *)
-    #define PK_Z                   0x0200 (* z axis *)
-    #define PK_NORMAL_PRESSURE     0x0400 (* normal or tip pressure *)
-    #define PK_TANGENT_PRESSURE    0x0800 (* tangential or barrel pressure *)
-    #define PK_ORIENTATION         0x1000 (* orientation info: tilts *)
-    #define PK_ROTATION            0x2000 (* rotation info; 1.1 *)
+    #define PK_CONTEXT             $0001 (* reporting context *)
+    #define PK_STATUS              $0002 (* status bits *)
+    #define PK_TIME                $0004 (* time stamp *)
+    #define PK_CHANGED             $0008 (* change bit vector *)
+    #define PK_SERIAL_NUMBER       $0010 (* packet serial number *)
+    #define PK_CURSOR              $0020 (* reporting cursor *)
+    #define PK_BUTTONS             $0040 (* button information *)
+    #define PK_X                   $0080 (* x axis *)
+    #define PK_Y                   $0100 (* y axis *)
+    #define PK_Z                   $0200 (* z axis *)
+    #define PK_NORMAL_PRESSURE     $0400 (* normal or tip pressure *)
+    #define PK_TANGENT_PRESSURE    $0800 (* tangential or barrel pressure *)
+    #define PK_ORIENTATION         $1000 (* orientation info: tilts *)
+    #define PK_ROTATION            $2000 (* rotation info; 1.1 *)
 
 {$ENDIF}
 
@@ -89,7 +89,7 @@ typedef DWORD FIX32; (* fixed-point arithmetic type *)
 
     #define CASTFIX32(x)    ((FIX32)((x)*65536L))
 
-    #define ROUND(x)    (INT(x) + (FRAC(x) > (WORD)0x8000))
+    #define ROUND(x)    (INT(x) + (FRAC(x) > (WORD)$8000))
 
     #define FIX_MUL(c, a, b)                         \
         (c = (((DWORD)FRAC(a) * FRAC(b)) >> 16) +    \
@@ -150,42 +150,42 @@ typedef struct tagAXIS {
 {$IFNDEF NOWTSYSBUTTONS }
 
 (* system button assignment values *)
-#define SBN_NONE          0x00
-#define SBN_LCLICK        0x01
-#define SBN_LDBLCLICK     0x02
-#define SBN_LDRAG         0x03
-#define SBN_RCLICK        0x04
-#define SBN_RDBLCLICK     0x05
-#define SBN_RDRAG         0x06
-#define SBN_MCLICK        0x07
-#define SBN_MDBLCLICK     0x08
-#define SBN_MDRAG         0x09
+#define SBN_NONE          $00
+#define SBN_LCLICK        $01
+#define SBN_LDBLCLICK     $02
+#define SBN_LDRAG         $03
+#define SBN_RCLICK        $04
+#define SBN_RDBLCLICK     $05
+#define SBN_RDRAG         $06
+#define SBN_MCLICK        $07
+#define SBN_MDBLCLICK     $08
+#define SBN_MDRAG         $09
 (* for Pen Windows *)
-#define SBN_PTCLICK       0x10
-#define SBN_PTDBLCLICK    0x20
-#define SBN_PTDRAG        0x30
-#define SBN_PNCLICK       0x40
-#define SBN_PNDBLCLICK    0x50
-#define SBN_PNDRAG        0x60
-#define SBN_P1CLICK       0x70
-#define SBN_P1DBLCLICK    0x80
-#define SBN_P1DRAG        0x90
-#define SBN_P2CLICK       0xA0
-#define SBN_P2DBLCLICK    0xB0
-#define SBN_P2DRAG        0xC0
-#define SBN_P3CLICK       0xD0
-#define SBN_P3DBLCLICK    0xE0
-#define SBN_P3DRAG        0xF0
+#define SBN_PTCLICK       $10
+#define SBN_PTDBLCLICK    $20
+#define SBN_PTDRAG        $30
+#define SBN_PNCLICK       $40
+#define SBN_PNDBLCLICK    $50
+#define SBN_PNDRAG        $60
+#define SBN_P1CLICK       $70
+#define SBN_P1DBLCLICK    $80
+#define SBN_P1DRAG        $90
+#define SBN_P2CLICK       $A0
+#define SBN_P2DBLCLICK    $B0
+#define SBN_P2DRAG        $C0
+#define SBN_P3CLICK       $D0
+#define SBN_P3DBLCLICK    $E0
+#define SBN_P3DRAG        $F0
 
 {$ENDIF}
 
 {$IFNDEF NOWTCAPABILITIES }
 
 (* hardware capabilities *)
-#define HWC_INTEGRATED        0x0001
-#define HWC_TOUCH             0x0002
-#define HWC_HARDPROX          0x0004
-#define HWC_PHYSID_CURSORS    0x0008 (* 1.1 *)
+#define HWC_INTEGRATED        $0001
+#define HWC_TOUCH             $0002
+#define HWC_HARDPROX          $0004
+#define HWC_PHYSID_CURSORS    $0008 (* 1.1 *)
 {$ENDIF}
 
 {$IFNDEF NOWTIFC }
@@ -193,9 +193,9 @@ typedef struct tagAXIS {
 {$IFNDEF NOWTCURSORS }
 
 (* cursor capabilities *)
-#define CRC_MULTIMODE    0x0001 (* 1.1 *)
-#define CRC_AGGREGATE    0x0002 (* 1.1 *)
-#define CRC_INVERT       0x0004 (* 1.1 *)
+#define CRC_MULTIMODE    $0001 (* 1.1 *)
+#define CRC_AGGREGATE    $0002 (* 1.1 *)
+#define CRC_INVERT       $0004 (* 1.1 *)
 
 {$ENDIF}
 
@@ -476,24 +476,24 @@ typedef struct tagLOGCONTEXT {
 {$ENDIF} (* WIN32 *)
 
     (* context option values *)
-    #define CXO_SYSTEM         0x0001
-    #define CXO_PEN            0x0002
-    #define CXO_MESSAGES       0x0004
-    #define CXO_MARGIN         0x8000
-    #define CXO_MGNINSIDE      0x4000
-    #define CXO_CSRMESSAGES    0x0008 (* 1.1 *)
+    #define CXO_SYSTEM         $0001
+    #define CXO_PEN            $0002
+    #define CXO_MESSAGES       $0004
+    #define CXO_MARGIN         $8000
+    #define CXO_MGNINSIDE      $4000
+    #define CXO_CSRMESSAGES    $0008 (* 1.1 *)
 
     (* context status values *)
-    #define CXS_DISABLED       0x0001
-    #define CXS_OBSCURED       0x0002
-    #define CXS_ONTOP          0x0004
+    #define CXS_DISABLED       $0001
+    #define CXS_OBSCURED       $0002
+    #define CXS_ONTOP          $0004
 
     (* context lock values *)
-    #define CXL_INSIZE         0x0001
-    #define CXL_INASPECT       0x0002
-    #define CXL_SENSITIVITY    0x0004
-    #define CXL_MARGIN         0x0008
-    #define CXL_SYSOUT         0x0010
+    #define CXL_INSIZE         $0001
+    #define CXL_INASPECT       $0002
+    #define CXL_SENSITIVITY    $0004
+    #define CXL_MARGIN         $0008
+    #define CXL_SYSOUT         $0010
 
 (* -------------------------------------------------------------------------- *)
 (* EVENT DATA DEFS *)
@@ -501,11 +501,11 @@ typedef struct tagLOGCONTEXT {
 (* For packet structure definition, see pktdef.h *)
 
 (* packet status values *)
-#define TPS_PROXIMITY    0x0001
-#define TPS_QUEUE_ERR    0x0002
-#define TPS_MARGIN       0x0004
-#define TPS_GRAB         0x0008
-#define TPS_INVERT       0x0010 (* 1.1 *)
+#define TPS_PROXIMITY    $0001
+#define TPS_QUEUE_ERR    $0002
+#define TPS_MARGIN       $0004
+#define TPS_GRAB         $0008
+#define TPS_INVERT       $0010 (* 1.1 *)
 
 typedef struct tagORIENTATION {
     int orAzimuth;
