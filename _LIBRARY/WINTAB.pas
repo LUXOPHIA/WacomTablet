@@ -11,16 +11,18 @@ with portions copyright 1991-1998 by LCS/Telegraphics.
 
 unit WINTAB;
 
+interface //#################################################################### ■
+
+uses Winapi.Windows;
+
+const DLLNAME = 'WinTab32.dll';
+
 {$IFNDEF _INC_WINTAB } (* prevent multiple includes *)
 {$DEFINE _INC_WINTAB }
 
 {$IFDEF __cplusplus }
 //extern "C" {
 {$ENDIF} (* __cplusplus *)
-
-interface //#################################################################### ■
-
-uses Winapi.Windows;
 
 (* -------------------------------------------------------------------------- *)
 (* Messages *)
@@ -696,145 +698,145 @@ const TABLET_LOC_TRANSDUCER    = 4;
     {$IFNDEF NOWTBASICFXNS }
     (* BASIC FUNCTIONS *)
 {$IFDEF WIN32 }
-    UINT API WTInfoA(UINT, UINT, LPVOID);
+    function WTInfoA( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
     const ORD_WTInfoA    = 20;
-    UINT API WTInfoW(UINT, UINT, LPVOID);
+    function WTInfoW( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
     const ORD_WTInfoW    = 1020;
     {$IFDEF UNICODE }
-    #define WTInfo         WTInfoW
+    function WTInfo( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME name 'WTInfoW';
     const ORD_WTInfo     = ORD_WTInfoW;
     {$ELSE}
-    #define WTInfo         WTInfoA
+    function WTInfo( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME name 'WTInfoA';
     const ORD_WTInfo     = ORD_WTInfoA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
-    UINT API WTInfo(UINT, UINT, LPVOID);
+    function WTInfo( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
     const ORD_WTInfo     = 20;
 {$ENDIF}
 {$IFDEF WIN32 }
-    HCTX API WTOpenA(HWND, LPLOGCONTEXTA, BOOL);
+    function WTOpenA( _1:HWND; _2:LPLOGCONTEXTA; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
     const ORD_WTOpenA    = 21;
-    HCTX API WTOpenW(HWND, LPLOGCONTEXTW, BOOL);
+    function WTOpenW( _1:HWND; _2:LPLOGCONTEXTW; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
     const ORD_WTOpenW    = 1021;
     {$IFDEF UNICODE }
-    #define WTOpen         WTOpenW
+    function WTOpen( _1:HWND; _2:LPLOGCONTEXTW; _3:BOOL ) :HCTX; stdcall; external DLLNAME name 'WTOpenW';
     const ORD_WTOpen     = ORD_WTOpenW;
     {$ELSE}
-    #define WTOpen         WTOpenA
+    function WTOpen( _1:HWND; _2:LPLOGCONTEXTA; _3:BOOL ) :HCTX; stdcall; external DLLNAME name 'WTOpenA';
     const ORD_WTOpen     = ORD_WTOpenA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
-    HCTX API WTOpen(HWND, LPLOGCONTEXT, BOOL);
+    function WTOpen( _1:HWND; _2:LPLOGCONTEXT; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
     const ORD_WTOpen     = 21;
 {$ENDIF}
-    BOOL API WTClose(HCTX);
+    function WTClose( _1:HCTX ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTClose         = 22;
-    int API WTPacketsGet(HCTX, int, LPVOID);
+    function WTPacketsGet( _1:HCTX; _2:Integer; _3:LPVOID ) :Integer; stdcall; external DLLNAME;
     const ORD_WTPacketsGet    = 23;
-    BOOL API WTPacket(HCTX, UINT, LPVOID);
+    function WTPacket( _1:HCTX; _2:UINT; _3:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTPacket        = 24;
     {$ENDIF}
 
     {$IFNDEF NOWTVISIBILITYFXNS }
     (* VISIBILITY FUNCTIONS *)
-    BOOL API WTEnable(HCTX, BOOL);
+    function WTEnable( _1:HCTX; _2:BOOL ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTEnable     = 40;
-    BOOL API WTOverlap(HCTX, BOOL);
+    function WTOverlap( _1:HCTX; _2:BOOL ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTOverlap    = 41;
     {$ENDIF}
 
     {$IFNDEF NOWTCTXEDITFXNS }
     (* CONTEXT EDITING FUNCTIONS *)
-    BOOL API WTConfig(HCTX, HWND);
+    function WTConfig( _1:HCTX; _2:HWND ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTConfig    = 60;
 {$IFDEF WIN32 }
-    BOOL API WTGetA(HCTX, LPLOGCONTEXTA);
+    function WTGetA( _1:HCTX; _2:LPLOGCONTEXTA ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTGetA    = 61;
-    BOOL API WTGetW(HCTX, LPLOGCONTEXTW);
+    function WTGetW( _1:HCTX; _2:LPLOGCONTEXTW ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTGetW    = 1061;
     {$IFDEF UNICODE }
-    #define WTGet         WTGetW
+    function WTGet( _1:HCTX; _2:LPLOGCONTEXTW ) :BOOL; stdcall; external DLLNAME name 'WTGetW';
     const ORD_WTGet     = ORD_WTGetW;
     {$ELSE}
-    #define WTGet         WTGetA
+    function WTGet( _1:HCTX; _2:LPLOGCONTEXTA ) :BOOL; stdcall; external DLLNAME name 'WTGetA';
     const ORD_WTGet     = ORD_WTGetA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
-    BOOL API WTGet(HCTX, LPLOGCONTEXT);
+    function WTGet( _1:HCTX; _2:LPLOGCONTEXT ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTGet     = 61;
 {$ENDIF}
 {$IFDEF WIN32 }
-    BOOL API WTSetA(HCTX, LPLOGCONTEXTA);
+    function WTSetA( _1:HCTX; _2:LPLOGCONTEXTA ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTSetA    = 62;
-    BOOL API WTSetW(HCTX, LPLOGCONTEXTW);
+    function WTSetW( _1:HCTX; _2:LPLOGCONTEXTW ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTSetW    = 1062;
     {$IFDEF UNICODE }
-    #define WTSet         WTSetW
+    function WTSet( _1:HCTX; _2:LPLOGCONTEXTW ) :BOOL; stdcall; external DLLNAME name 'WTSetW';
     const ORD_WTSet     = ORD_WTSetW;
     {$ELSE}
-    #define WTSet         WTSetA
+    function WTSet( _1:HCTX; _2:LPLOGCONTEXTA ) :BOOL; stdcall; external DLLNAME name 'WTSetA';
     const ORD_WTSet     = ORD_WTSetA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
-    BOOL API WTSet(HCTX, LPLOGCONTEXT);
+    function WTSet( _1:HCTX; _2:LPLOGCONTEXT ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTSet     = 62;
 {$ENDIF}
-    BOOL API WTExtGet(HCTX, UINT, LPVOID);
+    function WTExtGet( _1:HCTX; _2:UINT; _3:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTExtGet     = 63;
-    BOOL API WTExtSet(HCTX, UINT, LPVOID);
+    function WTExtSet( _1:HCTX; _2:UINT; _3:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTExtSet     = 64;
-    BOOL API WTSave(HCTX, LPVOID);
+    function WTSave( _1:HCTX; _2:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTSave       = 65;
-    HCTX API WTRestore(HWND, LPVOID, BOOL);
+    function WTRestore( _1:HWND; _2:LPVOID; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
     const ORD_WTRestore    = 66;
     {$ENDIF}
 
     {$IFNDEF NOWTQUEUEFXNS }
     (* ADVANCED PACKET AND QUEUE FUNCTIONS *)
-    int API WTPacketsPeek(HCTX, int, LPVOID);
+    function WTPacketsPeek( _1:HCTX; _2:Integer; _3:LPVOID ) :Integer; stdcall; external DLLNAME;
     const ORD_WTPacketsPeek    = 80;
-    int API WTDataGet(HCTX, UINT, UINT, int, LPVOID, LPINT);
+    function WTDataGet( _1:HCTX; _2:UINT; _3:UINT; _4:Integer; _5:LPVOID; _6:PINT ) :Integer; stdcall; external DLLNAME;
     const ORD_WTDataGet        = 81;
-    int API WTDataPeek(HCTX, UINT, UINT, int, LPVOID, LPINT);
+    function WTDataPeek( _1:HCTX; _2:UINT; _3:UINT; _4:Integer; _5:LPVOID; _6:PINT ) :Integer; stdcall; external DLLNAME;
     const ORD_WTDataPeek       = 82;
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
-    DWORD API WTQueuePackets(HCTX);
+    function WTQueuePackets( _1:HCTX ) :DWORD; stdcall; external DLLNAME;
     const ORD_WTQueuePackets    = 83;
 {$ENDIF}
-    int API WTQueueSizeGet(HCTX);
+    function WTQueueSizeGet( _1:HCTX ) :Integer; stdcall; external DLLNAME;
     const ORD_WTQueueSizeGet    = 84;
-    BOOL API WTQueueSizeSet(HCTX, int);
+    function WTQueueSizeSet( _1:HCTX; _2:Integer ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTQueueSizeSet    = 85;
     {$ENDIF}
 
     {$IFNDEF NOWTHMGRFXNS }
     (* MANAGER HANDLE FUNCTIONS *)
-    HMGR API WTMgrOpen(HWND, UINT);
+    function WTMgrOpen( _1:HWND; _2:UINT ) :HMGR; stdcall; external DLLNAME;
     const ORD_WTMgrOpen     = 100;
-    BOOL API WTMgrClose(HMGR);
+    function WTMgrClose( _1:HMGR ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrClose    = 101;
     {$ENDIF}
 
     {$IFNDEF NOWTMGRCTXFXNS }
     (* MANAGER CONTEXT FUNCTIONS *)
-    BOOL API WTMgrContextEnum(HMGR, WTENUMPROC, LPARAM);
+    function WTMgrContextEnum( _1:HMGR; _2:WTENUMPROC; _3:LPARAM ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrContextEnum     = 120;
-    HWND API WTMgrContextOwner(HMGR, HCTX);
+    function WTMgrContextOwner( _1:HMGR; _2:HCTX ) :HWND; stdcall; external DLLNAME;
     const ORD_WTMgrContextOwner    = 121;
-    HCTX API WTMgrDefContext(HMGR, BOOL);
+    function WTMgrDefContext( _1:HMGR; _2:BOOL ) :HCTX; stdcall; external DLLNAME;
     const ORD_WTMgrDefContext      = 122;
-    HCTX API WTMgrDefContextEx(HMGR, UINT, BOOL); (* 1.1 *)
+    function WTMgrDefContextEx( _1:HMGR; _2:UINT; _3:BOOL ) :HCTX; stdcall; external DLLNAME;  (* 1.1 *)
     const ORD_WTMgrDefContextEx    = 206;
     {$ENDIF}
     
     {$IFNDEF NOWTMGRCONFIGFXNS }
     (* MANAGER CONFIG BOX  FUNCTIONS *)
-    UINT API WTMgrDeviceConfig(HMGR, UINT, HWND);
+    function WTMgrDeviceConfig( _1:HMGR; _2:UINT; _3:HWND ) :UINT; stdcall; external DLLNAME;
     const ORD_WTMgrDeviceConfig    = 140;
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
-    BOOL API WTMgrConfigReplace(HMGR, BOOL, WTCONFIGPROC);
+    function WTMgrConfigReplace( _1:HMGR; _2:BOOL; _3:WTCONFIGPROC ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrConfigReplace    = 141;
 {$ENDIF}
     {$ENDIF}
@@ -843,52 +845,52 @@ const TABLET_LOC_TRANSDUCER    = 4;
     (* MANAGER PACKET HOOK FUNCTIONS *)
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
-    WTHOOKPROC API WTMgrPacketHook(HMGR, BOOL, int, WTHOOKPROC);
+    function WTMgrPacketHook( _1:HMGR; _2:BOOL; _3:int; _4:WTHOOKPROC ) :WTHOOKPROC; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHook           = 160;
-    LRESULT API WTMgrPacketHookDefProc(int, WPARAM, LPARAM, LPWTHOOKPROC);
+    function WTMgrPacketHookDefProc( _1:int; _2:WPARAM; _3:LPARAM; _4:LPWTHOOKPROC ) :LRESULT; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHookDefProc    = 161;
 {$ENDIF}
     {$ENDIF}
 
     {$IFNDEF NOWTMGRPREFFXNS }
     (* MANAGER PREFERENCE DATA FUNCTIONS *)
-    BOOL API WTMgrExt(HMGR, UINT, LPVOID);
+    function WTMgrExt( _1:HMGR; _2:UINT; _3:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrExt                    = 180;
-    BOOL API WTMgrCsrEnable(HMGR, UINT, BOOL);
+    function WTMgrCsrEnable( _1:HMGR; _2:UINT; _3:BOOL ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrCsrEnable              = 181;
-    BOOL API WTMgrCsrButtonMap(HMGR, UINT, LPBYTE, LPBYTE);
+    function WTMgrCsrButtonMap( _1:HMGR; _2:UINT; _3:LPBYTE; _4:LPBYTE ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrCsrButtonMap           = 182;
-    BOOL API WTMgrCsrPressureBtnMarks(HMGR, UINT, DWORD, DWORD);
+    function WTMgrCsrPressureBtnMarks( _1:HMGR; _2:UINT; _3:DWORD; _4:DWORD ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrCsrPressureBtnMarks    = 183;
-    BOOL API WTMgrCsrPressureResponse(HMGR, UINT, UINT FAR *, UINT FAR *);
+    function WTMgrCsrPressureResponse( _1:HMGR; _2:UINT; _3:PUINT; _4:PUINT ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrCsrPressureResponse    = 184;
-    BOOL API WTMgrCsrExt(HMGR, UINT, UINT, LPVOID);
+    function WTMgrCsrExt( _1:HMGR; _2:UINT; _3:UINT; _4:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrCsrExt                 = 185;
     {$ENDIF}
 
 (* Win32 replacements for non-portable functions. *)
     {$IFNDEF NOWTQUEUEFXNS }
     (* ADVANCED PACKET AND QUEUE FUNCTIONS *)
-    BOOL API WTQueuePacketsEx(HCTX, UINT FAR *, UINT FAR *);
+    function WTQueuePacketsEx( _1:HCTX; _2:PUINT; _3:PUINT ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTQueuePacketsEx    = 200;
     {$ENDIF}
 
     {$IFNDEF NOWTMGRCONFIGFXNS }
     (* MANAGER CONFIG BOX  FUNCTIONS *)
 {$IFDEF WIN32 }
-    BOOL API WTMgrConfigReplaceExA(HMGR, BOOL, LPSTR, LPSTR);
+    function WTMgrConfigReplaceExA( _1:HMGR; _2:BOOL; _3:LPSTR; _4:LPSTR ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrConfigReplaceExA    = 202;
-    BOOL API WTMgrConfigReplaceExW(HMGR, BOOL, LPWSTR, LPSTR);
+    function WTMgrConfigReplaceExW( _1:HMGR; _2:BOOL; _3:LPWSTR; _4:LPSTR ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrConfigReplaceExW    = 1202;
     {$IFDEF UNICODE }
-    #define WTMgrConfigReplaceEx         WTMgrConfigReplaceExW
+    function WTMgrConfigReplaceEx( _1:HMGR; _2:BOOL; _3:LPWSTR; _4:LPSTR ) :BOOL; stdcall; external DLLNAME name'WTMgrConfigReplaceExW';
     const ORD_WTMgrConfigReplaceEx     = ORD_WTMgrConfigReplaceExW;
     {$ELSE}
-    #define WTMgrConfigReplaceEx         WTMgrConfigReplaceExA
+    function WTMgrConfigReplaceEx( _1:HMGR; _2:BOOL; _3:LPSTR; _4:LPSTR ) :BOOL; stdcall; external DLLNAME name'WTMgrConfigReplaceExA';
     const ORD_WTMgrConfigReplaceEx     = ORD_WTMgrConfigReplaceExA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
-    BOOL API WTMgrConfigReplaceEx(HMGR, BOOL, LPSTR, LPSTR);
+    function WTMgrConfigReplaceEx( _1:HMGR; _2:BOOL; _3:LPSTR; _4:LPSTR ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrConfigReplaceEx     = 202;
 {$ENDIF}
     {$ENDIF}
@@ -896,41 +898,41 @@ const TABLET_LOC_TRANSDUCER    = 4;
     {$IFNDEF NOWTMGRHOOKFXNS }
     (* MANAGER PACKET HOOK FUNCTIONS *)
 {$IFDEF WIN32 }
-    HWTHOOK API WTMgrPacketHookExA(HMGR, int, LPSTR, LPSTR);
+    function WTMgrPacketHookExA( _1:HMGR; _2:Integer; _3:LPSTR; _4:LPSTR ) :HWTHOOK; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHookExA     = 203;
-    HWTHOOK API WTMgrPacketHookExW(HMGR, int, LPWSTR, LPSTR);
+    function WTMgrPacketHookExW( _1:HMGR; _2:Integer; _3:LPWSTR; _4:LPSTR ) :HWTHOOK; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHookExW     = 1203;
     {$IFDEF UNICODE }
-    #define WTMgrPacketHookEx          WTMgrPacketHookExW
+    function WTMgrPacketHookEx( _1:HMGR; _2:Integer; _3:LPWSTR; _4:LPSTR ) :HWTHOOK; stdcall; external DLLNAME name'WTMgrPacketHookExW';
     const ORD_WTMgrPacketHookEx      = ORD_WTMgrPacketHookExW;
     {$ELSE}
-    #define WTMgrPacketHookEx          WTMgrPacketHookExA
+    function WTMgrPacketHookEx( _1:HMGR; _2:Integer; _3:LPSTR; _4:LPSTR ) :HWTHOOK; stdcall; external DLLNAME name'WTMgrPacketHookExA';
     const ORD_WTMgrPacketHookEx      = ORD_WTMgrPacketHookExA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
-    HWTHOOK API WTMgrPacketHookEx(HMGR, int, LPSTR, LPSTR);
+    function WTMgrPacketHookEx( _1:HMGR; _2:Integer; _3:LPSTR; _4:LPSTR ) :HWTHOOK; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHookEx      = 203;
 {$ENDIF}
-    BOOL API WTMgrPacketUnhook(HWTHOOK);
+    function WTMgrPacketUnhook( _1:HWTHOOK ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrPacketUnhook      = 204;
-    LRESULT API WTMgrPacketHookNext(HWTHOOK, int, WPARAM, LPARAM);
+    function WTMgrPacketHookNext( _1:HWTHOOK; _2:Integer; _3:WPARAM; _4:LPARAM ) :LRESULT; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHookNext    = 205;
     {$ENDIF}
 
     {$IFNDEF NOWTMGRPREFFXNS }
     (* MANAGER PREFERENCE DATA FUNCTIONS *)
-    BOOL API WTMgrCsrPressureBtnMarksEx(HMGR, UINT, UINT FAR *, UINT FAR *);
+    function WTMgrCsrPressureBtnMarksEx( _1:HMGR; _2:UINT; _3:PUINT; _4:PUINT ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTMgrCsrPressureBtnMarksEx    = 201;
     {$ENDIF}
 
 {$ENDIF}
-
-implementation //############################################################### ■
-
-end. //######################################################################### ■
 
 {$IFDEF __cplusplus }
 }
 {$ENDIF} (* __cplusplus *)
 
 {$ENDIF} (* #define _INC_WINTAB *)
+
+implementation //############################################################### ■
+
+end. //######################################################################### ■
