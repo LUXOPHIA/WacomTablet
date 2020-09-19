@@ -1,23 +1,23 @@
-﻿/* -------------------------------- wintab.h -------------------------------- */
-/* Combined 16 & 32-bit version. */
+﻿(* -------------------------------- wintab.h -------------------------------- *)
+(* Combined 16 & 32-bit version. *)
 
-/*------------------------------------------------------------------------------
+(*------------------------------------------------------------------------------
 The text and information contained in this file may be freely used,
 copied, or distributed without compensation or licensing restrictions.
 
 This file is Copyright (c) Wacom Company, Ltd. 2010 All Rights Reserved
 with portions copyright 1991-1998 by LCS/Telegraphics.
-------------------------------------------------------------------------------*/
+------------------------------------------------------------------------------*)
 
-#ifndef _INC_WINTAB	/* prevent multiple includes */
+#ifndef _INC_WINTAB	(* prevent multiple includes *)
 #define _INC_WINTAB
 
 #ifdef __cplusplus
 extern "C" {
-#endif	/* __cplusplus */
+#endif	(* __cplusplus *)
 
-/* -------------------------------------------------------------------------- */
-/* Messages */
+(* -------------------------------------------------------------------------- *)
+(* Messages *)
 #ifndef NOWTMESSAGES
 
 	#define WT_DEFBASE			0x7FF0
@@ -30,8 +30,8 @@ extern "C" {
 	#define _WT_CTXOVERLAP(b)	((b)+4)
 	#define _WT_PROXIMITY(b)	((b)+5)
 	#define _WT_INFOCHANGE(b)	((b)+6)
-	#define _WT_CSRCHANGE(b)	((b)+7) /* 1.1 */
-	#define _WT_PACKETEXT(b)	((b)+8) /* 1.4 */
+	#define _WT_CSRCHANGE(b)	((b)+7) (* 1.1 *)
+	#define _WT_PACKETEXT(b)	((b)+8) (* 1.4 *)
 	#define _WT_MAX(b)			((b)+WT_MAXOFFSET)
 	
 	#define WT_PACKET				_WT_PACKET(WT_DEFBASE)
@@ -41,47 +41,47 @@ extern "C" {
 	#define WT_CTXOVERLAP		_WT_CTXOVERLAP(WT_DEFBASE)
 	#define WT_PROXIMITY			_WT_PROXIMITY(WT_DEFBASE)
 	#define WT_INFOCHANGE		_WT_INFOCHANGE(WT_DEFBASE)
-	#define WT_CSRCHANGE			_WT_CSRCHANGE(WT_DEFBASE) /* 1.1 */
-	#define WT_PACKETEXT			_WT_PACKETEXT(WT_DEFBASE) /* 1.4 */
+	#define WT_CSRCHANGE			_WT_CSRCHANGE(WT_DEFBASE) (* 1.1 *)
+	#define WT_PACKETEXT			_WT_PACKETEXT(WT_DEFBASE) (* 1.4 *)
 	#define WT_MAX					_WT_MAX(WT_DEFBASE)
 
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-/* Data Types */
+(* -------------------------------------------------------------------------- *)
+(* -------------------------------------------------------------------------- *)
+(* Data Types *)
 
-/* -------------------------------------------------------------------------- */
-/* COMMON DATA DEFS */
+(* -------------------------------------------------------------------------- *)
+(* COMMON DATA DEFS *)
 
-DECLARE_HANDLE(HMGR);		/* manager handle */
-DECLARE_HANDLE(HCTX);		/* context handle */
-DECLARE_HANDLE(HWTHOOK);	/* hook handle */
+DECLARE_HANDLE(HMGR);		(* manager handle *)
+DECLARE_HANDLE(HCTX);		(* context handle *)
+DECLARE_HANDLE(HWTHOOK);	(* hook handle *)
 
-typedef DWORD WTPKT;			/* packet mask */
+typedef DWORD WTPKT;			(* packet mask *)
 
 
 #ifndef NOWTPKT
 
-	/* WTPKT bits */
-	#define PK_CONTEXT				0x0001	/* reporting context */
-	#define PK_STATUS					0x0002	/* status bits */
-	#define PK_TIME					0x0004	/* time stamp */
-	#define PK_CHANGED				0x0008	/* change bit vector */
-	#define PK_SERIAL_NUMBER		0x0010	/* packet serial number */
-	#define PK_CURSOR					0x0020	/* reporting cursor */
-	#define PK_BUTTONS				0x0040	/* button information */
-	#define PK_X						0x0080	/* x axis */
-	#define PK_Y						0x0100	/* y axis */
-	#define PK_Z						0x0200	/* z axis */
-	#define PK_NORMAL_PRESSURE		0x0400	/* normal or tip pressure */
-	#define PK_TANGENT_PRESSURE	0x0800	/* tangential or barrel pressure */
-	#define PK_ORIENTATION			0x1000	/* orientation info: tilts */
-	#define PK_ROTATION				0x2000	/* rotation info; 1.1 */
+	(* WTPKT bits *)
+	#define PK_CONTEXT				0x0001	(* reporting context *)
+	#define PK_STATUS					0x0002	(* status bits *)
+	#define PK_TIME					0x0004	(* time stamp *)
+	#define PK_CHANGED				0x0008	(* change bit vector *)
+	#define PK_SERIAL_NUMBER		0x0010	(* packet serial number *)
+	#define PK_CURSOR					0x0020	(* reporting cursor *)
+	#define PK_BUTTONS				0x0040	(* button information *)
+	#define PK_X						0x0080	(* x axis *)
+	#define PK_Y						0x0100	(* y axis *)
+	#define PK_Z						0x0200	(* z axis *)
+	#define PK_NORMAL_PRESSURE		0x0400	(* normal or tip pressure *)
+	#define PK_TANGENT_PRESSURE	0x0800	(* tangential or barrel pressure *)
+	#define PK_ORIENTATION			0x1000	(* orientation info: tilts *)
+	#define PK_ROTATION				0x2000	(* rotation info; 1.1 *)
 
 #endif
 
-typedef DWORD FIX32;				/* fixed-point arithmetic type */
+typedef DWORD FIX32;				(* fixed-point arithmetic type *)
 
 #ifndef NOFIX32
 	#define INT(x)			HIWORD(x)
@@ -107,7 +107,7 @@ typedef DWORD FIX32;				/* fixed-point arithmetic type */
 		{													\
 			FIX_DIV_SC DWORD temp, rem, btemp;	\
 															\
-			/* fraction done bytewise */			\
+			(* fraction done bytewise *)			\
 			temp = ((a / b) << 16);					\
 			rem = a % b;								\
 			btemp = b;									\
@@ -125,8 +125,8 @@ typedef DWORD FIX32;				/* fixed-point arithmetic type */
 		}
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* INFO DATA DEFS */
+(* -------------------------------------------------------------------------- *)
+(* INFO DATA DEFS *)
 
 #ifndef NOWTINFO
 
@@ -139,7 +139,7 @@ typedef struct tagAXIS {
 	FIX32	axResolution;
 } AXIS, *PAXIS, NEAR *NPAXIS, FAR *LPAXIS;
 
-	/* unit specifiers */
+	(* unit specifiers *)
 	#define TU_NONE			0
 	#define TU_INCHES		1
 	#define TU_CENTIMETERS	2
@@ -149,7 +149,7 @@ typedef struct tagAXIS {
 
 #ifndef NOWTSYSBUTTONS
 
-/* system button assignment values */
+(* system button assignment values *)
 #define SBN_NONE			0x00
 #define SBN_LCLICK		0x01
 #define SBN_LDBLCLICK	0x02
@@ -160,7 +160,7 @@ typedef struct tagAXIS {
 #define SBN_MCLICK		0x07
 #define SBN_MDBLCLICK	0x08
 #define SBN_MDRAG			0x09
-/* for Pen Windows */
+(* for Pen Windows *)
 #define SBN_PTCLICK		0x10
 #define SBN_PTDBLCLICK	0x20
 #define SBN_PTDRAG		0x30
@@ -181,25 +181,25 @@ typedef struct tagAXIS {
 
 #ifndef NOWTCAPABILITIES
 
-/* hardware capabilities */
+(* hardware capabilities *)
 #define HWC_INTEGRATED		0x0001
 #define HWC_TOUCH				0x0002
 #define HWC_HARDPROX			0x0004
-#define HWC_PHYSID_CURSORS	0x0008 /* 1.1 */
+#define HWC_PHYSID_CURSORS	0x0008 (* 1.1 *)
 #endif
 
 #ifndef NOWTIFC
 
 #ifndef NOWTCURSORS
 
-/* cursor capabilities */
-#define CRC_MULTIMODE	0x0001 /* 1.1 */
-#define CRC_AGGREGATE	0x0002 /* 1.1 */
-#define CRC_INVERT		0x0004 /* 1.1 */
+(* cursor capabilities *)
+#define CRC_MULTIMODE	0x0001 (* 1.1 *)
+#define CRC_AGGREGATE	0x0002 (* 1.1 *)
+#define CRC_INVERT		0x0004 (* 1.1 *)
 
 #endif 
 
-/* info categories */
+(* info categories *)
 #define WTI_INTERFACE		1
 	#define IFC_WINTABID			1
 	#define IFC_SPECVERSION		2
@@ -235,8 +235,8 @@ typedef struct tagAXIS {
 
 #define WTI_DEFCONTEXT	3
 #define WTI_DEFSYSCTX	4
-#define WTI_DDCTXS		400 /* 1.1 */
-#define WTI_DSCTXS		500 /* 1.1 */
+#define WTI_DDCTXS		400 (* 1.1 *)
+#define WTI_DSCTXS		500 (* 1.1 *)
 	#define CTX_NAME			1
 	#define CTX_OPTIONS		2
 	#define CTX_STATUS		3
@@ -295,8 +295,8 @@ typedef struct tagAXIS {
 	#define DVC_NPRESSURE	15
 	#define DVC_TPRESSURE	16
 	#define DVC_ORIENTATION	17
-	#define DVC_ROTATION		18 /* 1.1 */
-	#define DVC_PNPID			19 /* 1.1 */
+	#define DVC_ROTATION		18 (* 1.1 *)
+	#define DVC_PNPID			19 (* 1.1 *)
 	#define DVC_MAX			19
 
 #endif
@@ -318,12 +318,12 @@ typedef struct tagAXIS {
 	#define CSR_TPBUTTON			12
 	#define CSR_TPBTNMARKS		13
 	#define CSR_TPRESPONSE		14
-	#define CSR_PHYSID			15 /* 1.1 */
-	#define CSR_MODE				16 /* 1.1 */
-	#define CSR_MINPKTDATA		17 /* 1.1 */
-	#define CSR_MINBUTTONS		18 /* 1.1 */
-	#define CSR_CAPABILITIES	19 /* 1.1 */
-	#define CSR_TYPE				20 /* 1.2 */
+	#define CSR_PHYSID			15 (* 1.1 *)
+	#define CSR_MODE				16 (* 1.1 *)
+	#define CSR_MINPKTDATA		17 (* 1.1 *)
+	#define CSR_MINBUTTONS		18 (* 1.1 *)
+	#define CSR_CAPABILITIES	19 (* 1.1 *)
+	#define CSR_TYPE				20 (* 1.2 *)
 	#define CSR_MAX				20
 
 #endif
@@ -340,15 +340,15 @@ typedef struct tagAXIS {
 	#define EXT_DEFCONTEXT	7
 	#define EXT_DEFSYSCTX	8
 	#define EXT_CURSORS		9
-	#define EXT_DEVICES     110 /* Allow 100 cursors */
-	#define EXT_MAX			210 /* Allow 100 devices */
+	#define EXT_DEVICES     110 (* Allow 100 cursors *)
+	#define EXT_MAX			210 (* Allow 100 devices *)
 
 #endif
 
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* CONTEXT DATA DEFS */
+(* -------------------------------------------------------------------------- *)
+(* CONTEXT DATA DEFS *)
 
 #define LCNAMELEN		40
 #define LC_NAMELEN	40
@@ -435,8 +435,8 @@ typedef LOGCONTEXTA LOGCONTEXT;
 typedef PLOGCONTEXTA PLOGCONTEXT;
 typedef NPLOGCONTEXTA NPLOGCONTEXT;
 typedef LPLOGCONTEXTA LPLOGCONTEXT;
-#endif /* UNICODE */
-#else /* WIN32 */
+#endif (* UNICODE *)
+#else (* WIN32 *)
 typedef struct tagLOGCONTEXT {
 	char	lcName[LCNAMELEN];
 	UINT	lcOptions;
@@ -473,39 +473,39 @@ typedef struct tagLOGCONTEXT {
 	FIX32	lcSysSensX;
 	FIX32	lcSysSensY;
 } LOGCONTEXT, *PLOGCONTEXT, NEAR *NPLOGCONTEXT, FAR *LPLOGCONTEXT;
-#endif /* WIN32 */
+#endif (* WIN32 *)
 
-	/* context option values */
+	(* context option values *)
 	#define CXO_SYSTEM		0x0001
 	#define CXO_PEN			0x0002
 	#define CXO_MESSAGES		0x0004
 	#define CXO_MARGIN		0x8000
 	#define CXO_MGNINSIDE	0x4000
-	#define CXO_CSRMESSAGES	0x0008 /* 1.1 */
+	#define CXO_CSRMESSAGES	0x0008 (* 1.1 *)
 
-	/* context status values */
+	(* context status values *)
 	#define CXS_DISABLED		0x0001
 	#define CXS_OBSCURED		0x0002
 	#define CXS_ONTOP			0x0004
 
-	/* context lock values */
+	(* context lock values *)
 	#define CXL_INSIZE		0x0001
 	#define CXL_INASPECT		0x0002
 	#define CXL_SENSITIVITY	0x0004
 	#define CXL_MARGIN		0x0008
 	#define CXL_SYSOUT		0x0010
 
-/* -------------------------------------------------------------------------- */
-/* EVENT DATA DEFS */
+(* -------------------------------------------------------------------------- *)
+(* EVENT DATA DEFS *)
 
-/* For packet structure definition, see pktdef.h */
+(* For packet structure definition, see pktdef.h *)
 
-/* packet status values */
+(* packet status values *)
 #define TPS_PROXIMITY		0x0001
 #define TPS_QUEUE_ERR		0x0002
 #define TPS_MARGIN			0x0004
 #define TPS_GRAB				0x0008
-#define TPS_INVERT			0x0010 /* 1.1 */
+#define TPS_INVERT			0x0010 (* 1.1 *)
 
 typedef struct tagORIENTATION {
 	int orAzimuth;
@@ -513,7 +513,7 @@ typedef struct tagORIENTATION {
 	int orTwist;
 } ORIENTATION, *PORIENTATION, NEAR *NPORIENTATION, FAR *LPORIENTATION;
 
-typedef struct tagROTATION { /* 1.1 */
+typedef struct tagROTATION { (* 1.1 *)
 	int roPitch;
 	int roRoll;
 	int roYaw;
@@ -524,13 +524,13 @@ typedef struct tagROTATION { /* 1.1 */
 #define rotYaw		roYaw
 
 
-/* relative buttons */
+(* relative buttons *)
 #define TBN_NONE	0
 #define TBN_UP		1
 #define TBN_DOWN	2
 
-/* -------------------------------------------------------------------------- */
-/* DEVICE CONFIG CONSTANTS */
+(* -------------------------------------------------------------------------- *)
+(* DEVICE CONFIG CONSTANTS *)
 
 #ifndef NOWTDEVCFG
 
@@ -541,8 +541,8 @@ typedef struct tagROTATION { /* 1.1 */
 
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* HOOK CONSTANTS */
+(* -------------------------------------------------------------------------- *)
+(* HOOK CONSTANTS *)
 
 #ifndef NOWTHOOKS
 
@@ -558,8 +558,8 @@ typedef struct tagROTATION { /* 1.1 */
 
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* PREFERENCE FUNCTION CONSTANTS */
+(* -------------------------------------------------------------------------- *)
+(* PREFERENCE FUNCTION CONSTANTS *)
 
 #ifndef NOWTPREF
 
@@ -568,44 +568,44 @@ typedef struct tagROTATION { /* 1.1 */
 
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* EXTENSION TAGS AND CONSTANTS */
+(* -------------------------------------------------------------------------- *)
+(* EXTENSION TAGS AND CONSTANTS *)
 
 #ifndef NOWTEXTENSIONS
 
-/* constants for use with pktdef.h */
+(* constants for use with pktdef.h *)
 #define PKEXT_ABSOLUTE	1
 #define PKEXT_RELATIVE	2
 
-/* Extension tags. */
-#define WTX_OBT				0	/* Out of bounds tracking */
-#define WTX_FKEYS				1	/* Function keys */
-#define WTX_TILT				2	/* Raw Cartesian tilt; 1.1 */
-#define WTX_CSRMASK			3	/* select input by cursor type; 1.1 */
-#define WTX_XBTNMASK			4	/* Extended button mask; 1.1 */
-#define WTX_EXPKEYS			5	/* ExpressKeys; 1.3 - DEPRECATED: see WTX_EXPKEYS2 */
-#define WTX_TOUCHSTRIP		6	/* TouchStrips; 1.4 */
-#define WTX_TOUCHRING		7	/* TouchRings; 1.4 */
-#define WTX_EXPKEYS2			8	/* ExpressKeys; 1.4 */
+(* Extension tags. *)
+#define WTX_OBT				0	(* Out of bounds tracking *)
+#define WTX_FKEYS				1	(* Function keys *)
+#define WTX_TILT				2	(* Raw Cartesian tilt; 1.1 *)
+#define WTX_CSRMASK			3	(* select input by cursor type; 1.1 *)
+#define WTX_XBTNMASK			4	(* Extended button mask; 1.1 *)
+#define WTX_EXPKEYS			5	(* ExpressKeys; 1.3 - DEPRECATED: see WTX_EXPKEYS2 *)
+#define WTX_TOUCHSTRIP		6	(* TouchStrips; 1.4 *)
+#define WTX_TOUCHRING		7	(* TouchRings; 1.4 *)
+#define WTX_EXPKEYS2			8	(* ExpressKeys; 1.4 *)
 
 typedef struct tagXBTNMASK {
 	BYTE xBtnDnMask[32];
 	BYTE xBtnUpMask[32];
 } XBTNMASK;
 
-typedef struct tagTILT { /* 1.1 */
+typedef struct tagTILT { (* 1.1 *)
 	int tiltX;
 	int tiltY;
 } TILT;
 
-typedef struct tagEXTENSIONBASE { /* 1.4 */
+typedef struct tagEXTENSIONBASE { (* 1.4 *)
 	HCTX		nContext;
 	UINT		nStatus;
 	DWORD		nTime;
 	UINT		nSerialNumber;
 } EXTENSIONBASE;
 
-typedef struct tagEXPKEYSDATA { /* 1.4 */
+typedef struct tagEXPKEYSDATA { (* 1.4 *)
 	BYTE		nTablet;
 	BYTE		nControl;
 	BYTE		nLocation;
@@ -613,7 +613,7 @@ typedef struct tagEXPKEYSDATA { /* 1.4 */
 	DWORD		nState;
 } EXPKEYSDATA;
 
-typedef struct tagSLIDERDATA { /* 1.4 */
+typedef struct tagSLIDERDATA { (* 1.4 *)
 	BYTE		nTablet;
 	BYTE		nControl;
 	BYTE		nMode;
@@ -621,7 +621,7 @@ typedef struct tagSLIDERDATA { /* 1.4 */
 	DWORD		nPosition;
 } SLIDERDATA;
 
-typedef struct tagEXTPROPERTY { /* 1.4 */
+typedef struct tagEXTPROPERTY { (* 1.4 *)
 	BYTE		version;				// Structure version, 0 for now
 	BYTE		tabletIndex;		// 0-based index for tablet
 	BYTE		controlIndex;		// 0-based index for control 
@@ -649,9 +649,9 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 
 #endif
 
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-/* Functions */
+(* -------------------------------------------------------------------------- *)
+(* -------------------------------------------------------------------------- *)
+(* Functions *)
 
 	#ifndef API
 		#ifndef WINAPI
@@ -668,8 +668,8 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTMANAGERFXNS
-	/* callback function types */
-	typedef BOOL (WINAPI * WTENUMPROC)(HCTX, LPARAM); /* changed CALLBACK->WINAPI, 1.1 */
+	(* callback function types *)
+	typedef BOOL (WINAPI * WTENUMPROC)(HCTX, LPARAM); (* changed CALLBACK->WINAPI, 1.1 *)
 	typedef BOOL (WINAPI * WTCONFIGPROC)(HCTX, HWND);
 	typedef LRESULT (WINAPI * WTHOOKPROC)(int, WPARAM, LPARAM);
 	typedef WTHOOKPROC FAR *LPWTHOOKPROC;
@@ -681,7 +681,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 #ifndef NOWTFUNCTIONS
 
 	#ifndef NOWTBASICFXNS
-	/* BASIC FUNCTIONS */
+	(* BASIC FUNCTIONS *)
 #ifdef WIN32
 	UINT API WTInfoA(UINT, UINT, LPVOID);
 	#define ORD_WTInfoA						20
@@ -693,7 +693,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#else
 	#define WTInfo			WTInfoA
 	#define ORD_WTInfo	ORD_WTInfoA
-	#endif /* !UNICODE */
+	#endif (* !UNICODE *)
 #else
 	UINT API WTInfo(UINT, UINT, LPVOID);
 	#define ORD_WTInfo							20
@@ -709,7 +709,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#else
 	#define WTOpen			WTOpenA
 	#define ORD_WTOpen	ORD_WTOpenA
-	#endif /* !UNICODE */
+	#endif (* !UNICODE *)
 #else
 	HCTX API WTOpen(HWND, LPLOGCONTEXT, BOOL);
 	#define ORD_WTOpen							21
@@ -723,7 +723,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTVISIBILITYFXNS
-	/* VISIBILITY FUNCTIONS */
+	(* VISIBILITY FUNCTIONS *)
 	BOOL API WTEnable(HCTX, BOOL);
 	#define ORD_WTEnable							40
 	BOOL API WTOverlap(HCTX, BOOL);
@@ -731,7 +731,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTCTXEDITFXNS
-	/* CONTEXT EDITING FUNCTIONS */
+	(* CONTEXT EDITING FUNCTIONS *)
 	BOOL API WTConfig(HCTX, HWND);
 	#define ORD_WTConfig							60
 #ifdef WIN32
@@ -745,7 +745,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#else
 	#define WTGet			WTGetA
 	#define ORD_WTGet		ORD_WTGetA
-	#endif /* !UNICODE */
+	#endif (* !UNICODE *)
 #else
 	BOOL API WTGet(HCTX, LPLOGCONTEXT);
 	#define ORD_WTGet								61
@@ -761,7 +761,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#else
 	#define WTSet			WTSetA
 	#define ORD_WTSet		ORD_WTSetA
-	#endif /* !UNICODE */
+	#endif (* !UNICODE *)
 #else
 	BOOL API WTSet(HCTX, LPLOGCONTEXT);
 	#define ORD_WTSet								62
@@ -777,7 +777,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTQUEUEFXNS
-	/* ADVANCED PACKET AND QUEUE FUNCTIONS */
+	(* ADVANCED PACKET AND QUEUE FUNCTIONS *)
 	int API WTPacketsPeek(HCTX, int, LPVOID);
 	#define ORD_WTPacketsPeek					80
 	int API WTDataGet(HCTX, UINT, UINT, int, LPVOID, LPINT);
@@ -785,7 +785,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	int API WTDataPeek(HCTX, UINT, UINT, int, LPVOID, LPINT);
 	#define ORD_WTDataPeek						82
 #ifndef WIN32
-/* OBSOLETE IN WIN32! */
+(* OBSOLETE IN WIN32! *)
 	DWORD API WTQueuePackets(HCTX);
 	#define ORD_WTQueuePackets					83
 #endif
@@ -796,7 +796,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTHMGRFXNS
-	/* MANAGER HANDLE FUNCTIONS */
+	(* MANAGER HANDLE FUNCTIONS *)
 	HMGR API WTMgrOpen(HWND, UINT);
 	#define ORD_WTMgrOpen						100
 	BOOL API WTMgrClose(HMGR);
@@ -804,32 +804,32 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTMGRCTXFXNS
-	/* MANAGER CONTEXT FUNCTIONS */
+	(* MANAGER CONTEXT FUNCTIONS *)
 	BOOL API WTMgrContextEnum(HMGR, WTENUMPROC, LPARAM);
 	#define ORD_WTMgrContextEnum				120
 	HWND API WTMgrContextOwner(HMGR, HCTX);
 	#define ORD_WTMgrContextOwner				121
 	HCTX API WTMgrDefContext(HMGR, BOOL);
 	#define ORD_WTMgrDefContext				122
-	HCTX API WTMgrDefContextEx(HMGR, UINT, BOOL); /* 1.1 */
+	HCTX API WTMgrDefContextEx(HMGR, UINT, BOOL); (* 1.1 *)
 	#define ORD_WTMgrDefContextEx				206
 	#endif
 	
 	#ifndef NOWTMGRCONFIGFXNS
-	/* MANAGER CONFIG BOX  FUNCTIONS */
+	(* MANAGER CONFIG BOX  FUNCTIONS *)
 	UINT API WTMgrDeviceConfig(HMGR, UINT, HWND);
 	#define ORD_WTMgrDeviceConfig				140
 #ifndef WIN32
-/* OBSOLETE IN WIN32! */
+(* OBSOLETE IN WIN32! *)
 	BOOL API WTMgrConfigReplace(HMGR, BOOL, WTCONFIGPROC);
 	#define ORD_WTMgrConfigReplace			141
 #endif
 	#endif
 
 	#ifndef NOWTMGRHOOKFXNS
-	/* MANAGER PACKET HOOK FUNCTIONS */
+	(* MANAGER PACKET HOOK FUNCTIONS *)
 #ifndef WIN32
-/* OBSOLETE IN WIN32! */
+(* OBSOLETE IN WIN32! *)
 	WTHOOKPROC API WTMgrPacketHook(HMGR, BOOL, int, WTHOOKPROC);
 	#define ORD_WTMgrPacketHook				160
 	LRESULT API WTMgrPacketHookDefProc(int, WPARAM, LPARAM, LPWTHOOKPROC);
@@ -838,7 +838,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTMGRPREFFXNS
-	/* MANAGER PREFERENCE DATA FUNCTIONS */
+	(* MANAGER PREFERENCE DATA FUNCTIONS *)
 	BOOL API WTMgrExt(HMGR, UINT, LPVOID);
 	#define ORD_WTMgrExt							180
 	BOOL API WTMgrCsrEnable(HMGR, UINT, BOOL);
@@ -853,15 +853,15 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#define ORD_WTMgrCsrExt						185
 	#endif
 
-/* Win32 replacements for non-portable functions. */
+(* Win32 replacements for non-portable functions. *)
 	#ifndef NOWTQUEUEFXNS
-	/* ADVANCED PACKET AND QUEUE FUNCTIONS */
+	(* ADVANCED PACKET AND QUEUE FUNCTIONS *)
 	BOOL API WTQueuePacketsEx(HCTX, UINT FAR *, UINT FAR *);
 	#define ORD_WTQueuePacketsEx				200
 	#endif
 
 	#ifndef NOWTMGRCONFIGFXNS
-	/* MANAGER CONFIG BOX  FUNCTIONS */
+	(* MANAGER CONFIG BOX  FUNCTIONS *)
 #ifdef WIN32
 	BOOL API WTMgrConfigReplaceExA(HMGR, BOOL, LPSTR, LPSTR);
 	#define ORD_WTMgrConfigReplaceExA		202
@@ -873,7 +873,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#else
 	#define WTMgrConfigReplaceEx			WTMgrConfigReplaceExA
 	#define ORD_WTMgrConfigReplaceEx		ORD_WTMgrConfigReplaceExA
-	#endif /* !UNICODE */
+	#endif (* !UNICODE *)
 #else
 	BOOL API WTMgrConfigReplaceEx(HMGR, BOOL, LPSTR, LPSTR);
 	#define ORD_WTMgrConfigReplaceEx			202
@@ -881,7 +881,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTMGRHOOKFXNS
-	/* MANAGER PACKET HOOK FUNCTIONS */
+	(* MANAGER PACKET HOOK FUNCTIONS *)
 #ifdef WIN32
 	HWTHOOK API WTMgrPacketHookExA(HMGR, int, LPSTR, LPSTR);
 	#define ORD_WTMgrPacketHookExA			203
@@ -893,7 +893,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#else
 	#define WTMgrPacketHookEx			WTMgrPacketHookExA
 	#define ORD_WTMgrPacketHookEx		ORD_WTMgrPacketHookExA
-	#endif /* !UNICODE */
+	#endif (* !UNICODE *)
 #else
 	HWTHOOK API WTMgrPacketHookEx(HMGR, int, LPSTR, LPSTR);
 	#define ORD_WTMgrPacketHookEx				203
@@ -905,7 +905,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 	#endif
 
 	#ifndef NOWTMGRPREFFXNS
-	/* MANAGER PREFERENCE DATA FUNCTIONS */
+	(* MANAGER PREFERENCE DATA FUNCTIONS *)
 	BOOL API WTMgrCsrPressureBtnMarksEx(HMGR, UINT, UINT FAR *, UINT FAR *);
 	#define ORD_WTMgrCsrPressureBtnMarksEx	201
 	#endif
@@ -914,7 +914,7 @@ typedef struct tagEXTPROPERTY { /* 1.4 */
 
 #ifdef __cplusplus
 }
-#endif	/* __cplusplus */
+#endif	(* __cplusplus *)
 
-#endif /* #define _INC_WINTAB */
+#endif (* #define _INC_WINTAB *)
 
