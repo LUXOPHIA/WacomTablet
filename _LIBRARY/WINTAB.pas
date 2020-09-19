@@ -9,16 +9,16 @@ This file is Copyright (c) Wacom Company, Ltd. 2010 All Rights Reserved
 with portions copyright 1991-1998 by LCS/Telegraphics.
 ------------------------------------------------------------------------------*)
 
-#ifndef _INC_WINTAB	(* prevent multiple includes *)
+{$IFNDEF _INC_WINTAB }	(* prevent multiple includes *)
 #define _INC_WINTAB
 
-#ifdef __cplusplus
+{$IFDEF __cplusplus }
 extern "C" {
-#endif	(* __cplusplus *)
+{$ENDIF}	(* __cplusplus *)
 
 (* -------------------------------------------------------------------------- *)
 (* Messages *)
-#ifndef NOWTMESSAGES
+{$IFNDEF NOWTMESSAGES }
 
 	#define WT_DEFBASE			0x7FF0
 	#define WT_MAXOFFSET			0xF
@@ -45,7 +45,7 @@ extern "C" {
 	#define WT_PACKETEXT			_WT_PACKETEXT(WT_DEFBASE) (* 1.4 *)
 	#define WT_MAX					_WT_MAX(WT_DEFBASE)
 
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* -------------------------------------------------------------------------- *)
@@ -61,7 +61,7 @@ DECLARE_HANDLE(HWTHOOK);	(* hook handle *)
 typedef DWORD WTPKT;			(* packet mask *)
 
 
-#ifndef NOWTPKT
+{$IFNDEF NOWTPKT }
 
 	(* WTPKT bits *)
 	#define PK_CONTEXT				0x0001	(* reporting context *)
@@ -79,11 +79,11 @@ typedef DWORD WTPKT;			(* packet mask *)
 	#define PK_ORIENTATION			0x1000	(* orientation info: tilts *)
 	#define PK_ROTATION				0x2000	(* rotation info; 1.1 *)
 
-#endif
+{$ENDIF}
 
 typedef DWORD FIX32;				(* fixed-point arithmetic type *)
 
-#ifndef NOFIX32
+{$IFNDEF NOFIX32 }
 	#define INT(x)			HIWORD(x)
 	#define FRAC(x)		LOWORD(x)
 
@@ -97,11 +97,11 @@ typedef DWORD FIX32;				(* fixed-point arithmetic type *)
 			(DWORD)INT(b) * FRAC(a) +					\
 			((DWORD)INT(a) * INT(b) << 16))
 
-	#ifdef _WINDLL
+	{$IFDEF _WINDLL }
 		#define FIX_DIV_SC static
-	#else
+	{$ELSE}
 		#define FIX_DIV_SC
-	#endif
+	{$ENDIF}
 
 	#define FIX_DIV(c, a, b)						\
 		{													\
@@ -123,14 +123,14 @@ typedef DWORD FIX32;				(* fixed-point arithmetic type *)
 			temp += rem / btemp;						\
 			c = temp;									\
 		}
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* INFO DATA DEFS *)
 
-#ifndef NOWTINFO
+{$IFNDEF NOWTINFO }
 
-#ifndef NOWTAXIS
+{$IFNDEF NOWTAXIS }
 
 typedef struct tagAXIS {
 	LONG	axMin;
@@ -145,9 +145,9 @@ typedef struct tagAXIS {
 	#define TU_CENTIMETERS	2
 	#define TU_CIRCLE		3
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTSYSBUTTONS
+{$IFNDEF NOWTSYSBUTTONS }
 
 (* system button assignment values *)
 #define SBN_NONE			0x00
@@ -177,27 +177,27 @@ typedef struct tagAXIS {
 #define SBN_P3DBLCLICK	0xE0
 #define SBN_P3DRAG		0xF0
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTCAPABILITIES
+{$IFNDEF NOWTCAPABILITIES }
 
 (* hardware capabilities *)
 #define HWC_INTEGRATED		0x0001
 #define HWC_TOUCH				0x0002
 #define HWC_HARDPROX			0x0004
 #define HWC_PHYSID_CURSORS	0x0008 (* 1.1 *)
-#endif
+{$ENDIF}
 
-#ifndef NOWTIFC
+{$IFNDEF NOWTIFC }
 
-#ifndef NOWTCURSORS
+{$IFNDEF NOWTCURSORS }
 
 (* cursor capabilities *)
 #define CRC_MULTIMODE	0x0001 (* 1.1 *)
 #define CRC_AGGREGATE	0x0002 (* 1.1 *)
 #define CRC_INVERT		0x0004 (* 1.1 *)
 
-#endif 
+{$ENDIF}
 
 (* info categories *)
 #define WTI_INTERFACE		1
@@ -214,9 +214,9 @@ typedef struct tagAXIS {
 	#define IFC_MAX				10
 
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTSTATUS
+{$IFNDEF NOWTSTATUS }
 
 #define WTI_STATUS			2
 	#define STA_CONTEXTS			1
@@ -229,9 +229,9 @@ typedef struct tagAXIS {
 	#define STA_SYSBTNUSE		8
 	#define STA_MAX				8
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTDEFCONTEXT
+{$IFNDEF NOWTDEFCONTEXT }
 
 #define WTI_DEFCONTEXT	3
 #define WTI_DEFSYSCTX	4
@@ -273,9 +273,9 @@ typedef struct tagAXIS {
 	#define CTX_SYSSENSY		34
 	#define CTX_MAX			34
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTDEVICES
+{$IFNDEF NOWTDEVICES }
 
 #define WTI_DEVICES		100
 	#define DVC_NAME			1
@@ -299,9 +299,9 @@ typedef struct tagAXIS {
 	#define DVC_PNPID			19 (* 1.1 *)
 	#define DVC_MAX			19
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTCURSORS
+{$IFNDEF NOWTCURSORS }
 
 #define WTI_CURSORS			200
 	#define CSR_NAME				1
@@ -326,9 +326,9 @@ typedef struct tagAXIS {
 	#define CSR_TYPE				20 (* 1.2 *)
 	#define CSR_MAX				20
 
-#endif
+{$ENDIF}
 
-#ifndef NOWTEXTENSIONS
+{$IFNDEF NOWTEXTENSIONS }
 
 #define WTI_EXTENSIONS	300
 	#define EXT_NAME			1
@@ -343,16 +343,16 @@ typedef struct tagAXIS {
 	#define EXT_DEVICES     110 (* Allow 100 cursors *)
 	#define EXT_MAX			210 (* Allow 100 devices *)
 
-#endif
+{$ENDIF}
 
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* CONTEXT DATA DEFS *)
 
 #define LCNAMELEN		40
 #define LC_NAMELEN	40
-#ifdef WIN32
+{$IFDEF WIN32 }
 typedef struct tagLOGCONTEXTA {
 	char	lcName[LCNAMELEN];
 	UINT	lcOptions;
@@ -425,18 +425,18 @@ typedef struct tagLOGCONTEXTW {
 	FIX32	lcSysSensX;
 	FIX32	lcSysSensY;
 } LOGCONTEXTW, *PLOGCONTEXTW, NEAR *NPLOGCONTEXTW, FAR *LPLOGCONTEXTW;
-#ifdef UNICODE
+{$IFDEF UNICODE }
 typedef LOGCONTEXTW LOGCONTEXT;
 typedef PLOGCONTEXTW PLOGCONTEXT;
 typedef NPLOGCONTEXTW NPLOGCONTEXT;
 typedef LPLOGCONTEXTW LPLOGCONTEXT;
-#else
+{$ELSE}
 typedef LOGCONTEXTA LOGCONTEXT;
 typedef PLOGCONTEXTA PLOGCONTEXT;
 typedef NPLOGCONTEXTA NPLOGCONTEXT;
 typedef LPLOGCONTEXTA LPLOGCONTEXT;
-#endif (* UNICODE *)
-#else (* WIN32 *)
+{$ENDIF} (* UNICODE *)
+{$ELSE} (* WIN32 *)
 typedef struct tagLOGCONTEXT {
 	char	lcName[LCNAMELEN];
 	UINT	lcOptions;
@@ -473,7 +473,7 @@ typedef struct tagLOGCONTEXT {
 	FIX32	lcSysSensX;
 	FIX32	lcSysSensY;
 } LOGCONTEXT, *PLOGCONTEXT, NEAR *NPLOGCONTEXT, FAR *LPLOGCONTEXT;
-#endif (* WIN32 *)
+{$ENDIF} (* WIN32 *)
 
 	(* context option values *)
 	#define CXO_SYSTEM		0x0001
@@ -532,19 +532,19 @@ typedef struct tagROTATION { (* 1.1 *)
 (* -------------------------------------------------------------------------- *)
 (* DEVICE CONFIG CONSTANTS *)
 
-#ifndef NOWTDEVCFG
+{$IFNDEF NOWTDEVCFG }
 
 #define WTDC_NONE		0
 #define WTDC_CANCEL		1
 #define WTDC_OK			2
 #define WTDC_RESTART	3
 
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* HOOK CONSTANTS *)
 
-#ifndef NOWTHOOKS
+{$IFNDEF NOWTHOOKS }
 
 #define WTH_PLAYBACK			1
 #define WTH_RECORD			2
@@ -556,22 +556,22 @@ typedef struct tagROTATION { (* 1.1 *)
 #define WTHC_GETNEXT			1
 #define WTHC_SKIP				2
 
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* PREFERENCE FUNCTION CONSTANTS *)
 
-#ifndef NOWTPREF
+{$IFNDEF NOWTPREF }
 
 #define WTP_LPDEFAULT	((LPVOID)-1L)
 #define WTP_DWDEFAULT	((DWORD)-1L)
 
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* EXTENSION TAGS AND CONSTANTS *)
 
-#ifndef NOWTEXTENSIONS
+{$IFNDEF NOWTEXTENSIONS }
 
 (* constants for use with pktdef.h *)
 #define PKEXT_ABSOLUTE	1
@@ -647,125 +647,125 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 #define TABLET_LOC_BOTTOM			3
 #define TABLET_LOC_TRANSDUCER		4
 
-#endif
+{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* -------------------------------------------------------------------------- *)
 (* Functions *)
 
-	#ifndef API
-		#ifndef WINAPI
+	{$IFNDEF API }
+		{$IFNDEF WINAPI }
 			#define API			FAR PASCAL
-		#else
+		{$ELSE}
 			#define API			WINAPI
-		#endif
-	#endif
+		{$ENDIF}
+	{$ENDIF}
 
-#ifndef NOWTCALLBACKS
+{$IFNDEF NOWTCALLBACKS }
 
-	#ifndef CALLBACK
+	{$IFNDEF CALLBACK }
 	#define CALLBACK	FAR PASCAL
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTMANAGERFXNS
+	{$IFNDEF NOWTMANAGERFXNS }
 	(* callback function types *)
 	typedef BOOL (WINAPI * WTENUMPROC)(HCTX, LPARAM); (* changed CALLBACK->WINAPI, 1.1 *)
 	typedef BOOL (WINAPI * WTCONFIGPROC)(HCTX, HWND);
 	typedef LRESULT (WINAPI * WTHOOKPROC)(int, WPARAM, LPARAM);
 	typedef WTHOOKPROC FAR *LPWTHOOKPROC;
-	#endif
+	{$ENDIF}
 
-#endif
+{$ENDIF}
 
 
-#ifndef NOWTFUNCTIONS
+{$IFNDEF NOWTFUNCTIONS }
 
-	#ifndef NOWTBASICFXNS
+	{$IFNDEF NOWTBASICFXNS }
 	(* BASIC FUNCTIONS *)
-#ifdef WIN32
+{$IFDEF WIN32 }
 	UINT API WTInfoA(UINT, UINT, LPVOID);
 	#define ORD_WTInfoA						20
 	UINT API WTInfoW(UINT, UINT, LPVOID);
 	#define ORD_WTInfoW						1020
-	#ifdef UNICODE
+	{$IFDEF UNICODE }
 	#define WTInfo			WTInfoW
 	#define ORD_WTInfo	ORD_WTInfoW
-	#else
+	{$ELSE}
 	#define WTInfo			WTInfoA
 	#define ORD_WTInfo	ORD_WTInfoA
-	#endif (* !UNICODE *)
-#else
+	{$ENDIF} (* !UNICODE *)
+{$ELSE}
 	UINT API WTInfo(UINT, UINT, LPVOID);
 	#define ORD_WTInfo							20
-#endif
-#ifdef WIN32
+{$ENDIF}
+{$IFDEF WIN32 }
 	HCTX API WTOpenA(HWND, LPLOGCONTEXTA, BOOL);
 	#define ORD_WTOpenA							21
 	HCTX API WTOpenW(HWND, LPLOGCONTEXTW, BOOL);
 	#define ORD_WTOpenW							1021
-	#ifdef UNICODE
+	{$IFDEF UNICODE }
 	#define WTOpen			WTOpenW
 	#define ORD_WTOpen	ORD_WTOpenW
-	#else
+	{$ELSE}
 	#define WTOpen			WTOpenA
 	#define ORD_WTOpen	ORD_WTOpenA
-	#endif (* !UNICODE *)
-#else
+	{$ENDIF} (* !UNICODE *)
+{$ELSE}
 	HCTX API WTOpen(HWND, LPLOGCONTEXT, BOOL);
 	#define ORD_WTOpen							21
-#endif
+{$ENDIF}
 	BOOL API WTClose(HCTX);
 	#define ORD_WTClose							22
 	int API WTPacketsGet(HCTX, int, LPVOID);
 	#define ORD_WTPacketsGet					23
 	BOOL API WTPacket(HCTX, UINT, LPVOID);
 	#define ORD_WTPacket							24
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTVISIBILITYFXNS
+	{$IFNDEF NOWTVISIBILITYFXNS }
 	(* VISIBILITY FUNCTIONS *)
 	BOOL API WTEnable(HCTX, BOOL);
 	#define ORD_WTEnable							40
 	BOOL API WTOverlap(HCTX, BOOL);
 	#define ORD_WTOverlap						41
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTCTXEDITFXNS
+	{$IFNDEF NOWTCTXEDITFXNS }
 	(* CONTEXT EDITING FUNCTIONS *)
 	BOOL API WTConfig(HCTX, HWND);
 	#define ORD_WTConfig							60
-#ifdef WIN32
+{$IFDEF WIN32 }
 	BOOL API WTGetA(HCTX, LPLOGCONTEXTA);
 	#define ORD_WTGetA							61
 	BOOL API WTGetW(HCTX, LPLOGCONTEXTW);
 	#define ORD_WTGetW							1061
-	#ifdef UNICODE
+	{$IFDEF UNICODE }
 	#define WTGet			WTGetW
 	#define ORD_WTGet		ORD_WTGetW
-	#else
+	{$ELSE}
 	#define WTGet			WTGetA
 	#define ORD_WTGet		ORD_WTGetA
-	#endif (* !UNICODE *)
-#else
+	{$ENDIF} (* !UNICODE *)
+{$ELSE}
 	BOOL API WTGet(HCTX, LPLOGCONTEXT);
 	#define ORD_WTGet								61
-#endif
-#ifdef WIN32
+{$ENDIF}
+{$IFDEF WIN32 }
 	BOOL API WTSetA(HCTX, LPLOGCONTEXTA);
 	#define ORD_WTSetA							62
 	BOOL API WTSetW(HCTX, LPLOGCONTEXTW);
 	#define ORD_WTSetW							1062
-	#ifdef UNICODE
+	{$IFDEF UNICODE }
 	#define WTSet			WTSetW
 	#define ORD_WTSet		ORD_WTSetW
-	#else
+	{$ELSE}
 	#define WTSet			WTSetA
 	#define ORD_WTSet		ORD_WTSetA
-	#endif (* !UNICODE *)
-#else
+	{$ENDIF} (* !UNICODE *)
+{$ELSE}
 	BOOL API WTSet(HCTX, LPLOGCONTEXT);
 	#define ORD_WTSet								62
-#endif
+{$ENDIF}
 	BOOL API WTExtGet(HCTX, UINT, LPVOID);
 	#define ORD_WTExtGet							63
 	BOOL API WTExtSet(HCTX, UINT, LPVOID);
@@ -774,9 +774,9 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 	#define ORD_WTSave							65
 	HCTX API WTRestore(HWND, LPVOID, BOOL);
 	#define ORD_WTRestore						66
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTQUEUEFXNS
+	{$IFNDEF NOWTQUEUEFXNS }
 	(* ADVANCED PACKET AND QUEUE FUNCTIONS *)
 	int API WTPacketsPeek(HCTX, int, LPVOID);
 	#define ORD_WTPacketsPeek					80
@@ -784,26 +784,26 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 	#define ORD_WTDataGet						81
 	int API WTDataPeek(HCTX, UINT, UINT, int, LPVOID, LPINT);
 	#define ORD_WTDataPeek						82
-#ifndef WIN32
+{$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
 	DWORD API WTQueuePackets(HCTX);
 	#define ORD_WTQueuePackets					83
-#endif
+{$ENDIF}
 	int API WTQueueSizeGet(HCTX);
 	#define ORD_WTQueueSizeGet					84
 	BOOL API WTQueueSizeSet(HCTX, int);
 	#define ORD_WTQueueSizeSet					85
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTHMGRFXNS
+	{$IFNDEF NOWTHMGRFXNS }
 	(* MANAGER HANDLE FUNCTIONS *)
 	HMGR API WTMgrOpen(HWND, UINT);
 	#define ORD_WTMgrOpen						100
 	BOOL API WTMgrClose(HMGR);
 	#define ORD_WTMgrClose						101
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTMGRCTXFXNS
+	{$IFNDEF NOWTMGRCTXFXNS }
 	(* MANAGER CONTEXT FUNCTIONS *)
 	BOOL API WTMgrContextEnum(HMGR, WTENUMPROC, LPARAM);
 	#define ORD_WTMgrContextEnum				120
@@ -813,31 +813,31 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 	#define ORD_WTMgrDefContext				122
 	HCTX API WTMgrDefContextEx(HMGR, UINT, BOOL); (* 1.1 *)
 	#define ORD_WTMgrDefContextEx				206
-	#endif
+	{$ENDIF}
 	
-	#ifndef NOWTMGRCONFIGFXNS
+	{$IFNDEF NOWTMGRCONFIGFXNS }
 	(* MANAGER CONFIG BOX  FUNCTIONS *)
 	UINT API WTMgrDeviceConfig(HMGR, UINT, HWND);
 	#define ORD_WTMgrDeviceConfig				140
-#ifndef WIN32
+{$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
 	BOOL API WTMgrConfigReplace(HMGR, BOOL, WTCONFIGPROC);
 	#define ORD_WTMgrConfigReplace			141
-#endif
-	#endif
+{$ENDIF}
+	{$ENDIF}
 
-	#ifndef NOWTMGRHOOKFXNS
+	{$IFNDEF NOWTMGRHOOKFXNS }
 	(* MANAGER PACKET HOOK FUNCTIONS *)
-#ifndef WIN32
+{$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
 	WTHOOKPROC API WTMgrPacketHook(HMGR, BOOL, int, WTHOOKPROC);
 	#define ORD_WTMgrPacketHook				160
 	LRESULT API WTMgrPacketHookDefProc(int, WPARAM, LPARAM, LPWTHOOKPROC);
 	#define ORD_WTMgrPacketHookDefProc		161
-#endif
-	#endif
+{$ENDIF}
+	{$ENDIF}
 
-	#ifndef NOWTMGRPREFFXNS
+	{$IFNDEF NOWTMGRPREFFXNS }
 	(* MANAGER PREFERENCE DATA FUNCTIONS *)
 	BOOL API WTMgrExt(HMGR, UINT, LPVOID);
 	#define ORD_WTMgrExt							180
@@ -851,70 +851,70 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 	#define ORD_WTMgrCsrPressureResponse	184
 	BOOL API WTMgrCsrExt(HMGR, UINT, UINT, LPVOID);
 	#define ORD_WTMgrCsrExt						185
-	#endif
+	{$ENDIF}
 
 (* Win32 replacements for non-portable functions. *)
-	#ifndef NOWTQUEUEFXNS
+	{$IFNDEF NOWTQUEUEFXNS }
 	(* ADVANCED PACKET AND QUEUE FUNCTIONS *)
 	BOOL API WTQueuePacketsEx(HCTX, UINT FAR *, UINT FAR *);
 	#define ORD_WTQueuePacketsEx				200
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTMGRCONFIGFXNS
+	{$IFNDEF NOWTMGRCONFIGFXNS }
 	(* MANAGER CONFIG BOX  FUNCTIONS *)
-#ifdef WIN32
+{$IFDEF WIN32 }
 	BOOL API WTMgrConfigReplaceExA(HMGR, BOOL, LPSTR, LPSTR);
 	#define ORD_WTMgrConfigReplaceExA		202
 	BOOL API WTMgrConfigReplaceExW(HMGR, BOOL, LPWSTR, LPSTR);
 	#define ORD_WTMgrConfigReplaceExW		1202
-	#ifdef UNICODE
+	{$IFDEF UNICODE }
 	#define WTMgrConfigReplaceEx			WTMgrConfigReplaceExW
 	#define ORD_WTMgrConfigReplaceEx		ORD_WTMgrConfigReplaceExW
-	#else
+	{$ELSE}
 	#define WTMgrConfigReplaceEx			WTMgrConfigReplaceExA
 	#define ORD_WTMgrConfigReplaceEx		ORD_WTMgrConfigReplaceExA
-	#endif (* !UNICODE *)
-#else
+	{$ENDIF} (* !UNICODE *)
+{$ELSE}
 	BOOL API WTMgrConfigReplaceEx(HMGR, BOOL, LPSTR, LPSTR);
 	#define ORD_WTMgrConfigReplaceEx			202
-#endif
-	#endif
+{$ENDIF}
+	{$ENDIF}
 
-	#ifndef NOWTMGRHOOKFXNS
+	{$IFNDEF NOWTMGRHOOKFXNS }
 	(* MANAGER PACKET HOOK FUNCTIONS *)
-#ifdef WIN32
+{$IFDEF WIN32 }
 	HWTHOOK API WTMgrPacketHookExA(HMGR, int, LPSTR, LPSTR);
 	#define ORD_WTMgrPacketHookExA			203
 	HWTHOOK API WTMgrPacketHookExW(HMGR, int, LPWSTR, LPSTR);
 	#define ORD_WTMgrPacketHookExW			1203
-	#ifdef UNICODE
+	{$IFDEF UNICODE }
 	#define WTMgrPacketHookEx			WTMgrPacketHookExW
 	#define ORD_WTMgrPacketHookEx		ORD_WTMgrPacketHookExW
-	#else
+	{$ELSE}
 	#define WTMgrPacketHookEx			WTMgrPacketHookExA
 	#define ORD_WTMgrPacketHookEx		ORD_WTMgrPacketHookExA
-	#endif (* !UNICODE *)
-#else
+	{$ENDIF} (* !UNICODE *)
+{$ELSE}
 	HWTHOOK API WTMgrPacketHookEx(HMGR, int, LPSTR, LPSTR);
 	#define ORD_WTMgrPacketHookEx				203
-#endif
+{$ENDIF}
 	BOOL API WTMgrPacketUnhook(HWTHOOK);
 	#define ORD_WTMgrPacketUnhook				204
 	LRESULT API WTMgrPacketHookNext(HWTHOOK, int, WPARAM, LPARAM);
 	#define ORD_WTMgrPacketHookNext			205
-	#endif
+	{$ENDIF}
 
-	#ifndef NOWTMGRPREFFXNS
+	{$IFNDEF NOWTMGRPREFFXNS }
 	(* MANAGER PREFERENCE DATA FUNCTIONS *)
 	BOOL API WTMgrCsrPressureBtnMarksEx(HMGR, UINT, UINT FAR *, UINT FAR *);
 	#define ORD_WTMgrCsrPressureBtnMarksEx	201
-	#endif
+	{$ENDIF}
 
-#endif
+{$ENDIF}
 
-#ifdef __cplusplus
+{$IFDEF __cplusplus }
 }
-#endif	(* __cplusplus *)
+{$ENDIF}	(* __cplusplus *)
 
-#endif (* #define _INC_WINTAB *)
+{$ENDIF} (* #define _INC_WINTAB *)
 
