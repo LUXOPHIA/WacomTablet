@@ -4,7 +4,8 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   Main in 'Main.pas' {Form1},
-  WinTab32 in '_LIBRARY\WinTab32.pas';
+  WINTAB in '_LIBRARY\WINTAB.pas',
+  Core in 'Core.pas';
 
 {$R *.res}
 
