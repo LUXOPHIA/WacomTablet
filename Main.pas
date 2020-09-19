@@ -20,24 +20,24 @@ type
   public
     { public 宣言 }
     _Tablet  :HCTX;
-    _PosXMin :Int32;
-    _PosXMax :Int32;
-    _UniX    :UInt32;
-    _ResX    :Int32;
-    _PosYMin :Int32;
-    _PosYMax :Int32;
-    _UniY    :UInt32;
-    _ResY    :Int32;
-    _PresMin :Int32;
-    _PresMax :Int32;
-    _WheeMin :Int32;
-    _WheeMax :Int32;
-    _AzimMin :Int32;
-    _AzimMax :Int32;
-    _AltiMin :Int32;
-    _AltiMax :Int32;
-    _TwisMin :Int32;
-    _TwisMax :Int32;
+    _PosMinX :Integer;
+    _PosMinY :Integer;
+    _PosMaxX :Integer;
+    _PosMaxY :Integer;
+    _ResX    :Integer;
+    _ResY    :Integer;
+    _UniX    :Integer;
+    _UniY    :Integer;
+    _PreMin  :Integer;
+    _PreMax  :Integer;
+    _WheMin  :Integer;
+    _WheMax  :Integer;
+    _AziMin  :Integer;
+    _AziMax  :Integer;
+    _AltMin  :Integer;
+    _AltMax  :Integer;
+    _TwiMin  :Integer;
+    _TwiMax  :Integer;
     ///// メソッド
     procedure TabletInfo;
     procedure BeginTablet;
@@ -63,32 +63,32 @@ var
    A3 :array [ 1..3 ] of AXIS;
 begin
      WTInfo( WTI_DEVICES, DVC_X, @A );
-     _PosXMin :=         A.axMin;                  // Ｘ座標の最小値
-     _PosXMax :=         A.axMax;                  // Ｘ座標の最大値
+     _PosMinX :=         A.axMin;                  // Ｘ座標の最小値
+     _PosMaxX :=         A.axMax;                  // Ｘ座標の最大値
      _UniX    :=         A.axUnits;                // Ｘ座標の単位
      _ResX    := HIWORD( A.axResolution );         // Ｘ座標の分解能（line/inch）
 
      WTInfo( WTI_DEVICES, DVC_Y, @A );
-     _PosYMin :=         A.axMin;                  // Ｙ座標の最小値
-     _PosYMax :=         A.axMax;                  // Ｙ座標の最大値
+     _PosMinY :=         A.axMin;                  // Ｙ座標の最小値
+     _PosMaxY :=         A.axMax;                  // Ｙ座標の最大値
      _UniY    :=         A.axUnits;                // Ｙ座標の単位
      _ResY    := HIWORD( A.axResolution );         // Ｙ座標の分解能（line/inch）
 
      WTInfo( WTI_DEVICES, DVC_NPRESSURE, @A );
-     _PresMin := A.axMin;                          // 筆圧の最小値
-     _PresMax := A.axMax;                          // 筆圧の最大値
+     _PreMin := A.axMin;                          // 筆圧の最小値
+     _PreMax := A.axMax;                          // 筆圧の最大値
 
      WTInfo( WTI_DEVICES, DVC_TPRESSURE, @A );
-     _WheeMin := A.axMin;                          // ホイールの最小値
-     _WheeMax := A.axMax;                          // ホイールの最大値
+     _WheMin := A.axMin;                          // ホイールの最小値
+     _WheMax := A.axMax;                          // ホイールの最大値
 
      WTInfo( WTI_DEVICES, DVC_ORIENTATION, @A3 );
-     _AzimMin := A3[ 1 ].axMin;                    // ペンの傾き方向の最小値
-     _AzimMax := A3[ 1 ].axMax;                    // ペンの傾き方向の最大値
-     _AltiMin := A3[ 2 ].axMin;                    // ペンの傾きの最小値
-     _AltiMax := A3[ 2 ].axMax;                    // ペンの傾きの最大値
-     _TwisMin := A3[ 3 ].axMin;                    // ペンの捩れの最小値
-     _TwisMax := A3[ 3 ].axMax;                    // ペンの捩れの最大値
+     _AziMin := A3[ 1 ].axMin;                    // ペンの方位の最小値
+     _AziMax := A3[ 1 ].axMax;                    // ペンの方位の最大値
+     _AltMin := A3[ 2 ].axMin;                    // ペンの傾きの最小値
+     _AltMax := A3[ 2 ].axMax;                    // ペンの傾きの最大値
+     _TwiMin := A3[ 3 ].axMin;                    // ペンの捩れの最小値
+     _TwiMax := A3[ 3 ].axMax;                    // ペンの捩れの最大値
 end;
 
 //------------------------------------------------------------------------------
@@ -110,14 +110,14 @@ begin
           lcMoveMask  := PACKETDATA;
           lcBtnUpMask := lcBtnDnMask;
 
-          lcInOrgX    := _PosXMin;  // 入力Ｘ座標の最小値
-          lcInOrgY    := _PosYMin;  // 入力Ｙ座標の最小値
-          lcInExtX    := _PosXMax;  // 入力Ｘ座標の最大値
-          lcInExtY    := _PosYMax;  // 入力Ｙ座標の最大値
-          lcOutOrgX   := _PosXMin;  // ウィンドウＸ座標の最小値
-          lcOutOrgY   := _PosYMin;  // ウィンドウＹ座標の最小値
-          lcOutExtX   := _PosXMax;  // ウィンドウＸ座標の最大値
-          lcOutExtY   := _PosYMax;  // ウィンドウＹ座標の最大値
+          lcInOrgX    := _PosMinX;  // 入力Ｘ座標の最小値
+          lcInOrgY    := _PosMinY;  // 入力Ｙ座標の最小値
+          lcInExtX    := _PosMaxX;  // 入力Ｘ座標の最大値
+          lcInExtY    := _PosMaxY;  // 入力Ｙ座標の最大値
+          lcOutOrgX   := _PosMinX;  // ウィンドウＸ座標の最小値
+          lcOutOrgY   := _PosMinY;  // ウィンドウＹ座標の最小値
+          lcOutExtX   := _PosMaxX;  // ウィンドウＸ座標の最大値
+          lcOutExtY   := _PosMaxY;  // ウィンドウＹ座標の最大値
      end;
 
      _Tablet := WTOpen( FormToHWND( Self ), @C, True );  // Wintab の初期化
@@ -138,19 +138,19 @@ begin
 
      with Memo1.Lines do
      begin
-          Add( 'PosX = ' + _PosXMin.ToString + ' ～ ' + _PosXMax.ToString );
-          Add( 'PosY = ' + _PosYMin.ToString + ' ～ ' + _PosYMax.ToString );
+          Add( 'PosX = ' + _PosMinX.ToString + ' ～ ' + _PosMaxX.ToString );
+          Add( 'PosY = ' + _PosMinY.ToString + ' ～ ' + _PosMaxY.ToString );
 
           Add( 'ResX = ' + _ResX.ToString + ' ( ' + _UniX.ToString + ' )' );
           Add( 'ResY = ' + _ResY.ToString + ' ( ' + _UniY.ToString + ' )' );
 
-          Add( 'Pres = ' + _PresMin.ToString + ' ～ ' + _PresMax.ToString );
+          Add( 'Pre = ' + _PreMin.ToString + ' ～ ' + _PreMax.ToString );
 
-          Add( 'Whee = ' + _WheeMin.ToString + ' ～ ' + _WheeMax.ToString );
+          Add( 'Whe = ' + _WheMin.ToString + ' ～ ' + _WheMax.ToString );
 
-          Add( 'Azim = ' + _AzimMin.ToString + ' ～ ' + _AzimMax.ToString );
-          Add( 'Alti = ' + _AltiMin.ToString + ' ～ ' + _AltiMax.ToString );
-          Add( 'Twis = ' + _TwisMin.ToString + ' ～ ' + _TwisMax.ToString );
+          Add( 'Azi = ' + _AziMin.ToString + ' ～ ' + _AziMax.ToString );
+          Add( 'Alt = ' + _AltMin.ToString + ' ～ ' + _AltMax.ToString );
+          Add( 'Twi = ' + _TwiMin.ToString + ' ～ ' + _TwiMax.ToString );
      end;
 
      BeginTablet;
