@@ -9,12 +9,18 @@ This file is Copyright (c) Wacom Company, Ltd. 2010 All Rights Reserved
 with portions copyright 1991-1998 by LCS/Telegraphics.
 ------------------------------------------------------------------------------*)
 
+unit WINTAB;
+
 {$IFNDEF _INC_WINTAB } (* prevent multiple includes *)
 {$DEFINE _INC_WINTAB }
 
 {$IFDEF __cplusplus }
-extern "C" {
+//extern "C" {
 {$ENDIF} (* __cplusplus *)
+
+interface //#################################################################### ■
+
+uses Winapi.Windows;
 
 (* -------------------------------------------------------------------------- *)
 (* Messages *)
@@ -43,11 +49,11 @@ extern "C" {
 (* -------------------------------------------------------------------------- *)
 (* COMMON DATA DEFS *)
 
-DECLARE_HANDLE(HMGR); (* manager handle *)
-DECLARE_HANDLE(HCTX); (* context handle *)
-DECLARE_HANDLE(HWTHOOK); (* hook handle *)
+type HMGR    = type THandle;  (* manager handle *)
+type HCTX    = type THandle;  (* context handle *)
+type HWTHOOK = type THandle;  (* hook handle *)
 
-typedef DWORD WTPKT; (* packet mask *)
+type WTPKT = DWORD;  (* packet mask *)
 
 
 {$IFNDEF NOWTPKT }
@@ -70,49 +76,49 @@ typedef DWORD WTPKT; (* packet mask *)
 
 {$ENDIF}
 
-typedef DWORD FIX32; (* fixed-point arithmetic type *)
+type FIX32 = DWORD;  (* fixed-point arithmetic type *)
 
-{$IFNDEF NOFIX32 }
-    #define INT(x)     HIWORD(x)
-    #define FRAC(x)    LOWORD(x)
-
-    #define CASTFIX32(x)    ((FIX32)((x)*65536L))
-
-    #define ROUND(x)    (INT(x) + (FRAC(x) > (WORD)$8000))
-
-    #define FIX_MUL(c, a, b)                         \
-        (c = (((DWORD)FRAC(a) * FRAC(b)) >> 16) +    \
-            (DWORD)INT(a) * FRAC(b) +                \
-            (DWORD)INT(b) * FRAC(a) +                \
-            ((DWORD)INT(a) * INT(b) << 16))
-
-    {$IFDEF _WINDLL }
-        #define FIX_DIV_SC static
-    {$ELSE}
-        #define FIX_DIV_SC
-    {$ENDIF}
-
-    #define FIX_DIV(c, a, b)                      \
-        {                                         \
-            FIX_DIV_SC DWORD temp, rem, btemp;    \
-                                                  \
-            (* fraction done bytewise *)          \
-            temp = ((a / b) << 16);               \
-            rem = a % b;                          \
-            btemp = b;                            \
-            if (INT(btemp) < 256) {               \
-                rem <<= 8;                        \
-            }                                     \
-            else {                                \
-                btemp >>= 8;                      \
-            }                                     \
-            temp += ((rem / btemp) << 8);         \
-            rem %= btemp;                         \
-            rem <<= 8;                            \
-            temp += rem / btemp;                  \
-            c = temp;                             \
-        }
-{$ENDIF}
+//{$IFNDEF NOFIX32 }
+//    #define INT(x)     HIWORD(x)
+//    #define FRAC(x)    LOWORD(x)
+//
+//    #define CASTFIX32(x)    ((FIX32)((x)*65536L))
+//
+//    #define ROUND(x)    (INT(x) + (FRAC(x) > (WORD)$8000))
+//
+//    #define FIX_MUL(c, a, b)                         \
+//        (c = (((DWORD)FRAC(a) * FRAC(b)) >> 16) +    \
+//            (DWORD)INT(a) * FRAC(b) +                \
+//            (DWORD)INT(b) * FRAC(a) +                \
+//            ((DWORD)INT(a) * INT(b) << 16))
+//
+//    {$IFDEF _WINDLL }
+//        #define FIX_DIV_SC static
+//    {$ELSE}
+//        #define FIX_DIV_SC
+//    {$ENDIF}
+//
+//    #define FIX_DIV(c, a, b)                      \
+//        {                                         \
+//            FIX_DIV_SC DWORD temp, rem, btemp;    \
+//                                                  \
+//            (* fraction done bytewise *)          \
+//            temp = ((a / b) << 16);               \
+//            rem = a % b;                          \
+//            btemp = b;                            \
+//            if (INT(btemp) < 256) {               \
+//                rem <<= 8;                        \
+//            }                                     \
+//            else {                                \
+//                btemp >>= 8;                      \
+//            }                                     \
+//            temp += ((rem / btemp) << 8);         \
+//            rem %= btemp;                         \
+//            rem <<= 8;                            \
+//            temp += rem / btemp;                  \
+//            c = temp;                             \
+//        }
+//{$ENDIF}
 
 (* -------------------------------------------------------------------------- *)
 (* INFO DATA DEFS *)
@@ -121,12 +127,15 @@ typedef DWORD FIX32; (* fixed-point arithmetic type *)
 
 {$IFNDEF NOWTAXIS }
 
-typedef struct tagAXIS {
-    LONG     axMin;
-    LONG     axMax;
-    UINT     axUnits;
-    FIX32    axResolution;
-} AXIS, *PAXIS, NEAR *NPAXIS, FAR *LPAXIS;
+type AXIS = record
+       axMin         :LONG;
+       axMax         :LONG;
+       axUnits       :UINT;
+       axResolution  :FIX32;
+     end;
+    PAXIS = ^AXIS;
+   NPAXIS = PAXIS;
+   LPAXIS = PAXIS;
 
     (* unit specifiers *)
     const TU_NONE           = 0;
@@ -342,126 +351,135 @@ const WTI_EXTENSIONS        = 300;
 const LCNAMELEN     = 40;
 const LC_NAMELEN    = 40;
 {$IFDEF WIN32 }
-typedef struct tagLOGCONTEXTA {
-    char     lcName[LCNAMELEN];
-    UINT     lcOptions;
-    UINT     lcStatus;
-    UINT     lcLocks;
-    UINT     lcMsgBase;
-    UINT     lcDevice;
-    UINT     lcPktRate;
-    WTPKT    lcPktData;
-    WTPKT    lcPktMode;
-    WTPKT    lcMoveMask;
-    DWORD    lcBtnDnMask;
-    DWORD    lcBtnUpMask;
-    LONG     lcInOrgX;
-    LONG     lcInOrgY;
-    LONG     lcInOrgZ;
-    LONG     lcInExtX;
-    LONG     lcInExtY;
-    LONG     lcInExtZ;
-    LONG     lcOutOrgX;
-    LONG     lcOutOrgY;
-    LONG     lcOutOrgZ;
-    LONG     lcOutExtX;
-    LONG     lcOutExtY;
-    LONG     lcOutExtZ;
-    FIX32    lcSensX;
-    FIX32    lcSensY;
-    FIX32    lcSensZ;
-    BOOL     lcSysMode;
-    int      lcSysOrgX;
-    int      lcSysOrgY;
-    int      lcSysExtX;
-    int      lcSysExtY;
-    FIX32    lcSysSensX;
-    FIX32    lcSysSensY;
-} LOGCONTEXTA, *PLOGCONTEXTA, NEAR *NPLOGCONTEXTA, FAR *LPLOGCONTEXTA;
-typedef struct tagLOGCONTEXTW {
-    WCHAR    lcName[LCNAMELEN];
-    UINT     lcOptions;
-    UINT     lcStatus;
-    UINT     lcLocks;
-    UINT     lcMsgBase;
-    UINT     lcDevice;
-    UINT     lcPktRate;
-    WTPKT    lcPktData;
-    WTPKT    lcPktMode;
-    WTPKT    lcMoveMask;
-    DWORD    lcBtnDnMask;
-    DWORD    lcBtnUpMask;
-    LONG     lcInOrgX;
-    LONG     lcInOrgY;
-    LONG     lcInOrgZ;
-    LONG     lcInExtX;
-    LONG     lcInExtY;
-    LONG     lcInExtZ;
-    LONG     lcOutOrgX;
-    LONG     lcOutOrgY;
-    LONG     lcOutOrgZ;
-    LONG     lcOutExtX;
-    LONG     lcOutExtY;
-    LONG     lcOutExtZ;
-    FIX32    lcSensX;
-    FIX32    lcSensY;
-    FIX32    lcSensZ;
-    BOOL     lcSysMode;
-    int      lcSysOrgX;
-    int      lcSysOrgY;
-    int      lcSysExtX;
-    int      lcSysExtY;
-    FIX32    lcSysSensX;
-    FIX32    lcSysSensY;
-} LOGCONTEXTW, *PLOGCONTEXTW, NEAR *NPLOGCONTEXTW, FAR *LPLOGCONTEXTW;
+type LOGCONTEXTA = record
+       lcName       :array [ 0..LCNAMELEN-1 ] of AnsiChar;
+       lcOptions    :UINT;
+       lcStatus     :UINT;
+       lcLocks      :UINT;
+       lcMsgBase    :UINT;
+       lcDevice     :UINT;
+       lcPktRate    :UINT;
+       lcPktData    :WTPKT;
+       lcPktMode    :WTPKT;
+       lcMoveMask   :WTPKT;
+       lcBtnDnMask  :DWORD;
+       lcBtnUpMask  :DWORD;
+       lcInOrgX     :LONG;
+       lcInOrgY     :LONG;
+       lcInOrgZ     :LONG;
+       lcInExtX     :LONG;
+       lcInExtY     :LONG;
+       lcInExtZ     :LONG;
+       lcOutOrgX    :LONG;
+       lcOutOrgY    :LONG;
+       lcOutOrgZ    :LONG;
+       lcOutExtX    :LONG;
+       lcOutExtY    :LONG;
+       lcOutExtZ    :LONG;
+       lcSensX      :FIX32;
+       lcSensY      :FIX32;
+       lcSensZ      :FIX32;
+       lcSysMode    :BOOL;
+       lcSysOrgX    :Integer;
+       lcSysOrgY    :Integer;
+       lcSysExtX    :Integer;
+       lcSysExtY    :Integer;
+       lcSysSensX   :FIX32;
+       lcSysSensY   :FIX32;
+     end;
+    PLOGCONTEXTA = ^LOGCONTEXTA;
+   NPLOGCONTEXTA = PLOGCONTEXTA;
+   LPLOGCONTEXTA = PLOGCONTEXTA;
+type LOGCONTEXTW = record
+       lcName       :array [ 0..LCNAMELEN-1 ] of WideChar;
+       lcOptions    :UINT;
+       lcStatus     :UINT;
+       lcLocks      :UINT;
+       lcMsgBase    :UINT;
+       lcDevice     :UINT;
+       lcPktRate    :UINT;
+       lcPktData    :WTPKT;
+       lcPktMode    :WTPKT;
+       lcMoveMask   :WTPKT;
+       lcBtnDnMask  :DWORD;
+       lcBtnUpMask  :DWORD;
+       lcInOrgX     :LONG;
+       lcInOrgY     :LONG;
+       lcInOrgZ     :LONG;
+       lcInExtX     :LONG;
+       lcInExtY     :LONG;
+       lcInExtZ     :LONG;
+       lcOutOrgX    :LONG;
+       lcOutOrgY    :LONG;
+       lcOutOrgZ    :LONG;
+       lcOutExtX    :LONG;
+       lcOutExtY    :LONG;
+       lcOutExtZ    :LONG;
+       lcSensX      :FIX32;
+       lcSensY      :FIX32;
+       lcSensZ      :FIX32;
+       lcSysMode    :BOOL;
+       lcSysOrgX    :Integer;
+       lcSysOrgY    :Integer;
+       lcSysExtX    :Integer;
+       lcSysExtY    :Integer;
+       lcSysSensX   :FIX32;
+       lcSysSensY   :FIX32;
+     end;
+    PLOGCONTEXTW = ^LOGCONTEXTW;
+   NPLOGCONTEXTW = PLOGCONTEXTW;
+   LPLOGCONTEXTW = PLOGCONTEXTW;
 {$IFDEF UNICODE }
-typedef LOGCONTEXTW LOGCONTEXT;
-typedef PLOGCONTEXTW PLOGCONTEXT;
-typedef NPLOGCONTEXTW NPLOGCONTEXT;
-typedef LPLOGCONTEXTW LPLOGCONTEXT;
+type   LOGCONTEXT =   LOGCONTEXTW;
+type  PLOGCONTEXT =  PLOGCONTEXTW;
+type NPLOGCONTEXT = NPLOGCONTEXTW;
+type LPLOGCONTEXT = LPLOGCONTEXTW;
 {$ELSE}
-typedef LOGCONTEXTA LOGCONTEXT;
-typedef PLOGCONTEXTA PLOGCONTEXT;
-typedef NPLOGCONTEXTA NPLOGCONTEXT;
-typedef LPLOGCONTEXTA LPLOGCONTEXT;
+type   LOGCONTEXT =   LOGCONTEXTA;
+type  PLOGCONTEXT =  PLOGCONTEXTA;
+type NPLOGCONTEXT = NPLOGCONTEXTA;
+type LPLOGCONTEXT = LPLOGCONTEXTA;
 {$ENDIF} (* UNICODE *)
 {$ELSE} (* WIN32 *)
-typedef struct tagLOGCONTEXT {
-    char     lcName[LCNAMELEN];
-    UINT     lcOptions;
-    UINT     lcStatus;
-    UINT     lcLocks;
-    UINT     lcMsgBase;
-    UINT     lcDevice;
-    UINT     lcPktRate;
-    WTPKT    lcPktData;
-    WTPKT    lcPktMode;
-    WTPKT    lcMoveMask;
-    DWORD    lcBtnDnMask;
-    DWORD    lcBtnUpMask;
-    LONG     lcInOrgX;
-    LONG     lcInOrgY;
-    LONG     lcInOrgZ;
-    LONG     lcInExtX;
-    LONG     lcInExtY;
-    LONG     lcInExtZ;
-    LONG     lcOutOrgX;
-    LONG     lcOutOrgY;
-    LONG     lcOutOrgZ;
-    LONG     lcOutExtX;
-    LONG     lcOutExtY;
-    LONG     lcOutExtZ;
-    FIX32    lcSensX;
-    FIX32    lcSensY;
-    FIX32    lcSensZ;
-    BOOL     lcSysMode;
-    int      lcSysOrgX;
-    int      lcSysOrgY;
-    int      lcSysExtX;
-    int      lcSysExtY;
-    FIX32    lcSysSensX;
-    FIX32    lcSysSensY;
-} LOGCONTEXT, *PLOGCONTEXT, NEAR *NPLOGCONTEXT, FAR *LPLOGCONTEXT;
+type LOGCONTEXT = record
+       lcName       :array [ 0..LCNAMELEN-1 ] of Char;
+       lcOptions    :UINT;
+       lcStatus     :UINT;
+       lcLocks      :UINT;
+       lcMsgBase    :UINT;
+       lcDevice     :UINT;
+       lcPktRate    :UINT;
+       lcPktData    :WTPKT;
+       lcPktMode    :WTPKT;
+       lcMoveMask   :WTPKT;
+       lcBtnDnMask  :DWORD;
+       lcBtnUpMask  :DWORD;
+       lcInOrgX     :LONG;
+       lcInOrgY     :LONG;
+       lcInOrgZ     :LONG;
+       lcInExtX     :LONG;
+       lcInExtY     :LONG;
+       lcInExtZ     :LONG;
+       lcOutOrgX    :LONG;
+       lcOutOrgY    :LONG;
+       lcOutOrgZ    :LONG;
+       lcOutExtX    :LONG;
+       lcOutExtY    :LONG;
+       lcOutExtZ    :LONG;
+       lcSensX      :FIX32;
+       lcSensY      :FIX32;
+       lcSensZ      :FIX32;
+       lcSysMode    :BOOL;
+       lcSysOrgX    :Integer;
+       lcSysOrgY    :Integer;
+       lcSysExtX    :Integer;
+       lcSysExtY    :Integer;
+       lcSysSensX   :FIX32;
+       lcSysSensY   :FIX32;
+     end;
+    PLOGCONTEXT = ^LOGCONTEXT;
+   NPLOGCONTEXT = PLOGCONTEXT;
+   LPLOGCONTEXT = PLOGCONTEXT;
 {$ENDIF} (* WIN32 *)
 
     (* context option values *)
@@ -496,21 +514,27 @@ const TPS_MARGIN       = $0004;
 const TPS_GRAB         = $0008;
 const TPS_INVERT       = $0010;  (* 1.1 *)
 
-typedef struct tagORIENTATION {
-    int orAzimuth;
-    int orAltitude;
-    int orTwist;
-} ORIENTATION, *PORIENTATION, NEAR *NPORIENTATION, FAR *LPORIENTATION;
+type ORIENTATION = record
+       orAzimuth   :Integer;
+       orAltitude  :Integer;
+       orTwist     :Integer;
+     end;
+    PORIENTATION = ^ORIENTATION;
+   NPORIENTATION = PORIENTATION;
+   LPORIENTATION = PORIENTATION;
 
-typedef struct tagROTATION { (* 1.1 *)
-    int roPitch;
-    int roRoll;
-    int roYaw;
-} ROTATION, *PROTATION, NEAR *NPROTATION, FAR *LPROTATION;
+type ROTATION = record (* 1.1 *)
+       roPitch  :Integer;
+       roRoll   :Integer;
+       roYaw    :Integer;
+     end;
+    PROTATION = ^ROTATION;
+   NPROTATION = PROTATION;
+   LPROTATION = PROTATION;
 // grandfather in obsolete member names.
-#define rotPitch    roPitch
-#define rotRoll     roRoll
-#define rotYaw      roYaw
+//#define rotPitch    roPitch
+//#define rotRoll     roRoll
+//#define rotYaw      roYaw
 
 
 (* relative buttons *)
@@ -552,8 +576,8 @@ const WTHC_SKIP          = 2;
 
 {$IFNDEF NOWTPREF }
 
-#define WTP_LPDEFAULT    ((LPVOID)-1L)
-#define WTP_DWDEFAULT    ((DWORD)-1L)
+const WTP_LPDEFAULT    = LPVOID(-1);
+const WTP_DWDEFAULT    = DWORD(-1);
 
 {$ENDIF}
 
@@ -577,49 +601,49 @@ const WTX_TOUCHSTRIP    = 6;  (* TouchStrips; 1.4 *)
 const WTX_TOUCHRING     = 7;  (* TouchRings; 1.4 *)
 const WTX_EXPKEYS2      = 8;  (* ExpressKeys; 1.4 *)
 
-typedef struct tagXBTNMASK {
-    BYTE xBtnDnMask[32];
-    BYTE xBtnUpMask[32];
-} XBTNMASK;
+type XBTNMASK = record
+       xBtnDnMask  :array [ 0..32-1 ] of BYTE;
+       xBtnUpMask  :array [ 0..32-1 ] of BYTE;
+     end;
 
-typedef struct tagTILT { (* 1.1 *)
-    int tiltX;
-    int tiltY;
-} TILT;
+type TILT = record  (* 1.1 *)
+       tiltX  :Integer;
+       tiltY  :Integer;
+     end;
 
-typedef struct tagEXTENSIONBASE { (* 1.4 *)
-    HCTX     nContext;
-    UINT     nStatus;
-    DWORD    nTime;
-    UINT     nSerialNumber;
-} EXTENSIONBASE;
+type EXTENSIONBASE = record  (* 1.4 *)
+       nContext       :HCTX;
+       nStatus        :UINT;
+       nTime          :DWORD;
+       nSerialNumber  :UINT;
+     end;
 
-typedef struct tagEXPKEYSDATA { (* 1.4 *)
-    BYTE     nTablet;
-    BYTE     nControl;
-    BYTE     nLocation;
-    BYTE     nReserved;
-    DWORD    nState;
-} EXPKEYSDATA;
+type EXPKEYSDATA = record  (* 1.4 *)
+       nTablet    :BYTE;
+       nControl   :BYTE;
+       nLocation  :BYTE;
+       nReserved  :BYTE;
+       nState     :DWORD;
+     end;
 
-typedef struct tagSLIDERDATA { (* 1.4 *)
-    BYTE     nTablet;
-    BYTE     nControl;
-    BYTE     nMode;
-    BYTE     nReserved;
-    DWORD    nPosition;
-} SLIDERDATA;
+type SLIDERDATA = record  (* 1.4 *)
+       nTablet    :BYTE;
+       nControl   :BYTE;
+       nMode      :BYTE;
+       nReserved  :BYTE;
+       nPosition  :DWORD;
+     end;
 
-typedef struct tagEXTPROPERTY { (* 1.4 *)
-    BYTE     version;          // Structure version, 0 for now
-    BYTE     tabletIndex;      // 0-based index for tablet
-    BYTE     controlIndex;     // 0-based index for control 
-    BYTE     functionIndex;    // 0-based index for control's sub-function
-    WORD     propertyID;       // property ID
-    WORD     reserved;         // DWORD-alignment filler
-    DWORD    dataSize;         // number of bytes in data[] buffer
-    BYTE     data[1];          // raw data
-} EXTPROPERTY;
+type EXTPROPERTY = record  (* 1.4 *)
+       version        :BYTE;                        // Structure version, 0 for now
+       tabletIndex    :BYTE;                        // 0-based index for tablet
+       controlIndex   :BYTE;                        // 0-based index for control
+       functionIndex  :BYTE;                        // 0-based index for control's sub-function
+       propertyID     :WORD;                        // property ID
+       reserved       :WORD;                        // DWORD-alignment filler
+       dataSize       :DWORD;                       // number of bytes in data[] buffer
+       data           :array [ 0..1-1 ] of BYTE;    // raw data
+     end;
 
 const TABLET_PROPERTY_CONTROLCOUNT     = 0;     // UINT32: number of physical controls on tablet
 const TABLET_PROPERTY_FUNCCOUNT        = 1;     // UINT32: number of functions of control
@@ -644,24 +668,24 @@ const TABLET_LOC_TRANSDUCER    = 4;
 
     {$IFNDEF API }
         {$IFNDEF WINAPI }
-            #define API    FAR PASCAL
+//            #define API    FAR PASCAL
         {$ELSE}
-            #define API    WINAPI
+//            #define API    WINAPI
         {$ENDIF}
     {$ENDIF}
 
 {$IFNDEF NOWTCALLBACKS }
 
     {$IFNDEF CALLBACK }
-    #define CALLBACK    FAR PASCAL
+//    #define CALLBACK    FAR PASCAL
     {$ENDIF}
 
     {$IFNDEF NOWTMANAGERFXNS }
     (* callback function types *)
-    typedef BOOL (WINAPI * WTENUMPROC)(HCTX, LPARAM); (* changed CALLBACK->WINAPI, 1.1 *)
-    typedef BOOL (WINAPI * WTCONFIGPROC)(HCTX, HWND);
-    typedef LRESULT (WINAPI * WTHOOKPROC)(int, WPARAM, LPARAM);
-    typedef WTHOOKPROC FAR *LPWTHOOKPROC;
+    type WTENUMPROC   = function ( _1:HCTX; _2:LPARAM ) :BOOL;  (* changed CALLBACK->WINAPI, 1.1 *)
+    type WTCONFIGPROC = function ( _1:HCTX; _2:HWND ) :BOOL;
+    type WTHOOKPROC   = function ( _1:Integer; _2:WPARAM; _3:LPARAM ) :LRESULT;
+    type LPWTHOOKPROC = ^WTHOOKPROC;
     {$ENDIF}
 
 {$ENDIF}
@@ -901,9 +925,12 @@ const TABLET_LOC_TRANSDUCER    = 4;
 
 {$ENDIF}
 
+implementation //############################################################### ■
+
+end. //######################################################################### ■
+
 {$IFDEF __cplusplus }
 }
 {$ENDIF} (* __cplusplus *)
 
 {$ENDIF} (* #define _INC_WINTAB *)
-
