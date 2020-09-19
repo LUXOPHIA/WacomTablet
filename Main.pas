@@ -5,8 +5,8 @@ interface //####################################################################
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo,
-  WinTab32, FMX.Memo.Types;
+  FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo, FMX.Memo.Types,
+  WINTAB, Core;
 
 type
   TForm1 = class(TForm)
@@ -62,27 +62,27 @@ var
    A :AXIS;
    A3 :array [ 1..3 ] of AXIS;
 begin
-     WTInfoW( WTI_DEVICES, DVC_X, @A );
+     WTInfo( WTI_DEVICES, DVC_X, @A );
      _PosXMin :=         A.axMin;                  // Ｘ座標の最小値
      _PosXMax :=         A.axMax;                  // Ｘ座標の最大値
      _UniX    :=         A.axUnits;                // Ｘ座標の単位
      _ResX    := HIWORD( A.axResolution );         // Ｘ座標の分解能（line/inch）
 
-     WTInfoW( WTI_DEVICES, DVC_Y, @A );
+     WTInfo( WTI_DEVICES, DVC_Y, @A );
      _PosYMin :=         A.axMin;                  // Ｙ座標の最小値
      _PosYMax :=         A.axMax;                  // Ｙ座標の最大値
      _UniY    :=         A.axUnits;                // Ｙ座標の単位
      _ResY    := HIWORD( A.axResolution );         // Ｙ座標の分解能（line/inch）
 
-     WTInfoW( WTI_DEVICES, DVC_NPRESSURE, @A );
+     WTInfo( WTI_DEVICES, DVC_NPRESSURE, @A );
      _PresMin := A.axMin;                          // 筆圧の最小値
      _PresMax := A.axMax;                          // 筆圧の最大値
 
-     WTInfoW( WTI_DEVICES, DVC_TPRESSURE, @A );
+     WTInfo( WTI_DEVICES, DVC_TPRESSURE, @A );
      _WheeMin := A.axMin;                          // ホイールの最小値
      _WheeMax := A.axMax;                          // ホイールの最大値
 
-     WTInfoW( WTI_DEVICES, DVC_ORIENTATION, @A3 );
+     WTInfo( WTI_DEVICES, DVC_ORIENTATION, @A3 );
      _AzimMin := A3[ 1 ].axMin;                    // ペンの傾き方向の最小値
      _AzimMax := A3[ 1 ].axMax;                    // ペンの傾き方向の最大値
      _AltiMin := A3[ 2 ].axMin;                    // ペンの傾きの最小値
@@ -95,9 +95,9 @@ end;
 
 procedure TForm1.BeginTablet;
 var
-   C :LOGCONTEXTW;
+   C :LOGCONTEXT;
 begin
-     WTInfoW( WTI_DEFSYSCTX, 0, @C );
+     WTInfo( WTI_DEFSYSCTX, 0, @C );
 
      with C do
      begin
@@ -120,7 +120,7 @@ begin
           lcOutExtY   := _PosYMax;  // ウィンドウＹ座標の最大値
      end;
 
-     _Tablet := WTOpenW( FormToHWND( Self ), C, True );  // Wintab の初期化
+     _Tablet := WTOpen( FormToHWND( Self ), @C, True );  // Wintab の初期化
 
      Assert( _Tablet > 0, '_Tablet = 0' );
 end;
