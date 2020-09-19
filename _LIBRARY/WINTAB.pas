@@ -20,30 +20,19 @@ extern "C" {
 (* Messages *)
 {$IFNDEF NOWTMESSAGES }
 
-    #define WT_DEFBASE           $7FF0
-    #define WT_MAXOFFSET         $F
+    const WT_DEFBASE       = $7FF0;
+    const WT_MAXOFFSET     = $F;
 
-    #define _WT_PACKET(b)        ((b)+0)
-    #define _WT_CTXOPEN(b)       ((b)+1)
-    #define _WT_CTXCLOSE(b)      ((b)+2)
-    #define _WT_CTXUPDATE(b)     ((b)+3)
-    #define _WT_CTXOVERLAP(b)    ((b)+4)
-    #define _WT_PROXIMITY(b)     ((b)+5)
-    #define _WT_INFOCHANGE(b)    ((b)+6)
-    #define _WT_CSRCHANGE(b)     ((b)+7) (* 1.1 *)
-    #define _WT_PACKETEXT(b)     ((b)+8) (* 1.4 *)
-    #define _WT_MAX(b)           ((b)+WT_MAXOFFSET)
-    
-    #define WT_PACKET            _WT_PACKET(WT_DEFBASE)
-    #define WT_CTXOPEN           _WT_CTXOPEN(WT_DEFBASE)
-    #define WT_CTXCLOSE          _WT_CTXCLOSE(WT_DEFBASE)
-    #define WT_CTXUPDATE         _WT_CTXUPDATE(WT_DEFBASE)
-    #define WT_CTXOVERLAP        _WT_CTXOVERLAP(WT_DEFBASE)
-    #define WT_PROXIMITY         _WT_PROXIMITY(WT_DEFBASE)
-    #define WT_INFOCHANGE        _WT_INFOCHANGE(WT_DEFBASE)
-    #define WT_CSRCHANGE         _WT_CSRCHANGE(WT_DEFBASE) (* 1.1 *)
-    #define WT_PACKETEXT         _WT_PACKETEXT(WT_DEFBASE) (* 1.4 *)
-    #define WT_MAX               _WT_MAX(WT_DEFBASE)
+    const WT_PACKET        = WT_DEFBASE + 0;
+    const WT_CTXOPEN       = WT_DEFBASE + 1;
+    const WT_CTXCLOSE      = WT_DEFBASE + 2;
+    const WT_CTXUPDATE     = WT_DEFBASE + 3;
+    const WT_CTXOVERLAP    = WT_DEFBASE + 4;
+    const WT_PROXIMITY     = WT_DEFBASE + 5;
+    const WT_INFOCHANGE    = WT_DEFBASE + 6;
+    const WT_CSRCHANGE     = WT_DEFBASE + 7;             (* 1.1 *)
+    const WT_PACKETEXT     = WT_DEFBASE + 8;             (* 1.4 *)
+    const WT_MAX           = WT_DEFBASE + WT_MAXOFFSET;
 
 {$ENDIF}
 
@@ -64,20 +53,20 @@ typedef DWORD WTPKT; (* packet mask *)
 {$IFNDEF NOWTPKT }
 
     (* WTPKT bits *)
-    #define PK_CONTEXT             $0001 (* reporting context *)
-    #define PK_STATUS              $0002 (* status bits *)
-    #define PK_TIME                $0004 (* time stamp *)
-    #define PK_CHANGED             $0008 (* change bit vector *)
-    #define PK_SERIAL_NUMBER       $0010 (* packet serial number *)
-    #define PK_CURSOR              $0020 (* reporting cursor *)
-    #define PK_BUTTONS             $0040 (* button information *)
-    #define PK_X                   $0080 (* x axis *)
-    #define PK_Y                   $0100 (* y axis *)
-    #define PK_Z                   $0200 (* z axis *)
-    #define PK_NORMAL_PRESSURE     $0400 (* normal or tip pressure *)
-    #define PK_TANGENT_PRESSURE    $0800 (* tangential or barrel pressure *)
-    #define PK_ORIENTATION         $1000 (* orientation info: tilts *)
-    #define PK_ROTATION            $2000 (* rotation info; 1.1 *)
+    const PK_CONTEXT             = $0001;  (* reporting context *)
+    const PK_STATUS              = $0002;  (* status bits *)
+    const PK_TIME                = $0004;  (* time stamp *)
+    const PK_CHANGED             = $0008;  (* change bit vector *)
+    const PK_SERIAL_NUMBER       = $0010;  (* packet serial number *)
+    const PK_CURSOR              = $0020;  (* reporting cursor *)
+    const PK_BUTTONS             = $0040;  (* button information *)
+    const PK_X                   = $0080;  (* x axis *)
+    const PK_Y                   = $0100;  (* y axis *)
+    const PK_Z                   = $0200;  (* z axis *)
+    const PK_NORMAL_PRESSURE     = $0400;  (* normal or tip pressure *)
+    const PK_TANGENT_PRESSURE    = $0800;  (* tangential or barrel pressure *)
+    const PK_ORIENTATION         = $1000;  (* orientation info: tilts *)
+    const PK_ROTATION            = $2000;  (* rotation info; 1.1 *)
 
 {$ENDIF}
 
@@ -140,52 +129,52 @@ typedef struct tagAXIS {
 } AXIS, *PAXIS, NEAR *NPAXIS, FAR *LPAXIS;
 
     (* unit specifiers *)
-    #define TU_NONE           0
-    #define TU_INCHES         1
-    #define TU_CENTIMETERS    2
-    #define TU_CIRCLE         3
+    const TU_NONE           = 0;
+    const TU_INCHES         = 1;
+    const TU_CENTIMETERS    = 2;
+    const TU_CIRCLE         = 3;
 
 {$ENDIF}
 
 {$IFNDEF NOWTSYSBUTTONS }
 
 (* system button assignment values *)
-#define SBN_NONE          $00
-#define SBN_LCLICK        $01
-#define SBN_LDBLCLICK     $02
-#define SBN_LDRAG         $03
-#define SBN_RCLICK        $04
-#define SBN_RDBLCLICK     $05
-#define SBN_RDRAG         $06
-#define SBN_MCLICK        $07
-#define SBN_MDBLCLICK     $08
-#define SBN_MDRAG         $09
+const SBN_NONE          = $00;
+const SBN_LCLICK        = $01;
+const SBN_LDBLCLICK     = $02;
+const SBN_LDRAG         = $03;
+const SBN_RCLICK        = $04;
+const SBN_RDBLCLICK     = $05;
+const SBN_RDRAG         = $06;
+const SBN_MCLICK        = $07;
+const SBN_MDBLCLICK     = $08;
+const SBN_MDRAG         = $09;
 (* for Pen Windows *)
-#define SBN_PTCLICK       $10
-#define SBN_PTDBLCLICK    $20
-#define SBN_PTDRAG        $30
-#define SBN_PNCLICK       $40
-#define SBN_PNDBLCLICK    $50
-#define SBN_PNDRAG        $60
-#define SBN_P1CLICK       $70
-#define SBN_P1DBLCLICK    $80
-#define SBN_P1DRAG        $90
-#define SBN_P2CLICK       $A0
-#define SBN_P2DBLCLICK    $B0
-#define SBN_P2DRAG        $C0
-#define SBN_P3CLICK       $D0
-#define SBN_P3DBLCLICK    $E0
-#define SBN_P3DRAG        $F0
+const SBN_PTCLICK       = $10;
+const SBN_PTDBLCLICK    = $20;
+const SBN_PTDRAG        = $30;
+const SBN_PNCLICK       = $40;
+const SBN_PNDBLCLICK    = $50;
+const SBN_PNDRAG        = $60;
+const SBN_P1CLICK       = $70;
+const SBN_P1DBLCLICK    = $80;
+const SBN_P1DRAG        = $90;
+const SBN_P2CLICK       = $A0;
+const SBN_P2DBLCLICK    = $B0;
+const SBN_P2DRAG        = $C0;
+const SBN_P3CLICK       = $D0;
+const SBN_P3DBLCLICK    = $E0;
+const SBN_P3DRAG        = $F0;
 
 {$ENDIF}
 
 {$IFNDEF NOWTCAPABILITIES }
 
 (* hardware capabilities *)
-#define HWC_INTEGRATED        $0001
-#define HWC_TOUCH             $0002
-#define HWC_HARDPROX          $0004
-#define HWC_PHYSID_CURSORS    $0008 (* 1.1 *)
+const HWC_INTEGRATED        = $0001;
+const HWC_TOUCH             = $0002;
+const HWC_HARDPROX          = $0004;
+const HWC_PHYSID_CURSORS    = $0008;  (* 1.1 *)
 {$ENDIF}
 
 {$IFNDEF NOWTIFC }
@@ -193,155 +182,155 @@ typedef struct tagAXIS {
 {$IFNDEF NOWTCURSORS }
 
 (* cursor capabilities *)
-#define CRC_MULTIMODE    $0001 (* 1.1 *)
-#define CRC_AGGREGATE    $0002 (* 1.1 *)
-#define CRC_INVERT       $0004 (* 1.1 *)
+const CRC_MULTIMODE    = $0001;  (* 1.1 *)
+const CRC_AGGREGATE    = $0002;  (* 1.1 *)
+const CRC_INVERT       = $0004;  (* 1.1 *)
 
 {$ENDIF}
 
 (* info categories *)
-#define WTI_INTERFACE          1
-    #define IFC_WINTABID       1
-    #define IFC_SPECVERSION    2
-    #define IFC_IMPLVERSION    3
-    #define IFC_NDEVICES       4
-    #define IFC_NCURSORS       5
-    #define IFC_NCONTEXTS      6
-    #define IFC_CTXOPTIONS     7
-    #define IFC_CTXSAVESIZE    8
-    #define IFC_NEXTENSIONS    9
-    #define IFC_NMANAGERS      10
-    #define IFC_MAX            10
+const WTI_INTERFACE          = 1;
+    const IFC_WINTABID       = 1;
+    const IFC_SPECVERSION    = 2;
+    const IFC_IMPLVERSION    = 3;
+    const IFC_NDEVICES       = 4;
+    const IFC_NCURSORS       = 5;
+    const IFC_NCONTEXTS      = 6;
+    const IFC_CTXOPTIONS     = 7;
+    const IFC_CTXSAVESIZE    = 8;
+    const IFC_NEXTENSIONS    = 9;
+    const IFC_NMANAGERS      = 10;
+    const IFC_MAX            = 10;
 
 
 {$ENDIF}
 
 {$IFNDEF NOWTSTATUS }
 
-#define WTI_STATUS           2
-    #define STA_CONTEXTS     1
-    #define STA_SYSCTXS      2
-    #define STA_PKTRATE      3
-    #define STA_PKTDATA      4
-    #define STA_MANAGERS     5
-    #define STA_SYSTEM       6
-    #define STA_BUTTONUSE    7
-    #define STA_SYSBTNUSE    8
-    #define STA_MAX          8
+const WTI_STATUS           = 2;
+    const STA_CONTEXTS     = 1;
+    const STA_SYSCTXS      = 2;
+    const STA_PKTRATE      = 3;
+    const STA_PKTDATA      = 4;
+    const STA_MANAGERS     = 5;
+    const STA_SYSTEM       = 6;
+    const STA_BUTTONUSE    = 7;
+    const STA_SYSBTNUSE    = 8;
+    const STA_MAX          = 8;
 
 {$ENDIF}
 
 {$IFNDEF NOWTDEFCONTEXT }
 
-#define WTI_DEFCONTEXT       3
-#define WTI_DEFSYSCTX        4
-#define WTI_DDCTXS           400 (* 1.1 *)
-#define WTI_DSCTXS           500 (* 1.1 *)
-    #define CTX_NAME         1
-    #define CTX_OPTIONS      2
-    #define CTX_STATUS       3
-    #define CTX_LOCKS        4
-    #define CTX_MSGBASE      5
-    #define CTX_DEVICE       6
-    #define CTX_PKTRATE      7
-    #define CTX_PKTDATA      8
-    #define CTX_PKTMODE      9
-    #define CTX_MOVEMASK     10
-    #define CTX_BTNDNMASK    11
-    #define CTX_BTNUPMASK    12
-    #define CTX_INORGX       13
-    #define CTX_INORGY       14
-    #define CTX_INORGZ       15
-    #define CTX_INEXTX       16
-    #define CTX_INEXTY       17
-    #define CTX_INEXTZ       18
-    #define CTX_OUTORGX      19
-    #define CTX_OUTORGY      20
-    #define CTX_OUTORGZ      21
-    #define CTX_OUTEXTX      22
-    #define CTX_OUTEXTY      23
-    #define CTX_OUTEXTZ      24
-    #define CTX_SENSX        25
-    #define CTX_SENSY        26
-    #define CTX_SENSZ        27
-    #define CTX_SYSMODE      28
-    #define CTX_SYSORGX      29
-    #define CTX_SYSORGY      30
-    #define CTX_SYSEXTX      31
-    #define CTX_SYSEXTY      32
-    #define CTX_SYSSENSX     33
-    #define CTX_SYSSENSY     34
-    #define CTX_MAX          34
+const WTI_DEFCONTEXT       = 3;
+const WTI_DEFSYSCTX        = 4;
+const WTI_DDCTXS           = 400;  (* 1.1 *)
+const WTI_DSCTXS           = 500;  (* 1.1 *)
+    const CTX_NAME         = 1;
+    const CTX_OPTIONS      = 2;
+    const CTX_STATUS       = 3;
+    const CTX_LOCKS        = 4;
+    const CTX_MSGBASE      = 5;
+    const CTX_DEVICE       = 6;
+    const CTX_PKTRATE      = 7;
+    const CTX_PKTDATA      = 8;
+    const CTX_PKTMODE      = 9;
+    const CTX_MOVEMASK     = 10;
+    const CTX_BTNDNMASK    = 11;
+    const CTX_BTNUPMASK    = 12;
+    const CTX_INORGX       = 13;
+    const CTX_INORGY       = 14;
+    const CTX_INORGZ       = 15;
+    const CTX_INEXTX       = 16;
+    const CTX_INEXTY       = 17;
+    const CTX_INEXTZ       = 18;
+    const CTX_OUTORGX      = 19;
+    const CTX_OUTORGY      = 20;
+    const CTX_OUTORGZ      = 21;
+    const CTX_OUTEXTX      = 22;
+    const CTX_OUTEXTY      = 23;
+    const CTX_OUTEXTZ      = 24;
+    const CTX_SENSX        = 25;
+    const CTX_SENSY        = 26;
+    const CTX_SENSZ        = 27;
+    const CTX_SYSMODE      = 28;
+    const CTX_SYSORGX      = 29;
+    const CTX_SYSORGY      = 30;
+    const CTX_SYSEXTX      = 31;
+    const CTX_SYSEXTY      = 32;
+    const CTX_SYSSENSX     = 33;
+    const CTX_SYSSENSY     = 34;
+    const CTX_MAX          = 34;
 
 {$ENDIF}
 
 {$IFNDEF NOWTDEVICES }
 
-#define WTI_DEVICES            100
-    #define DVC_NAME           1
-    #define DVC_HARDWARE       2
-    #define DVC_NCSRTYPES      3
-    #define DVC_FIRSTCSR       4
-    #define DVC_PKTRATE        5
-    #define DVC_PKTDATA        6
-    #define DVC_PKTMODE        7
-    #define DVC_CSRDATA        8
-    #define DVC_XMARGIN        9
-    #define DVC_YMARGIN        10
-    #define DVC_ZMARGIN        11
-    #define DVC_X              12
-    #define DVC_Y              13
-    #define DVC_Z              14
-    #define DVC_NPRESSURE      15
-    #define DVC_TPRESSURE      16
-    #define DVC_ORIENTATION    17
-    #define DVC_ROTATION       18 (* 1.1 *)
-    #define DVC_PNPID          19 (* 1.1 *)
-    #define DVC_MAX            19
+const WTI_DEVICES            = 100;
+    const DVC_NAME           = 1;
+    const DVC_HARDWARE       = 2;
+    const DVC_NCSRTYPES      = 3;
+    const DVC_FIRSTCSR       = 4;
+    const DVC_PKTRATE        = 5;
+    const DVC_PKTDATA        = 6;
+    const DVC_PKTMODE        = 7;
+    const DVC_CSRDATA        = 8;
+    const DVC_XMARGIN        = 9;
+    const DVC_YMARGIN        = 10;
+    const DVC_ZMARGIN        = 11;
+    const DVC_X              = 12;
+    const DVC_Y              = 13;
+    const DVC_Z              = 14;
+    const DVC_NPRESSURE      = 15;
+    const DVC_TPRESSURE      = 16;
+    const DVC_ORIENTATION    = 17;
+    const DVC_ROTATION       = 18;   (* 1.1 *)
+    const DVC_PNPID          = 19;   (* 1.1 *)
+    const DVC_MAX            = 19;
 
 {$ENDIF}
 
 {$IFNDEF NOWTCURSORS }
 
-#define WTI_CURSORS             200
-    #define CSR_NAME            1
-    #define CSR_ACTIVE          2
-    #define CSR_PKTDATA         3
-    #define CSR_BUTTONS         4
-    #define CSR_BUTTONBITS      5
-    #define CSR_BTNNAMES        6
-    #define CSR_BUTTONMAP       7
-    #define CSR_SYSBTNMAP       8
-    #define CSR_NPBUTTON        9
-    #define CSR_NPBTNMARKS      10
-    #define CSR_NPRESPONSE      11
-    #define CSR_TPBUTTON        12
-    #define CSR_TPBTNMARKS      13
-    #define CSR_TPRESPONSE      14
-    #define CSR_PHYSID          15 (* 1.1 *)
-    #define CSR_MODE            16 (* 1.1 *)
-    #define CSR_MINPKTDATA      17 (* 1.1 *)
-    #define CSR_MINBUTTONS      18 (* 1.1 *)
-    #define CSR_CAPABILITIES    19 (* 1.1 *)
-    #define CSR_TYPE            20 (* 1.2 *)
-    #define CSR_MAX             20
+const WTI_CURSORS             = 200;
+    const CSR_NAME            = 1;
+    const CSR_ACTIVE          = 2;
+    const CSR_PKTDATA         = 3;
+    const CSR_BUTTONS         = 4;
+    const CSR_BUTTONBITS      = 5;
+    const CSR_BTNNAMES        = 6;
+    const CSR_BUTTONMAP       = 7;
+    const CSR_SYSBTNMAP       = 8;
+    const CSR_NPBUTTON        = 9;
+    const CSR_NPBTNMARKS      = 10;
+    const CSR_NPRESPONSE      = 11;
+    const CSR_TPBUTTON        = 12;
+    const CSR_TPBTNMARKS      = 13;
+    const CSR_TPRESPONSE      = 14;
+    const CSR_PHYSID          = 15;   (* 1.1 *)
+    const CSR_MODE            = 16;   (* 1.1 *)
+    const CSR_MINPKTDATA      = 17;   (* 1.1 *)
+    const CSR_MINBUTTONS      = 18;   (* 1.1 *)
+    const CSR_CAPABILITIES    = 19;   (* 1.1 *)
+    const CSR_TYPE            = 20;   (* 1.2 *)
+    const CSR_MAX             = 20;
 
 {$ENDIF}
 
 {$IFNDEF NOWTEXTENSIONS }
 
-#define WTI_EXTENSIONS        300
-    #define EXT_NAME          1
-    #define EXT_TAG           2
-    #define EXT_MASK          3
-    #define EXT_SIZE          4
-    #define EXT_AXES          5
-    #define EXT_DEFAULT       6
-    #define EXT_DEFCONTEXT    7
-    #define EXT_DEFSYSCTX     8
-    #define EXT_CURSORS       9
-    #define EXT_DEVICES       110 (* Allow 100 cursors *)
-    #define EXT_MAX           210 (* Allow 100 devices *)
+const WTI_EXTENSIONS        = 300;
+    const EXT_NAME          = 1;
+    const EXT_TAG           = 2;
+    const EXT_MASK          = 3;
+    const EXT_SIZE          = 4;
+    const EXT_AXES          = 5;
+    const EXT_DEFAULT       = 6;
+    const EXT_DEFCONTEXT    = 7;
+    const EXT_DEFSYSCTX     = 8;
+    const EXT_CURSORS       = 9;
+    const EXT_DEVICES       = 110;  (* Allow 100 cursors *)
+    const EXT_MAX           = 210;  (* Allow 100 devices *)
 
 {$ENDIF}
 
@@ -350,8 +339,8 @@ typedef struct tagAXIS {
 (* -------------------------------------------------------------------------- *)
 (* CONTEXT DATA DEFS *)
 
-#define LCNAMELEN     40
-#define LC_NAMELEN    40
+const LCNAMELEN     = 40;
+const LC_NAMELEN    = 40;
 {$IFDEF WIN32 }
 typedef struct tagLOGCONTEXTA {
     char     lcName[LCNAMELEN];
@@ -476,24 +465,24 @@ typedef struct tagLOGCONTEXT {
 {$ENDIF} (* WIN32 *)
 
     (* context option values *)
-    #define CXO_SYSTEM         $0001
-    #define CXO_PEN            $0002
-    #define CXO_MESSAGES       $0004
-    #define CXO_MARGIN         $8000
-    #define CXO_MGNINSIDE      $4000
-    #define CXO_CSRMESSAGES    $0008 (* 1.1 *)
+    const CXO_SYSTEM         = $0001;
+    const CXO_PEN            = $0002;
+    const CXO_MESSAGES       = $0004;
+    const CXO_MARGIN         = $8000;
+    const CXO_MGNINSIDE      = $4000;
+    const CXO_CSRMESSAGES    = $0008;  (* 1.1 *)
 
     (* context status values *)
-    #define CXS_DISABLED       $0001
-    #define CXS_OBSCURED       $0002
-    #define CXS_ONTOP          $0004
+    const CXS_DISABLED       = $0001;
+    const CXS_OBSCURED       = $0002;
+    const CXS_ONTOP          = $0004;
 
     (* context lock values *)
-    #define CXL_INSIZE         $0001
-    #define CXL_INASPECT       $0002
-    #define CXL_SENSITIVITY    $0004
-    #define CXL_MARGIN         $0008
-    #define CXL_SYSOUT         $0010
+    const CXL_INSIZE         = $0001;
+    const CXL_INASPECT       = $0002;
+    const CXL_SENSITIVITY    = $0004;
+    const CXL_MARGIN         = $0008;
+    const CXL_SYSOUT         = $0010;
 
 (* -------------------------------------------------------------------------- *)
 (* EVENT DATA DEFS *)
@@ -501,11 +490,11 @@ typedef struct tagLOGCONTEXT {
 (* For packet structure definition, see pktdef.h *)
 
 (* packet status values *)
-#define TPS_PROXIMITY    $0001
-#define TPS_QUEUE_ERR    $0002
-#define TPS_MARGIN       $0004
-#define TPS_GRAB         $0008
-#define TPS_INVERT       $0010 (* 1.1 *)
+const TPS_PROXIMITY    = $0001;
+const TPS_QUEUE_ERR    = $0002;
+const TPS_MARGIN       = $0004;
+const TPS_GRAB         = $0008;
+const TPS_INVERT       = $0010;  (* 1.1 *)
 
 typedef struct tagORIENTATION {
     int orAzimuth;
@@ -525,19 +514,19 @@ typedef struct tagROTATION { (* 1.1 *)
 
 
 (* relative buttons *)
-#define TBN_NONE    0
-#define TBN_UP      1
-#define TBN_DOWN    2
+const TBN_NONE    = 0;
+const TBN_UP      = 1;
+const TBN_DOWN    = 2;
 
 (* -------------------------------------------------------------------------- *)
 (* DEVICE CONFIG CONSTANTS *)
 
 {$IFNDEF NOWTDEVCFG }
 
-#define WTDC_NONE       0
-#define WTDC_CANCEL     1
-#define WTDC_OK         2
-#define WTDC_RESTART    3
+const WTDC_NONE       = 0;
+const WTDC_CANCEL     = 1;
+const WTDC_OK         = 2;
+const WTDC_RESTART    = 3;
 
 {$ENDIF}
 
@@ -546,15 +535,15 @@ typedef struct tagROTATION { (* 1.1 *)
 
 {$IFNDEF NOWTHOOKS }
 
-#define WTH_PLAYBACK       1
-#define WTH_RECORD         2
+const WTH_PLAYBACK       = 1;
+const WTH_RECORD         = 2;
 
-#define WTHC_GETLPLPFN     (-3)
-#define WTHC_LPLPFNNEXT    (-2)
-#define WTHC_LPFNNEXT      (-1)
-#define WTHC_ACTION        0
-#define WTHC_GETNEXT       1
-#define WTHC_SKIP          2
+const WTHC_GETLPLPFN     = -3;
+const WTHC_LPLPFNNEXT    = -2;
+const WTHC_LPFNNEXT      = -1;
+const WTHC_ACTION        = 0;
+const WTHC_GETNEXT       = 1;
+const WTHC_SKIP          = 2;
 
 {$ENDIF}
 
@@ -574,19 +563,19 @@ typedef struct tagROTATION { (* 1.1 *)
 {$IFNDEF NOWTEXTENSIONS }
 
 (* constants for use with pktdef.h *)
-#define PKEXT_ABSOLUTE    1
-#define PKEXT_RELATIVE    2
+const PKEXT_ABSOLUTE    = 1;
+const PKEXT_RELATIVE    = 2;
 
 (* Extension tags. *)
-#define WTX_OBT           0 (* Out of bounds tracking *)
-#define WTX_FKEYS         1 (* Function keys *)
-#define WTX_TILT          2 (* Raw Cartesian tilt; 1.1 *)
-#define WTX_CSRMASK       3 (* select input by cursor type; 1.1 *)
-#define WTX_XBTNMASK      4 (* Extended button mask; 1.1 *)
-#define WTX_EXPKEYS       5 (* ExpressKeys; 1.3 - DEPRECATED: see WTX_EXPKEYS2 *)
-#define WTX_TOUCHSTRIP    6 (* TouchStrips; 1.4 *)
-#define WTX_TOUCHRING     7 (* TouchRings; 1.4 *)
-#define WTX_EXPKEYS2      8 (* ExpressKeys; 1.4 *)
+const WTX_OBT           = 0;  (* Out of bounds tracking *)
+const WTX_FKEYS         = 1;  (* Function keys *)
+const WTX_TILT          = 2;  (* Raw Cartesian tilt; 1.1 *)
+const WTX_CSRMASK       = 3;  (* select input by cursor type; 1.1 *)
+const WTX_XBTNMASK      = 4;  (* Extended button mask; 1.1 *)
+const WTX_EXPKEYS       = 5;  (* ExpressKeys; 1.3 - DEPRECATED: see WTX_EXPKEYS2 *)
+const WTX_TOUCHSTRIP    = 6;  (* TouchStrips; 1.4 *)
+const WTX_TOUCHRING     = 7;  (* TouchRings; 1.4 *)
+const WTX_EXPKEYS2      = 8;  (* ExpressKeys; 1.4 *)
 
 typedef struct tagXBTNMASK {
     BYTE xBtnDnMask[32];
@@ -632,20 +621,20 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
     BYTE     data[1];          // raw data
 } EXTPROPERTY;
 
-#define TABLET_PROPERTY_CONTROLCOUNT     0     // UINT32: number of physical controls on tablet
-#define TABLET_PROPERTY_FUNCCOUNT        1     // UINT32: number of functions of control
-#define TABLET_PROPERTY_AVAILABLE        2     // BOOL: control/mode is available for override
-#define TABLET_PROPERTY_MIN              3     // UINT32: minimum value
-#define TABLET_PROPERTY_MAX              4     // UINT32: maximum value
-#define TABLET_PROPERTY_OVERRIDE         5     // BOOL: control is overridden
-#define TABLET_PROPERTY_OVERRIDE_NAME    6     // UTF-8: Displayable name when control is overridden
-#define TABLET_PROPERTY_LOCATION         11    // UINT32: Physical location of control (see TABLET_LOC_*)
+const TABLET_PROPERTY_CONTROLCOUNT     = 0;     // UINT32: number of physical controls on tablet
+const TABLET_PROPERTY_FUNCCOUNT        = 1;     // UINT32: number of functions of control
+const TABLET_PROPERTY_AVAILABLE        = 2;     // BOOL: control/mode is available for override
+const TABLET_PROPERTY_MIN              = 3;     // UINT32: minimum value
+const TABLET_PROPERTY_MAX              = 4;     // UINT32: maximum value
+const TABLET_PROPERTY_OVERRIDE         = 5;     // BOOL: control is overridden
+const TABLET_PROPERTY_OVERRIDE_NAME    = 6;     // UTF-8: Displayable name when control is overridden
+const TABLET_PROPERTY_LOCATION         = 11;    // UINT32: Physical location of control (see TABLET_LOC_*)
 
-#define TABLET_LOC_LEFT          0
-#define TABLET_LOC_RIGHT         1
-#define TABLET_LOC_TOP           2
-#define TABLET_LOC_BOTTOM        3
-#define TABLET_LOC_TRANSDUCER    4
+const TABLET_LOC_LEFT          = 0;
+const TABLET_LOC_RIGHT         = 1;
+const TABLET_LOC_TOP           = 2;
+const TABLET_LOC_BOTTOM        = 3;
+const TABLET_LOC_TRANSDUCER    = 4;
 
 {$ENDIF}
 
@@ -684,145 +673,145 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
     (* BASIC FUNCTIONS *)
 {$IFDEF WIN32 }
     UINT API WTInfoA(UINT, UINT, LPVOID);
-    #define ORD_WTInfoA    20
+    const ORD_WTInfoA    = 20;
     UINT API WTInfoW(UINT, UINT, LPVOID);
-    #define ORD_WTInfoW    1020
+    const ORD_WTInfoW    = 1020;
     {$IFDEF UNICODE }
     #define WTInfo         WTInfoW
-    #define ORD_WTInfo     ORD_WTInfoW
+    const ORD_WTInfo     = ORD_WTInfoW;
     {$ELSE}
     #define WTInfo         WTInfoA
-    #define ORD_WTInfo     ORD_WTInfoA
+    const ORD_WTInfo     = ORD_WTInfoA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
     UINT API WTInfo(UINT, UINT, LPVOID);
-    #define ORD_WTInfo     20
+    const ORD_WTInfo     = 20;
 {$ENDIF}
 {$IFDEF WIN32 }
     HCTX API WTOpenA(HWND, LPLOGCONTEXTA, BOOL);
-    #define ORD_WTOpenA    21
+    const ORD_WTOpenA    = 21;
     HCTX API WTOpenW(HWND, LPLOGCONTEXTW, BOOL);
-    #define ORD_WTOpenW    1021
+    const ORD_WTOpenW    = 1021;
     {$IFDEF UNICODE }
     #define WTOpen         WTOpenW
-    #define ORD_WTOpen     ORD_WTOpenW
+    const ORD_WTOpen     = ORD_WTOpenW;
     {$ELSE}
     #define WTOpen         WTOpenA
-    #define ORD_WTOpen     ORD_WTOpenA
+    const ORD_WTOpen     = ORD_WTOpenA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
     HCTX API WTOpen(HWND, LPLOGCONTEXT, BOOL);
-    #define ORD_WTOpen     21
+    const ORD_WTOpen     = 21;
 {$ENDIF}
     BOOL API WTClose(HCTX);
-    #define ORD_WTClose         22
+    const ORD_WTClose         = 22;
     int API WTPacketsGet(HCTX, int, LPVOID);
-    #define ORD_WTPacketsGet    23
+    const ORD_WTPacketsGet    = 23;
     BOOL API WTPacket(HCTX, UINT, LPVOID);
-    #define ORD_WTPacket        24
+    const ORD_WTPacket        = 24;
     {$ENDIF}
 
     {$IFNDEF NOWTVISIBILITYFXNS }
     (* VISIBILITY FUNCTIONS *)
     BOOL API WTEnable(HCTX, BOOL);
-    #define ORD_WTEnable     40
+    const ORD_WTEnable     = 40;
     BOOL API WTOverlap(HCTX, BOOL);
-    #define ORD_WTOverlap    41
+    const ORD_WTOverlap    = 41;
     {$ENDIF}
 
     {$IFNDEF NOWTCTXEDITFXNS }
     (* CONTEXT EDITING FUNCTIONS *)
     BOOL API WTConfig(HCTX, HWND);
-    #define ORD_WTConfig    60
+    const ORD_WTConfig    = 60;
 {$IFDEF WIN32 }
     BOOL API WTGetA(HCTX, LPLOGCONTEXTA);
-    #define ORD_WTGetA    61
+    const ORD_WTGetA    = 61;
     BOOL API WTGetW(HCTX, LPLOGCONTEXTW);
-    #define ORD_WTGetW    1061
+    const ORD_WTGetW    = 1061;
     {$IFDEF UNICODE }
     #define WTGet         WTGetW
-    #define ORD_WTGet     ORD_WTGetW
+    const ORD_WTGet     = ORD_WTGetW;
     {$ELSE}
     #define WTGet         WTGetA
-    #define ORD_WTGet     ORD_WTGetA
+    const ORD_WTGet     = ORD_WTGetA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
     BOOL API WTGet(HCTX, LPLOGCONTEXT);
-    #define ORD_WTGet     61
+    const ORD_WTGet     = 61;
 {$ENDIF}
 {$IFDEF WIN32 }
     BOOL API WTSetA(HCTX, LPLOGCONTEXTA);
-    #define ORD_WTSetA    62
+    const ORD_WTSetA    = 62;
     BOOL API WTSetW(HCTX, LPLOGCONTEXTW);
-    #define ORD_WTSetW    1062
+    const ORD_WTSetW    = 1062;
     {$IFDEF UNICODE }
     #define WTSet         WTSetW
-    #define ORD_WTSet     ORD_WTSetW
+    const ORD_WTSet     = ORD_WTSetW;
     {$ELSE}
     #define WTSet         WTSetA
-    #define ORD_WTSet     ORD_WTSetA
+    const ORD_WTSet     = ORD_WTSetA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
     BOOL API WTSet(HCTX, LPLOGCONTEXT);
-    #define ORD_WTSet     62
+    const ORD_WTSet     = 62;
 {$ENDIF}
     BOOL API WTExtGet(HCTX, UINT, LPVOID);
-    #define ORD_WTExtGet     63
+    const ORD_WTExtGet     = 63;
     BOOL API WTExtSet(HCTX, UINT, LPVOID);
-    #define ORD_WTExtSet     64
+    const ORD_WTExtSet     = 64;
     BOOL API WTSave(HCTX, LPVOID);
-    #define ORD_WTSave       65
+    const ORD_WTSave       = 65;
     HCTX API WTRestore(HWND, LPVOID, BOOL);
-    #define ORD_WTRestore    66
+    const ORD_WTRestore    = 66;
     {$ENDIF}
 
     {$IFNDEF NOWTQUEUEFXNS }
     (* ADVANCED PACKET AND QUEUE FUNCTIONS *)
     int API WTPacketsPeek(HCTX, int, LPVOID);
-    #define ORD_WTPacketsPeek    80
+    const ORD_WTPacketsPeek    = 80;
     int API WTDataGet(HCTX, UINT, UINT, int, LPVOID, LPINT);
-    #define ORD_WTDataGet        81
+    const ORD_WTDataGet        = 81;
     int API WTDataPeek(HCTX, UINT, UINT, int, LPVOID, LPINT);
-    #define ORD_WTDataPeek       82
+    const ORD_WTDataPeek       = 82;
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
     DWORD API WTQueuePackets(HCTX);
-    #define ORD_WTQueuePackets    83
+    const ORD_WTQueuePackets    = 83;
 {$ENDIF}
     int API WTQueueSizeGet(HCTX);
-    #define ORD_WTQueueSizeGet    84
+    const ORD_WTQueueSizeGet    = 84;
     BOOL API WTQueueSizeSet(HCTX, int);
-    #define ORD_WTQueueSizeSet    85
+    const ORD_WTQueueSizeSet    = 85;
     {$ENDIF}
 
     {$IFNDEF NOWTHMGRFXNS }
     (* MANAGER HANDLE FUNCTIONS *)
     HMGR API WTMgrOpen(HWND, UINT);
-    #define ORD_WTMgrOpen     100
+    const ORD_WTMgrOpen     = 100;
     BOOL API WTMgrClose(HMGR);
-    #define ORD_WTMgrClose    101
+    const ORD_WTMgrClose    = 101;
     {$ENDIF}
 
     {$IFNDEF NOWTMGRCTXFXNS }
     (* MANAGER CONTEXT FUNCTIONS *)
     BOOL API WTMgrContextEnum(HMGR, WTENUMPROC, LPARAM);
-    #define ORD_WTMgrContextEnum     120
+    const ORD_WTMgrContextEnum     = 120;
     HWND API WTMgrContextOwner(HMGR, HCTX);
-    #define ORD_WTMgrContextOwner    121
+    const ORD_WTMgrContextOwner    = 121;
     HCTX API WTMgrDefContext(HMGR, BOOL);
-    #define ORD_WTMgrDefContext      122
+    const ORD_WTMgrDefContext      = 122;
     HCTX API WTMgrDefContextEx(HMGR, UINT, BOOL); (* 1.1 *)
-    #define ORD_WTMgrDefContextEx    206
+    const ORD_WTMgrDefContextEx    = 206;
     {$ENDIF}
     
     {$IFNDEF NOWTMGRCONFIGFXNS }
     (* MANAGER CONFIG BOX  FUNCTIONS *)
     UINT API WTMgrDeviceConfig(HMGR, UINT, HWND);
-    #define ORD_WTMgrDeviceConfig    140
+    const ORD_WTMgrDeviceConfig    = 140;
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
     BOOL API WTMgrConfigReplace(HMGR, BOOL, WTCONFIGPROC);
-    #define ORD_WTMgrConfigReplace    141
+    const ORD_WTMgrConfigReplace    = 141;
 {$ENDIF}
     {$ENDIF}
 
@@ -831,52 +820,52 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
     WTHOOKPROC API WTMgrPacketHook(HMGR, BOOL, int, WTHOOKPROC);
-    #define ORD_WTMgrPacketHook           160
+    const ORD_WTMgrPacketHook           = 160;
     LRESULT API WTMgrPacketHookDefProc(int, WPARAM, LPARAM, LPWTHOOKPROC);
-    #define ORD_WTMgrPacketHookDefProc    161
+    const ORD_WTMgrPacketHookDefProc    = 161;
 {$ENDIF}
     {$ENDIF}
 
     {$IFNDEF NOWTMGRPREFFXNS }
     (* MANAGER PREFERENCE DATA FUNCTIONS *)
     BOOL API WTMgrExt(HMGR, UINT, LPVOID);
-    #define ORD_WTMgrExt                    180
+    const ORD_WTMgrExt                    = 180;
     BOOL API WTMgrCsrEnable(HMGR, UINT, BOOL);
-    #define ORD_WTMgrCsrEnable              181
+    const ORD_WTMgrCsrEnable              = 181;
     BOOL API WTMgrCsrButtonMap(HMGR, UINT, LPBYTE, LPBYTE);
-    #define ORD_WTMgrCsrButtonMap           182
+    const ORD_WTMgrCsrButtonMap           = 182;
     BOOL API WTMgrCsrPressureBtnMarks(HMGR, UINT, DWORD, DWORD);
-    #define ORD_WTMgrCsrPressureBtnMarks    183
+    const ORD_WTMgrCsrPressureBtnMarks    = 183;
     BOOL API WTMgrCsrPressureResponse(HMGR, UINT, UINT FAR *, UINT FAR *);
-    #define ORD_WTMgrCsrPressureResponse    184
+    const ORD_WTMgrCsrPressureResponse    = 184;
     BOOL API WTMgrCsrExt(HMGR, UINT, UINT, LPVOID);
-    #define ORD_WTMgrCsrExt                 185
+    const ORD_WTMgrCsrExt                 = 185;
     {$ENDIF}
 
 (* Win32 replacements for non-portable functions. *)
     {$IFNDEF NOWTQUEUEFXNS }
     (* ADVANCED PACKET AND QUEUE FUNCTIONS *)
     BOOL API WTQueuePacketsEx(HCTX, UINT FAR *, UINT FAR *);
-    #define ORD_WTQueuePacketsEx    200
+    const ORD_WTQueuePacketsEx    = 200;
     {$ENDIF}
 
     {$IFNDEF NOWTMGRCONFIGFXNS }
     (* MANAGER CONFIG BOX  FUNCTIONS *)
 {$IFDEF WIN32 }
     BOOL API WTMgrConfigReplaceExA(HMGR, BOOL, LPSTR, LPSTR);
-    #define ORD_WTMgrConfigReplaceExA    202
+    const ORD_WTMgrConfigReplaceExA    = 202;
     BOOL API WTMgrConfigReplaceExW(HMGR, BOOL, LPWSTR, LPSTR);
-    #define ORD_WTMgrConfigReplaceExW    1202
+    const ORD_WTMgrConfigReplaceExW    = 1202;
     {$IFDEF UNICODE }
     #define WTMgrConfigReplaceEx         WTMgrConfigReplaceExW
-    #define ORD_WTMgrConfigReplaceEx     ORD_WTMgrConfigReplaceExW
+    const ORD_WTMgrConfigReplaceEx     = ORD_WTMgrConfigReplaceExW;
     {$ELSE}
     #define WTMgrConfigReplaceEx         WTMgrConfigReplaceExA
-    #define ORD_WTMgrConfigReplaceEx     ORD_WTMgrConfigReplaceExA
+    const ORD_WTMgrConfigReplaceEx     = ORD_WTMgrConfigReplaceExA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
     BOOL API WTMgrConfigReplaceEx(HMGR, BOOL, LPSTR, LPSTR);
-    #define ORD_WTMgrConfigReplaceEx     202
+    const ORD_WTMgrConfigReplaceEx     = 202;
 {$ENDIF}
     {$ENDIF}
 
@@ -884,30 +873,30 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
     (* MANAGER PACKET HOOK FUNCTIONS *)
 {$IFDEF WIN32 }
     HWTHOOK API WTMgrPacketHookExA(HMGR, int, LPSTR, LPSTR);
-    #define ORD_WTMgrPacketHookExA     203
+    const ORD_WTMgrPacketHookExA     = 203;
     HWTHOOK API WTMgrPacketHookExW(HMGR, int, LPWSTR, LPSTR);
-    #define ORD_WTMgrPacketHookExW     1203
+    const ORD_WTMgrPacketHookExW     = 1203;
     {$IFDEF UNICODE }
     #define WTMgrPacketHookEx          WTMgrPacketHookExW
-    #define ORD_WTMgrPacketHookEx      ORD_WTMgrPacketHookExW
+    const ORD_WTMgrPacketHookEx      = ORD_WTMgrPacketHookExW;
     {$ELSE}
     #define WTMgrPacketHookEx          WTMgrPacketHookExA
-    #define ORD_WTMgrPacketHookEx      ORD_WTMgrPacketHookExA
+    const ORD_WTMgrPacketHookEx      = ORD_WTMgrPacketHookExA;
     {$ENDIF} (* !UNICODE *)
 {$ELSE}
     HWTHOOK API WTMgrPacketHookEx(HMGR, int, LPSTR, LPSTR);
-    #define ORD_WTMgrPacketHookEx      203
+    const ORD_WTMgrPacketHookEx      = 203;
 {$ENDIF}
     BOOL API WTMgrPacketUnhook(HWTHOOK);
-    #define ORD_WTMgrPacketUnhook      204
+    const ORD_WTMgrPacketUnhook      = 204;
     LRESULT API WTMgrPacketHookNext(HWTHOOK, int, WPARAM, LPARAM);
-    #define ORD_WTMgrPacketHookNext    205
+    const ORD_WTMgrPacketHookNext    = 205;
     {$ENDIF}
 
     {$IFNDEF NOWTMGRPREFFXNS }
     (* MANAGER PREFERENCE DATA FUNCTIONS *)
     BOOL API WTMgrCsrPressureBtnMarksEx(HMGR, UINT, UINT FAR *, UINT FAR *);
-    #define ORD_WTMgrCsrPressureBtnMarksEx    201
+    const ORD_WTMgrCsrPressureBtnMarksEx    = 201;
     {$ENDIF}
 
 {$ENDIF}
