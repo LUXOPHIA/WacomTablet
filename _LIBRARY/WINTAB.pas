@@ -9,12 +9,12 @@ This file is Copyright (c) Wacom Company, Ltd. 2010 All Rights Reserved
 with portions copyright 1991-1998 by LCS/Telegraphics.
 ------------------------------------------------------------------------------*)
 
-{$IFNDEF _INC_WINTAB }	(* prevent multiple includes *)
-#define _INC_WINTAB
+{$IFNDEF _INC_WINTAB } (* prevent multiple includes *)
+{$DEFINE _INC_WINTAB }
 
 {$IFDEF __cplusplus }
 extern "C" {
-{$ENDIF}	(* __cplusplus *)
+{$ENDIF} (* __cplusplus *)
 
 (* -------------------------------------------------------------------------- *)
 (* Messages *)
@@ -54,34 +54,34 @@ extern "C" {
 (* -------------------------------------------------------------------------- *)
 (* COMMON DATA DEFS *)
 
-DECLARE_HANDLE(HMGR);		(* manager handle *)
-DECLARE_HANDLE(HCTX);		(* context handle *)
-DECLARE_HANDLE(HWTHOOK);	(* hook handle *)
+DECLARE_HANDLE(HMGR); (* manager handle *)
+DECLARE_HANDLE(HCTX); (* context handle *)
+DECLARE_HANDLE(HWTHOOK); (* hook handle *)
 
-typedef DWORD WTPKT;			(* packet mask *)
+typedef DWORD WTPKT; (* packet mask *)
 
 
 {$IFNDEF NOWTPKT }
 
 	(* WTPKT bits *)
-	#define PK_CONTEXT				0x0001	(* reporting context *)
-	#define PK_STATUS					0x0002	(* status bits *)
-	#define PK_TIME					0x0004	(* time stamp *)
-	#define PK_CHANGED				0x0008	(* change bit vector *)
-	#define PK_SERIAL_NUMBER		0x0010	(* packet serial number *)
-	#define PK_CURSOR					0x0020	(* reporting cursor *)
-	#define PK_BUTTONS				0x0040	(* button information *)
-	#define PK_X						0x0080	(* x axis *)
-	#define PK_Y						0x0100	(* y axis *)
-	#define PK_Z						0x0200	(* z axis *)
-	#define PK_NORMAL_PRESSURE		0x0400	(* normal or tip pressure *)
-	#define PK_TANGENT_PRESSURE	0x0800	(* tangential or barrel pressure *)
-	#define PK_ORIENTATION			0x1000	(* orientation info: tilts *)
-	#define PK_ROTATION				0x2000	(* rotation info; 1.1 *)
+	#define PK_CONTEXT				0x0001 (* reporting context *)
+	#define PK_STATUS					0x0002 (* status bits *)
+	#define PK_TIME					0x0004 (* time stamp *)
+	#define PK_CHANGED				0x0008 (* change bit vector *)
+	#define PK_SERIAL_NUMBER		0x0010 (* packet serial number *)
+	#define PK_CURSOR					0x0020 (* reporting cursor *)
+	#define PK_BUTTONS				0x0040 (* button information *)
+	#define PK_X						0x0080 (* x axis *)
+	#define PK_Y						0x0100 (* y axis *)
+	#define PK_Z						0x0200 (* z axis *)
+	#define PK_NORMAL_PRESSURE		0x0400 (* normal or tip pressure *)
+	#define PK_TANGENT_PRESSURE	0x0800 (* tangential or barrel pressure *)
+	#define PK_ORIENTATION			0x1000 (* orientation info: tilts *)
+	#define PK_ROTATION				0x2000 (* rotation info; 1.1 *)
 
 {$ENDIF}
 
-typedef DWORD FIX32;				(* fixed-point arithmetic type *)
+typedef DWORD FIX32; (* fixed-point arithmetic type *)
 
 {$IFNDEF NOFIX32 }
 	#define INT(x)			HIWORD(x)
@@ -578,15 +578,15 @@ typedef struct tagROTATION { (* 1.1 *)
 #define PKEXT_RELATIVE	2
 
 (* Extension tags. *)
-#define WTX_OBT				0	(* Out of bounds tracking *)
-#define WTX_FKEYS				1	(* Function keys *)
-#define WTX_TILT				2	(* Raw Cartesian tilt; 1.1 *)
-#define WTX_CSRMASK			3	(* select input by cursor type; 1.1 *)
-#define WTX_XBTNMASK			4	(* Extended button mask; 1.1 *)
-#define WTX_EXPKEYS			5	(* ExpressKeys; 1.3 - DEPRECATED: see WTX_EXPKEYS2 *)
-#define WTX_TOUCHSTRIP		6	(* TouchStrips; 1.4 *)
-#define WTX_TOUCHRING		7	(* TouchRings; 1.4 *)
-#define WTX_EXPKEYS2			8	(* ExpressKeys; 1.4 *)
+#define WTX_OBT				0 (* Out of bounds tracking *)
+#define WTX_FKEYS				1 (* Function keys *)
+#define WTX_TILT				2 (* Raw Cartesian tilt; 1.1 *)
+#define WTX_CSRMASK			3 (* select input by cursor type; 1.1 *)
+#define WTX_XBTNMASK			4 (* Extended button mask; 1.1 *)
+#define WTX_EXPKEYS			5 (* ExpressKeys; 1.3 - DEPRECATED: see WTX_EXPKEYS2 *)
+#define WTX_TOUCHSTRIP		6 (* TouchStrips; 1.4 *)
+#define WTX_TOUCHRING		7 (* TouchRings; 1.4 *)
+#define WTX_EXPKEYS2			8 (* ExpressKeys; 1.4 *)
 
 typedef struct tagXBTNMASK {
 	BYTE xBtnDnMask[32];
@@ -914,7 +914,7 @@ typedef struct tagEXTPROPERTY { (* 1.4 *)
 
 {$IFDEF __cplusplus }
 }
-{$ENDIF}	(* __cplusplus *)
+{$ENDIF} (* __cplusplus *)
 
 {$ENDIF} (* #define _INC_WINTAB *)
 
