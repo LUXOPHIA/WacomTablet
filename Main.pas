@@ -6,15 +6,16 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo, FMX.Memo.Types,
-  WINTAB, Core;
+  Winapi.Windows,
+  LUX.Win.Messaging,
+  WINTAB,
+  Core;
 
 type
   TForm1 = class(TForm)
     Memo1: TMemo;
-    Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
   private
     { private 宣言 }
   public
@@ -51,7 +52,7 @@ implementation //###############################################################
 
 {$R *.fmx}
 
-uses FMX.Platform.Win, Winapi.Windows;
+uses FMX.Platform.Win;
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% private
 
@@ -103,7 +104,7 @@ begin
      begin
           StrCopy( lcName, PChar( 'WacomTablet ' + IntToHex( HInstance, 8 ) ) );
 
-          lcOptions   := lcOptions or CXO_SYSTEM;
+          lcOptions   := lcOptions or CXO_MESSAGES;
           lcMsgBase   := WT_DEFBASE;
           lcPktData   := PACKETDATA;
           lcPktMode   := PACKETMODE;
@@ -154,33 +155,22 @@ begin
      end;
 
      BeginTablet;
+
+     TMessageService.EventList.Add( WT_PACKET, procedure( const MSG_:TMsg )
+     var
+        P :TTabletPacket;
+     begin
+          WTPacket( MSG_.lParam, MSG_.wParam, @P );
+
+          with P do Memo1.Lines.Add( X             .ToString
+                            + ', ' + Y             .ToString
+                            + ', ' + NormalPressure.ToString );
+     end );
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
      EndTablet;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-
-procedure TForm1.Timer1Timer(Sender: TObject);
-var
-   PsN, I :Integer;
-   Ps :array[ 0..32-1 ] of PACKET;
-begin
-     PsN := WTPacketsGet( _Tablet, 32, @Ps );
-
-     if PsN > 0 then
-     begin
-          Memo1.Lines.Clear;
-
-          for I := 0 to PsN-1 do
-          begin
-               with Ps[ I ] do Memo1.Lines.Add( pkX             .ToString
-                                       + ', ' + pkY             .ToString
-                                       + ', ' + pkNormalPressure.ToString );
-          end;
-     end;
 end;
 
 end. //#########################################################################

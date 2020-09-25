@@ -5,7 +5,8 @@ uses
   FMX.Forms,
   Main in 'Main.pas' {Form1},
   WINTAB in '_LIBRARY\WINTAB.pas',
-  Core in 'Core.pas';
+  Core in 'Core.pas',
+  LUX.Win.Messaging in '_LIBRARY\LUX.Win.Messaging.pas';
 
 {$R *.res}
 
