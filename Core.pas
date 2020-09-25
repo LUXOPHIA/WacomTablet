@@ -2,7 +2,8 @@
 
 interface //#################################################################### ■
 
-uses WINTAB;
+uses Winapi.Windows,
+     WINTAB;
 
 //const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【定数】
 
@@ -10,29 +11,38 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
      //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【レコード】
 
-     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PACKET
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TTabletPacket
 
-     PACKET = packed record
-//     pkContext         :HCTX;        // PK_CONTEXT
-//     pkStatus          :Cardinal;    // PK_STATUS
-//     pkTime            :Longword;    // PK_TIME
-//     pkChanged         :WTPKT;       // PK_CHANGED
-//     pkSerialNumber    :Cardinal;    // PK_SERIAL_NUMBER
-//     pkCursor          :Cardinal;    // PK_CURSOR
-//     pkButtons         :Longword;    // PK_BUTTONS
-       pkX               :LongInt;     // PK_X
-       pkY               :LongInt;     // PK_Y
-//     pkZ               :LongInt;     // PK_Z
-       pkNormalPressure  :Integer;     // PK_NORMAL_PRESSURE
-//     pkTangentPressure :Integer;     // PK_TANGENT_PRESSURE
-//     pkOrientation     :ORIENTATION; // PK_ORIENTATION
-//     pkRotation        :ROTATION;    // PK_ROTATION  Ver 1.1
+     TTabletPacket = packed record
+     { Context         :HCTX;         // PK_CONTEXT       }
+       Status          :UINT;         // PK_STATUS
+     { Time            :DWORD;        // PK_TIME          }
+     { Changed         :WTPKT;        // PK_CHANGED       }
+     { SerialNumber    :UINT;         // PK_SERIAL_NUMBER }
+       Cursor          :UINT;         // PK_CURSOR
+       Buttons         :DWORD;        // PK_BUTTONS
+       X               :LONG;         // PK_X
+       Y               :LONG;         // PK_Y
+       Z               :LONG;         // PK_Z
+       NormalPressure  :UINT;         // PK_NORMAL_PRESSURE
+       TangentPressure :UINT;         // PK_TANGENT_PRESSURE
+       Orientation     :ORIENTATION;  // PK_ORIENTATION
      end;
+
+     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【クラス】
 
 const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【定数】
 
       // this constant is used to define PACKET record
-      PACKETDATA = PK_X or PK_Y or PK_NORMAL_PRESSURE;
+      PACKETDATA = PK_STATUS
+                or PK_CURSOR
+                or PK_BUTTONS
+                or PK_X
+                or PK_Y
+                or PK_Z
+                or PK_NORMAL_PRESSURE
+                or PK_TANGENT_PRESSURE
+                or PK_ORIENTATION;
 
       // this constant is used to define PACKET record
       PACKETMODE = 0; //This means all values are reported "absoulte"
