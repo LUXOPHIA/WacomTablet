@@ -106,26 +106,24 @@ end;
 function TMessageService.HandleMessage :Boolean;
 var
    M :TMsg;
-   E :TMessageItem;
 begin
      Result := PeekMessage( M, 0, 0, 0, PM_REMOVE );
 
      if Result then
      begin
-          for E in _EventList do
+          if _EventList.ContainsKey( M.Message ) then
           begin
-               if M.Message = E.Key then
-               begin
-                    E.Value( M );  Exit;
-               end;
+               _EventList[ M.Message ]( M );
+          end
+          else
+          begin
+               OldAppService.HandleMessage;
+               OldAppService.HandleMessage;
+
+               TranslateMessage( M );
+               DispatchMessage ( M );
           end;
-
-          TranslateMessage( M );
-          DispatchMessage ( M );
      end;
-
-     OldAppService.HandleMessage;
-     OldAppService.HandleMessage;
 end;
 
 procedure TMessageService.WaitMessage;
