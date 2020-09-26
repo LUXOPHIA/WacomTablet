@@ -91,7 +91,6 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【定数】
 
-      // this constant is used to define PACKET record
       PACKETDATA = PK_STATUS
                 or PK_CURSOR
                 or PK_BUTTONS
@@ -102,8 +101,7 @@ const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                 or PK_TANGENT_PRESSURE
                 or PK_ORIENTATION;
 
-      // this constant is used to define PACKET record
-      PACKETMODE = 0; //This means all values are reported "absoulte"
+      PACKETMODE = 0;
 
 //var //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【変数】
 
@@ -130,32 +128,32 @@ var
    A3 :array [ 1..3 ] of AXIS;
 begin
      WTInfo( WTI_DEVICES, DVC_X, @A );
-     _PosMinX :=         A.axMin;                  // Ｘ座標の最小値
-     _PosMaxX :=         A.axMax;                  // Ｘ座標の最大値
-     _UniX    :=         A.axUnits;                // Ｘ座標の単位
-     _ResX    := HIWORD( A.axResolution );         // Ｘ座標の分解能（line/inch）
+     _PosMinX :=         A.axMin;
+     _PosMaxX :=         A.axMax;
+     _UniX    :=         A.axUnits;
+     _ResX    := HIWORD( A.axResolution );
 
      WTInfo( WTI_DEVICES, DVC_Y, @A );
-     _PosMinY :=         A.axMin;                  // Ｙ座標の最小値
-     _PosMaxY :=         A.axMax;                  // Ｙ座標の最大値
-     _UniY    :=         A.axUnits;                // Ｙ座標の単位
-     _ResY    := HIWORD( A.axResolution );         // Ｙ座標の分解能（line/inch）
+     _PosMinY :=         A.axMin;
+     _PosMaxY :=         A.axMax;
+     _UniY    :=         A.axUnits;
+     _ResY    := HIWORD( A.axResolution );
 
      WTInfo( WTI_DEVICES, DVC_NPRESSURE, @A );
-     _PreMin := A.axMin;                          // 筆圧の最小値
-     _PreMax := A.axMax;                          // 筆圧の最大値
+     _PreMin := A.axMin;
+     _PreMax := A.axMax;
 
      WTInfo( WTI_DEVICES, DVC_TPRESSURE, @A );
-     _WheMin := A.axMin;                          // ホイールの最小値
-     _WheMax := A.axMax;                          // ホイールの最大値
+     _WheMin := A.axMin;
+     _WheMax := A.axMax;
 
      WTInfo( WTI_DEVICES, DVC_ORIENTATION, @A3 );
-     _AziMin := A3[ 1 ].axMin;                    // ペンの方位の最小値
-     _AziMax := A3[ 1 ].axMax;                    // ペンの方位の最大値
-     _AltMin := A3[ 2 ].axMin;                    // ペンの傾きの最小値
-     _AltMax := A3[ 2 ].axMax;                    // ペンの傾きの最大値
-     _TwiMin := A3[ 3 ].axMin;                    // ペンの捩れの最小値
-     _TwiMax := A3[ 3 ].axMax;                    // ペンの捩れの最大値
+     _AziMin := A3[ 1 ].axMin;
+     _AziMax := A3[ 1 ].axMax;
+     _AltMin := A3[ 2 ].axMin;
+     _AltMax := A3[ 2 ].axMax;
+     _TwiMin := A3[ 3 ].axMin;
+     _TwiMax := A3[ 3 ].axMax;
 end;
 
 //------------------------------------------------------------------------------
@@ -164,7 +162,7 @@ procedure TPenTablet.BeginTablet( const Form_:TCommonCustomForm );
 var
    C :LOGCONTEXT;
 begin
-     WTInfo( WTI_DEFSYSCTX, 0, @C );
+     WTInfo( WTI_DEFCONTEXT, 0, @C );
 
      with C do
      begin
@@ -175,17 +173,17 @@ begin
           lcMoveMask  := PACKETDATA;
           lcBtnUpMask := lcBtnDnMask;
 
-          lcInOrgX    := _PosMinX;  // 入力Ｘ座標の最小値
-          lcInOrgY    := _PosMinY;  // 入力Ｙ座標の最小値
-          lcInExtX    := _PosMaxX;  // 入力Ｘ座標の最大値
-          lcInExtY    := _PosMaxY;  // 入力Ｙ座標の最大値
-          lcOutOrgX   := _PosMinX;  // ウィンドウＸ座標の最小値
-          lcOutOrgY   := _PosMinY;  // ウィンドウＹ座標の最小値
-          lcOutExtX   := _PosMaxX;  // ウィンドウＸ座標の最大値
-          lcOutExtY   := _PosMaxY;  // ウィンドウＹ座標の最大値
+          lcInOrgX    := _PosMinX;
+          lcInOrgY    := _PosMinY;
+          lcInExtX    := _PosMaxX;
+          lcInExtY    := _PosMaxY;
+          lcOutOrgX   := _PosMinX;
+          lcOutOrgY   := _PosMinY;
+          lcOutExtX   := _PosMaxX;
+          lcOutExtY   := _PosMaxY;
      end;
 
-     _Tablet := WTOpen( FormToHWND( Form_ ), @C, True );  // Wintab の初期化
+     _Tablet := WTOpen( FormToHWND( Form_ ), @C, True );
 
      Assert( _Tablet > 0, '_Tablet = 0' );
 end;
