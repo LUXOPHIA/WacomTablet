@@ -37,7 +37,7 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      TPenTablet = class
      private
      protected
-       _Form    :TCommonCustomForm;
+       _Context :LOGCONTEXT;
        _Handle  :HCTX;
        _PosMinX :Integer;
        _PosMinY :Integer;
@@ -66,34 +66,32 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        procedure SetOnPacket( const OnPacket_:TPacketEvent );
        ///// メソッド
        procedure GetInfos;
-       procedure BeginTablet( const Options_:UINT = 0 );
-       procedure EndTablet;
+       procedure GetDefContext;
        procedure OnMessage( const MSG_:TMsg );
      public
        constructor Create( const Form_:TCommonCustomForm ); overload;
        destructor Destroy; override;
        ///// プロパティ
-       property Form      :TCommonCustomForm read   _Form                        ;
-       property Handle    :HCTX              read   _Handle                      ;
-       property PosMinX   :Integer           read   _PosMinX                     ;
-       property PosMinY   :Integer           read   _PosMinY                     ;
-       property PosMaxX   :Integer           read   _PosMaxX                     ;
-       property PosMaxY   :Integer           read   _PosMaxY                     ;
-       property ResX      :Integer           read   _ResX                        ;
-       property ResY      :Integer           read   _ResY                        ;
-       property UniX      :Integer           read   _UniX                        ;
-       property UniY      :Integer           read   _UniY                        ;
-       property PreMin    :Integer           read   _PreMin                      ;
-       property PreMax    :Integer           read   _PreMax                      ;
-       property WheMin    :Integer           read   _WheMin                      ;
-       property WheMax    :Integer           read   _WheMax                      ;
-       property AziMin    :Integer           read   _AziMin                      ;
-       property AziMax    :Integer           read   _AziMax                      ;
-       property AltMin    :Integer           read   _AltMin                      ;
-       property AltMax    :Integer           read   _AltMax                      ;
-       property TwiMin    :Integer           read   _TwiMin                      ;
-       property TwiMax    :Integer           read   _TwiMax                      ;
-       property QueueSize :Integer           read GetQueueSize write SetQueueSize;
+       property Handle    :HCTX    read   _Handle                      ;
+       property PosMinX   :Integer read   _PosMinX                     ;
+       property PosMinY   :Integer read   _PosMinY                     ;
+       property PosMaxX   :Integer read   _PosMaxX                     ;
+       property PosMaxY   :Integer read   _PosMaxY                     ;
+       property ResX      :Integer read   _ResX                        ;
+       property ResY      :Integer read   _ResY                        ;
+       property UniX      :Integer read   _UniX                        ;
+       property UniY      :Integer read   _UniY                        ;
+       property PreMin    :Integer read   _PreMin                      ;
+       property PreMax    :Integer read   _PreMax                      ;
+       property WheMin    :Integer read   _WheMin                      ;
+       property WheMax    :Integer read   _WheMax                      ;
+       property AziMin    :Integer read   _AziMin                      ;
+       property AziMax    :Integer read   _AziMax                      ;
+       property AltMin    :Integer read   _AltMin                      ;
+       property AltMax    :Integer read   _AltMax                      ;
+       property TwiMin    :Integer read   _TwiMin                      ;
+       property TwiMax    :Integer read   _TwiMax                      ;
+       property QueueSize :Integer read GetQueueSize write SetQueueSize;
        ///// イベント
        property OnPacket :TPacketEvent read GetOnPacket write SetOnPacket;
        ///// メソッド
@@ -156,17 +154,20 @@ procedure TPenTablet.SetOnPacket( const OnPacket_:TPacketEvent );
 begin
      if Assigned( _OnPacket ) then TMessageService.EventList.Remove( WT_PACKET );
 
-     EndTablet;
-
      _OnPacket := OnPacket_;
 
      if Assigned( _OnPacket ) then
      begin
-          BeginTablet( CXO_MESSAGES );
-
           TMessageService.EventList.Add( WT_PACKET, OnMessage );
+
+          with _Context do lcOptions := lcOptions or CXO_MESSAGES;
      end
-     else BeginTablet;
+     else
+     begin
+          with _Context do lcOptions := lcOptions and not CXO_MESSAGES;
+     end;
+
+     WTSet( _Handle, @_Context );
 end;
 
 /////////////////////////////////////////////////////////////////////// メソッド
@@ -207,15 +208,12 @@ end;
 
 //------------------------------------------------------------------------------
 
-procedure TPenTablet.BeginTablet( const Options_:UINT = 0 );
-var
-   C :LOGCONTEXT;
+procedure TPenTablet.GetDefContext;
 begin
-     WTInfo( WTI_DEFCONTEXT, 0, @C );
+     WTInfo( WTI_DEFCONTEXT, 0, @_Context );
 
-     with C do
+     with _Context do
      begin
-          lcOptions   := lcOptions or Options_;
           lcMsgBase   := WT_DEFBASE;
           lcPktData   := PACKETDATA;
           lcPktMode   := PACKETMODE;
@@ -231,15 +229,6 @@ begin
           lcOutExtX   := _PosMaxX;
           lcOutExtY   := _PosMaxY;
      end;
-
-     _Handle := WTOpen( FormToHWND( _Form ), @C, True );
-
-     Assert( _Handle > 0, '_Tablet = 0' );
-end;
-
-procedure TPenTablet.EndTablet;
-begin
-     WTClose( _Handle );
 end;
 
 //------------------------------------------------------------------------------
@@ -261,14 +250,16 @@ begin
 
      GetInfos;
 
-     _Form := Form_;
+     GetDefContext;
 
-     BeginTablet;
+     _Handle := WTOpen( FormToHWND( Form_ ), @_Context, True );
+
+     Assert( _Handle > 0, '_Tablet = 0' );
 end;
 
 destructor TPenTablet.Destroy;
 begin
-     EndTablet;
+     WTClose( _Handle );
 
      inherited;
 end;
