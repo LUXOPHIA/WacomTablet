@@ -77,6 +77,8 @@ begin
         P :TPointF;
         S :Single;
      begin
+          Assert( Packet_.Status = 0, Packet_.Status.ToHexString );
+
           if Packet_.Buttons = 1 then
           begin
                with Image1.Bitmap.Canvas do
@@ -95,7 +97,7 @@ begin
 
                     S := 100 * ( Packet_.NormalPressure / _PenTablet.PreMax );
 
-                    FillEllipse( TRectF.Create( P.X-S, P.Y-S, P.X+S, P.Y+S ), 1 );
+                    FillEllipse( TRectF.Create( P.X-S, P.Y-S, P.X+S, P.Y+S ), 0.75 );
 
                     EndScene;
                end;
