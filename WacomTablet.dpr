@@ -6,7 +6,7 @@ uses
   Main in 'Main.pas' {Form1},
   WINTAB in '_LIBRARY\WINTAB.pas',
   Core in 'Core.pas',
-  LUX.Win.Messaging in '_LIBRARY\LUX.Win.Messaging.pas';
+  LUX.FMX.Messaging.Win in '_LIBRARY\LUXOPHIA\LUX\FMX\LUX.FMX.Messaging.Win.pas';
 
 {$R *.res}
 

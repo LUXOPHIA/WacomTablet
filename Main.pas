@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo, FMX.Memo.Types,
   Winapi.Windows,
-  LUX.Win.Messaging,
+  LUX.FMX.Messaging.Win,
   WINTAB,
   Core;
 
