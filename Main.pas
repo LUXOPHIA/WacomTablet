@@ -33,8 +33,7 @@ implementation //###############################################################
 
 {$R *.fmx}
 
-uses System.Math.Vectors,
-     WINTAB;
+uses System.Math.Vectors;
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% private
 
@@ -91,7 +90,7 @@ var
    C :TPointF;
    S :Single;
 begin
-     PsN := WTPacketsGet( _PenTablet.Handle, 16, @Ps );
+     PsN := _PenTablet.GetPakets( Ps );
 
      if PsN > 0 then
      begin

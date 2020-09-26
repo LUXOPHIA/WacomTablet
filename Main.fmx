@@ -82,8 +82,8 @@ object Form1: TForm1
         Size.Height = 414.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
-        Viewport.Width = 596.000000000000000000
-        Viewport.Height = 410.000000000000000000
+        Viewport.Width = 600.000000000000000000
+        Viewport.Height = 414.000000000000000000
       end
     end
   end
