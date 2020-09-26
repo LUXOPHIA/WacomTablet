@@ -37,7 +37,8 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      TPenTablet = class
      private
      protected
-       _Tablet  :HCTX;
+       _Form    :TCommonCustomForm;
+       _Handle  :HCTX;
        _PosMinX :Integer;
        _PosMinY :Integer;
        _PosMaxX :Integer;
@@ -58,35 +59,40 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        _TwiMax  :Integer;
        ///// イベント
        _OnPacket :TPacketEvent;
+       ///// アクセス
+       function GetOnPacket :TPacketEvent;
+       procedure SetOnPacket( const OnPacket_:TPacketEvent );
        ///// メソッド
        procedure GetInfos;
-       procedure BeginTablet( const Form_:TCommonCustomForm );
+       procedure BeginTablet( const Options_:UINT = 0 );
        procedure EndTablet;
        procedure OnMessage( const MSG_:TMsg );
      public
-       constructor Create( const Form_:TCommonCustomForm );
+       constructor Create( const Form_:TCommonCustomForm ); overload;
        destructor Destroy; override;
        ///// プロパティ
-       property PosMinX :Integer read _PosMinX;
-       property PosMinY :Integer read _PosMinY;
-       property PosMaxX :Integer read _PosMaxX;
-       property PosMaxY :Integer read _PosMaxY;
-       property ResX    :Integer read _ResX;
-       property ResY    :Integer read _ResY;
-       property UniX    :Integer read _UniX;
-       property UniY    :Integer read _UniY;
-       property PreMin  :Integer read _PreMin;
-       property PreMax  :Integer read _PreMax;
-       property WheMin  :Integer read _WheMin;
-       property WheMax  :Integer read _WheMax;
-       property AziMin  :Integer read _AziMin;
-       property AziMax  :Integer read _AziMax;
-       property AltMin  :Integer read _AltMin;
-       property AltMax  :Integer read _AltMax;
-       property TwiMin  :Integer read _TwiMin;
-       property TwiMax  :Integer read _TwiMax;
+       property Form    :TCommonCustomForm read _Form   ;
+       property Handle  :HCTX              read _Handle ;
+       property PosMinX :Integer           read _PosMinX;
+       property PosMinY :Integer           read _PosMinY;
+       property PosMaxX :Integer           read _PosMaxX;
+       property PosMaxY :Integer           read _PosMaxY;
+       property ResX    :Integer           read _ResX   ;
+       property ResY    :Integer           read _ResY   ;
+       property UniX    :Integer           read _UniX   ;
+       property UniY    :Integer           read _UniY   ;
+       property PreMin  :Integer           read _PreMin ;
+       property PreMax  :Integer           read _PreMax ;
+       property WheMin  :Integer           read _WheMin ;
+       property WheMax  :Integer           read _WheMax ;
+       property AziMin  :Integer           read _AziMin ;
+       property AziMax  :Integer           read _AziMax ;
+       property AltMin  :Integer           read _AltMin ;
+       property AltMax  :Integer           read _AltMax ;
+       property TwiMin  :Integer           read _TwiMin ;
+       property TwiMax  :Integer           read _TwiMax ;
        ///// イベント
-       property OnPacket :TPacketEvent read _OnPacket write _OnPacket;
+       property OnPacket :TPacketEvent read GetOnPacket write SetOnPacket;
      end;
 
 const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【定数】
@@ -121,6 +127,32 @@ uses FMX.Platform.Win,
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& private
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& protected
+
+/////////////////////////////////////////////////////////////////////// アクセス
+
+function TPenTablet.GetOnPacket :TPacketEvent;
+begin
+     Result := _OnPacket;
+end;
+
+procedure TPenTablet.SetOnPacket( const OnPacket_:TPacketEvent );
+begin
+     if Assigned( _OnPacket ) then TMessageService.EventList.Remove( WT_PACKET );
+
+     EndTablet;
+
+     _OnPacket := OnPacket_;
+
+     if Assigned( _OnPacket ) then
+     begin
+          BeginTablet( CXO_MESSAGES );
+
+          TMessageService.EventList.Add( WT_PACKET, OnMessage );
+     end
+     else BeginTablet;
+end;
+
+/////////////////////////////////////////////////////////////////////// メソッド
 
 procedure TPenTablet.GetInfos;
 var
@@ -158,7 +190,7 @@ end;
 
 //------------------------------------------------------------------------------
 
-procedure TPenTablet.BeginTablet( const Form_:TCommonCustomForm );
+procedure TPenTablet.BeginTablet( const Options_:UINT = 0 );
 var
    C :LOGCONTEXT;
 begin
@@ -166,7 +198,7 @@ begin
 
      with C do
      begin
-          lcOptions   := lcOptions or CXO_MESSAGES;
+          lcOptions   := lcOptions or Options_;
           lcMsgBase   := WT_DEFBASE;
           lcPktData   := PACKETDATA;
           lcPktMode   := PACKETMODE;
@@ -183,14 +215,14 @@ begin
           lcOutExtY   := _PosMaxY;
      end;
 
-     _Tablet := WTOpen( FormToHWND( Form_ ), @C, True );
+     _Handle := WTOpen( FormToHWND( _Form ), @C, True );
 
-     Assert( _Tablet > 0, '_Tablet = 0' );
+     Assert( _Handle > 0, '_Tablet = 0' );
 end;
 
 procedure TPenTablet.EndTablet;
 begin
-     WTClose( _Tablet );
+     WTClose( _Handle );
 end;
 
 //------------------------------------------------------------------------------
@@ -212,9 +244,9 @@ begin
 
      GetInfos;
 
-     BeginTablet( Form_ );
+     _Form := Form_;
 
-     TMessageService.EventList.Add( WT_PACKET, OnMessage );
+     BeginTablet;
 end;
 
 destructor TPenTablet.Destroy;
