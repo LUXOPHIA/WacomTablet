@@ -60,6 +60,8 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        ///// イベント
        _OnPacket :TPacketEvent;
        ///// アクセス
+       function GetQueueSize :Integer;
+       procedure SetQueueSize( const QueueSize_:Integer );
        function GetOnPacket :TPacketEvent;
        procedure SetOnPacket( const OnPacket_:TPacketEvent );
        ///// メソッド
@@ -71,28 +73,31 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        constructor Create( const Form_:TCommonCustomForm ); overload;
        destructor Destroy; override;
        ///// プロパティ
-       property Form    :TCommonCustomForm read _Form   ;
-       property Handle  :HCTX              read _Handle ;
-       property PosMinX :Integer           read _PosMinX;
-       property PosMinY :Integer           read _PosMinY;
-       property PosMaxX :Integer           read _PosMaxX;
-       property PosMaxY :Integer           read _PosMaxY;
-       property ResX    :Integer           read _ResX   ;
-       property ResY    :Integer           read _ResY   ;
-       property UniX    :Integer           read _UniX   ;
-       property UniY    :Integer           read _UniY   ;
-       property PreMin  :Integer           read _PreMin ;
-       property PreMax  :Integer           read _PreMax ;
-       property WheMin  :Integer           read _WheMin ;
-       property WheMax  :Integer           read _WheMax ;
-       property AziMin  :Integer           read _AziMin ;
-       property AziMax  :Integer           read _AziMax ;
-       property AltMin  :Integer           read _AltMin ;
-       property AltMax  :Integer           read _AltMax ;
-       property TwiMin  :Integer           read _TwiMin ;
-       property TwiMax  :Integer           read _TwiMax ;
+       property Form      :TCommonCustomForm read   _Form                        ;
+       property Handle    :HCTX              read   _Handle                      ;
+       property PosMinX   :Integer           read   _PosMinX                     ;
+       property PosMinY   :Integer           read   _PosMinY                     ;
+       property PosMaxX   :Integer           read   _PosMaxX                     ;
+       property PosMaxY   :Integer           read   _PosMaxY                     ;
+       property ResX      :Integer           read   _ResX                        ;
+       property ResY      :Integer           read   _ResY                        ;
+       property UniX      :Integer           read   _UniX                        ;
+       property UniY      :Integer           read   _UniY                        ;
+       property PreMin    :Integer           read   _PreMin                      ;
+       property PreMax    :Integer           read   _PreMax                      ;
+       property WheMin    :Integer           read   _WheMin                      ;
+       property WheMax    :Integer           read   _WheMax                      ;
+       property AziMin    :Integer           read   _AziMin                      ;
+       property AziMax    :Integer           read   _AziMax                      ;
+       property AltMin    :Integer           read   _AltMin                      ;
+       property AltMax    :Integer           read   _AltMax                      ;
+       property TwiMin    :Integer           read   _TwiMin                      ;
+       property TwiMax    :Integer           read   _TwiMax                      ;
+       property QueueSize :Integer           read GetQueueSize write SetQueueSize;
        ///// イベント
        property OnPacket :TPacketEvent read GetOnPacket write SetOnPacket;
+       ///// メソッド
+       function GetPakets( var Packets_:array of TTabletPacket ) :Integer;
      end;
 
 const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【定数】
@@ -129,6 +134,18 @@ uses FMX.Platform.Win,
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& protected
 
 /////////////////////////////////////////////////////////////////////// アクセス
+
+function TPenTablet.GetQueueSize :Integer;
+begin
+     Result := WTQueueSizeGet( _Handle );
+end;
+
+procedure TPenTablet.SetQueueSize( const QueueSize_:Integer );
+begin
+     WTQueueSizeSet( _Handle, QueueSize_ );
+end;
+
+//------------------------------------------------------------------------------
 
 function TPenTablet.GetOnPacket :TPacketEvent;
 begin
@@ -254,6 +271,13 @@ begin
      EndTablet;
 
      inherited;
+end;
+
+/////////////////////////////////////////////////////////////////////// メソッド
+
+function TPenTablet.GetPakets( var Packets_:array of TTabletPacket ) :Integer;
+begin
+     Result := WTPacketsGet( _Handle, Length( Packets_ ), @Packets_ );
 end;
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【ルーチン】
