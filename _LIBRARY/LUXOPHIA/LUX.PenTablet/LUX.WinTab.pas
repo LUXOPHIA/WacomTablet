@@ -67,6 +67,9 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        ///// メソッド
        procedure GetInfos;
        procedure GetDefContext;
+       procedure ApplyContext;
+       procedure OptionAdd( const Option_:UINT );
+       procedure OptionDel( const Option_:UINT );
        procedure OnMessage( const MSG_:TMsg );
      public
        constructor Create( const Form_:TCommonCustomForm ); overload;
@@ -160,14 +163,11 @@ begin
      begin
           TMessageService.EventList.Add( WT_PACKET, OnMessage );
 
-          with _Context do lcOptions := lcOptions or CXO_MESSAGES;
+          OptionAdd( CXO_MESSAGES );
      end
-     else
-     begin
-          with _Context do lcOptions := lcOptions and not CXO_MESSAGES;
-     end;
+     else OptionDel( CXO_MESSAGES );
 
-     WTSet( _Handle, @_Context );
+     ApplyContext;
 end;
 
 /////////////////////////////////////////////////////////////////////// メソッド
@@ -229,6 +229,25 @@ begin
           lcOutExtX   := _PosMaxX;
           lcOutExtY   := _PosMaxY;
      end;
+end;
+
+procedure TPenTablet.ApplyContext;
+begin
+     WTSet( _Handle, @_Context );
+end;
+
+procedure TPenTablet.OptionAdd( const Option_:UINT );
+begin
+     with _Context do lcOptions := lcOptions or Option_;
+
+     ApplyContext;
+end;
+
+procedure TPenTablet.OptionDel( const Option_:UINT );
+begin
+     with _Context do lcOptions := lcOptions and not Option_;
+
+     ApplyContext;
 end;
 
 //------------------------------------------------------------------------------
