@@ -43,7 +43,7 @@ uses System.Math.Vectors;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-     _PenTablet := TPenTablet.Create( Self );
+     _PenTablet := TPenTablet.Create;
 
      with _PenTablet do
      begin
