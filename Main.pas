@@ -77,25 +77,28 @@ begin
         P :TPointF;
         S :Single;
      begin
-          with Image1.Bitmap.Canvas do
+          if Packet_.Buttons = 1 then
           begin
-               BeginScene;
-
-               SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );
-
-               with Fill do
+               with Image1.Bitmap.Canvas do
                begin
-                    Kind  := TBrushKind.Solid;
-                    Color := TAlphaColors.Black;
+                    BeginScene;
+
+                    SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );
+
+                    with Fill do
+                    begin
+                         Kind  := TBrushKind.Solid;
+                         Color := TAlphaColors.Black;
+                    end;
+
+                    P := TPointF.Create( Packet_.X / 10, ( _PenTablet.PosMaxY - Packet_.Y ) / 10 );
+
+                    S := 100 * ( Packet_.NormalPressure / _PenTablet.PreMax );
+
+                    FillEllipse( TRectF.Create( P.X-S, P.Y-S, P.X+S, P.Y+S ), 1 );
+
+                    EndScene;
                end;
-
-               P := TPointF.Create( Packet_.X / 10, ( _PenTablet.PosMaxY - Packet_.Y ) / 10 );
-
-               S := 100 * ( Packet_.NormalPressure / _PenTablet.PreMax );
-
-               FillEllipse( TRectF.Create( P.X-S, P.Y-S, P.X+S, P.Y+S ), 1 );
-
-               EndScene;
           end;
      end;
 end;
