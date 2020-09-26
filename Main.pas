@@ -74,7 +74,7 @@ begin
 
      _PenTablet.OnPacket := procedure( const Packet_:TTabletPacket )
      var
-        P :TPointF;
+        C :TPointF;
         S :Single;
      begin
           Assert( Packet_.Status = 0, Packet_.Status.ToHexString );
@@ -93,11 +93,11 @@ begin
                          Color := TAlphaColors.Black;
                     end;
 
-                    P := TPointF.Create( Packet_.X / 10, ( _PenTablet.PosMaxY - Packet_.Y ) / 10 );
+                    C := TPointF.Create( Packet_.X / 10, ( _PenTablet.PosMaxY - Packet_.Y ) / 10 );
 
                     S := 100 * ( Packet_.NormalPressure / _PenTablet.PreMax );
 
-                    FillEllipse( TRectF.Create( P.X-S, P.Y-S, P.X+S, P.Y+S ), 0.75 );
+                    FillEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 0.75 );
 
                     EndScene;
                end;
