@@ -15,8 +15,10 @@ type
         Image1: TImage;
       TabItem2: TTabItem;
         Memo1: TMemo;
+    Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { private 宣言 }
   public
@@ -31,7 +33,8 @@ implementation //###############################################################
 
 {$R *.fmx}
 
-uses System.Math.Vectors;
+uses System.Math.Vectors,
+     WINTAB;
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% private
 
@@ -71,43 +74,58 @@ begin
                Clear( TAlphaColors.Lightgray );
           end;
      end;
-
-     _PenTablet.OnPacket := procedure( const Packet_:TTabletPacket )
-     var
-        P :TPointF;
-        S :Single;
-     begin
-          Assert( Packet_.Status = 0, Packet_.Status.ToHexString );
-
-          if Packet_.Buttons = 1 then
-          begin
-               with Image1.Bitmap.Canvas do
-               begin
-                    BeginScene;
-
-                    SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );
-
-                    with Fill do
-                    begin
-                         Kind  := TBrushKind.Solid;
-                         Color := TAlphaColors.Black;
-                    end;
-
-                    P := TPointF.Create( Packet_.X / 10, ( _PenTablet.PosMaxY - Packet_.Y ) / 10 );
-
-                    S := 100 * ( Packet_.NormalPressure / _PenTablet.PreMax );
-
-                    FillEllipse( TRectF.Create( P.X-S, P.Y-S, P.X+S, P.Y+S ), 0.75 );
-
-                    EndScene;
-               end;
-          end;
-     end;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
      _PenTablet.Free;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+var
+   PsN, I :Integer;
+   Ps :array[ 0..16-1 ] of TTabletPacket;
+   P :TTabletPacket;
+   C :TPointF;
+   S :Single;
+begin
+     PsN := WTPacketsGet( _PenTablet.Handle, 16, @Ps );
+
+     if PsN > 0 then
+     begin
+          with Image1.Bitmap.Canvas do
+          begin
+               BeginScene;
+
+               SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );
+
+               with Fill do
+               begin
+                    Kind  := TBrushKind.Solid;
+                    Color := TAlphaColors.Black;
+               end;
+
+               for I := 0 to PsN-1 do
+               begin
+                    P := Ps[ I ];
+
+                    Assert( P.Status = 0, P.Status.ToHexString );
+
+                    if P.Buttons = 1 then
+                    begin
+                         C := TPointF.Create( P.X / 10, ( _PenTablet.PosMaxY - P.Y ) / 10 );
+
+                         S := 100 * ( P.NormalPressure / _PenTablet.PreMax );
+
+                         FillEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 0.75 );
+                    end;
+               end;
+
+               EndScene;
+          end;
+     end;
 end;
 
 end. //#########################################################################
