@@ -37,6 +37,7 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      TPenTablet = class
      private
      protected
+       _Form    :TCommonCustomForm;
        _Context :LOGCONTEXT;
        _Handle  :HCTX;
        _PosMinX :Integer;
@@ -72,7 +73,7 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        procedure OptionDel( const Option_:UINT );
        procedure OnMessage( const MSG_:TMsg );
      public
-       constructor Create( const Form_:TCommonCustomForm ); overload;
+       constructor Create;
        destructor Destroy; override;
        ///// プロパティ
        property Handle    :HCTX    read   _Handle                      ;
@@ -263,15 +264,17 @@ end;
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& public
 
-constructor TPenTablet.Create( const Form_:TCommonCustomForm );
+constructor TPenTablet.Create;
 begin
-     inherited Create;
+     inherited;
 
      GetInfos;
 
      GetDefContext;
 
-     _Handle := WTOpen( FormToHWND( Form_ ), @_Context, True );
+     _Form := TCommonCustomForm.CreateNew( nil );
+
+     _Handle := WTOpen( FormToHWND( _Form ), @_Context, True );
 
      Assert( _Handle > 0, '_Tablet = 0' );
 end;
@@ -279,6 +282,8 @@ end;
 destructor TPenTablet.Destroy;
 begin
      WTClose( _Handle );
+
+     _Form.Free;
 
      inherited;
 end;
