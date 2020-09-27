@@ -100,10 +100,10 @@ begin
 
                SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );  //ディスプレイスケーリングを無効化
 
-               with Fill do //図形の色を設定
+               with Fill do
                begin
                     Kind  := TBrushKind.Solid;
-                    Color := TAlphaColors.Black;
+                    Color := TAlphaColors.Black;  //図形の色を設定
                end;
 
                for I := 0 to PsN-1 do
