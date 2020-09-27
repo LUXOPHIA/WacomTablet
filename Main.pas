@@ -90,17 +90,17 @@ var
    C :TPointF;
    S :Single;
 begin
-     PsN := _PenTablet.GetPakets( Ps );
+     PsN := _PenTablet.GetPakets( Ps );  //すべての未処理パケットを取得
 
-     if PsN > 0 then
+     if PsN > 0 then  //未処理パケットがある場合
      begin
           with Image1.Bitmap.Canvas do
           begin
-               BeginScene;
+               BeginScene;  //描画開始
 
-               SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );
+               SetMatrix( TMatrix.CreateScaling( 1 / Scale, 1 / Scale ) );  //ディスプレイスケーリングを無効化
 
-               with Fill do
+               with Fill do //図形の色を設定
                begin
                     Kind  := TBrushKind.Solid;
                     Color := TAlphaColors.Black;
@@ -108,21 +108,21 @@ begin
 
                for I := 0 to PsN-1 do
                begin
-                    P := Ps[ I ];
+                    P := Ps[ I ];  //単一のパケット
 
-                    Assert( P.Status = 0, P.Status.ToHexString );
+                    Assert( P.Status = 0, P.Status.ToHexString );  //パケットのステータスが正常
 
-                    if P.Buttons = 1 then
+                    if P.Buttons = 1 then  //ペン先が押された場合
                     begin
                          C := TPointF.Create( P.X / 10, ( _PenTablet.PosMaxY - P.Y ) / 10 );
 
                          S := 100 * ( P.NormalPressure / _PenTablet.PreMax );
 
-                         FillEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 0.75 );
+                         FillEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 0.75 );  //円を描画
                     end;
                end;
 
-               EndScene;
+               EndScene;  //描画終了
           end;
      end;
 end;
