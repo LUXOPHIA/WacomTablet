@@ -1,44 +1,55 @@
 ﻿unit LUX.WinTab.TabletFrame;
 
-interface //####################################################################
+interface //#################################################################### ■
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
   LUX.WinTab;
 
-type
-  TTabletFrame = class( TFrame )
-  private
-    { private 宣言 }
-  protected
-    _Tablet   :TPenTablet;
-    _Image    :TBitmap;
-    _Packets  :TArray<TTabletPacket>;
-    _PacketsN :Integer;
-    _DrawArea :TRectF;
-    _Timer    :TTimer;
-    ///// メソッド
-    procedure Paint; override;
-    procedure Resize; override;
-    procedure CalcDrawArea;
-    function TabToScr( const X_,Y_:Integer ) :TPointF;
-    procedure DrawFrame(Sender: TObject);
-  public
-    { public 宣言 }
-    constructor Create( Owner_:TComponent ); override;
-    destructor Destroy; override;
-    ///// プロパティ
-    property Tablet :TPenTablet read _Tablet;
-  end;
+type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【型】
 
-implementation //###############################################################
+     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【クラス】
+
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TTabletFrame
+
+     TTabletFrame = class( TFrame )
+     private
+     protected
+       _Tablet   :TPenTablet;
+       _Image    :TBitmap;
+       _Packets  :TArray<TTabletPacket>;
+       _PacketsN :Integer;
+       _DrawArea :TRectF;
+       _Timer    :TTimer;
+       ///// メソッド
+       procedure Paint; override;
+       procedure Resize; override;
+       procedure CalcDrawArea;
+       function TabToScr( const X_,Y_:Integer ) :TPointF;
+       procedure DrawFrame(Sender: TObject);
+     public
+       constructor Create( Owner_:TComponent ); override;
+       destructor Destroy; override;
+       ///// プロパティ
+       property Tablet :TPenTablet read _Tablet;
+     end;
+
+implementation //############################################################### ■
 
 {$R *.fmx}
 
 uses System.Math.Vectors,
      FMX.Platform,
      LUX.FMX.Pratform;
+
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【クラス】
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TTabletFrame
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& private
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& protected
 
 procedure TTabletFrame.Paint;
 var
@@ -76,6 +87,8 @@ begin
      end;
 end;
 
+//------------------------------------------------------------------------------
+
 procedure TTabletFrame.Resize;
 begin
      inherited;
@@ -85,6 +98,8 @@ begin
      if Assigned( _Image ) then _Image.SetSize( Round( GetDisplayScale * Width  ),
                                                 Round( GetDisplayScale * Height ) );
 end;
+
+//------------------------------------------------------------------------------
 
 procedure TTabletFrame.CalcDrawArea;
 var
@@ -115,11 +130,15 @@ begin
      _DrawArea.Height := AH;
 end;
 
+//------------------------------------------------------------------------------
+
 function TTabletFrame.TabToScr( const X_,Y_:Integer ) :TPointF;
 begin
      Result.X :=       ( X_ - _DrawArea.Left ) / _DrawArea.Width    * Width ;
      Result.Y := ( 1 - ( Y_ - _DrawArea.Top  ) / _DrawArea.Height ) * Height;
 end;
+
+//------------------------------------------------------------------------------
 
 procedure TTabletFrame.DrawFrame(Sender: TObject);
 var
@@ -164,6 +183,8 @@ begin
      Repaint;
 end;
 
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& public
+
 constructor TTabletFrame.Create( Owner_:TComponent );
 begin
      inherited;
@@ -185,7 +206,7 @@ begin
      end;
 
      _Timer := TTimer.Create( Self );
-     _Timer.Interval := 10;
+     _Timer.Interval := Round( 1000{ms/s} / 60{f/s} ){ms/f};
      _Timer.OnTimer  := DrawFrame;
 end;
 
@@ -198,4 +219,4 @@ begin
      inherited;
 end;
 
-end. //#########################################################################
+end. //######################################################################### ■
