@@ -3,10 +3,4 @@ object TabletFrame: TTabletFrame
   Size.Width = 320.000000000000000000
   Size.Height = 240.000000000000000000
   Size.PlatformDefault = False
-  object Timer1: TTimer
-    Interval = 10
-    OnTimer = Timer1Timer
-    Left = 50
-    Top = 50
-  end
 end

@@ -9,8 +9,6 @@ uses
 
 type
   TTabletFrame = class( TFrame )
-    Timer1: TTimer;
-    procedure Timer1Timer(Sender: TObject);
   private
     { private 宣言 }
   protected
@@ -19,12 +17,13 @@ type
     _Packets  :TArray<TTabletPacket>;
     _PacketsN :Integer;
     _DrawArea :TRectF;
+    _Timer    :TTimer;
     ///// メソッド
-    class function GetScreenScale :Single;
     procedure Paint; override;
     procedure Resize; override;
     procedure CalcDrawArea;
     function TabToScr( const X_,Y_:Integer ) :TPointF;
+    procedure DrawFrame(Sender: TObject);
   public
     { public 宣言 }
     constructor Create( Owner_:TComponent ); override;
@@ -38,16 +37,8 @@ implementation //###############################################################
 {$R *.fmx}
 
 uses System.Math.Vectors,
-     FMX.Platform;
-
-class function TTabletFrame.GetScreenScale :Single;
-var
-   S :IFMXScreenService;
-begin
-     if TPlatformServices.Current.SupportsPlatformService( IFMXScreenService, IInterface( S ) )
-     then Result := S.GetScreenScale
-     else Result := 1;
-end;
+     FMX.Platform,
+     LUX.FMX.Pratform;
 
 procedure TTabletFrame.Paint;
 var
@@ -72,8 +63,12 @@ begin
                with Stroke do
                begin
                     Kind      := TBrushKind.Solid;
-                    Color     := TAlphaColors.Red;
                     Thickness := 2;
+
+                    case P.Status of
+                      $00: Color := TAlphaColors.Red ;  // ペン
+                      $10: Color := TAlphaColors.Blue;  // 消しゴム
+                    end;
                end;
 
                DrawEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 1 );
@@ -87,8 +82,8 @@ begin
 
      if Assigned( _Tablet ) then CalcDrawArea;
 
-     if Assigned( _Image ) then _Image.SetSize( Round( GetScreenScale * Width  ),
-                                                Round( GetScreenScale * Height ) );
+     if Assigned( _Image ) then _Image.SetSize( Round( GetDisplayScale * Width  ),
+                                                Round( GetDisplayScale * Height ) );
 end;
 
 procedure TTabletFrame.CalcDrawArea;
@@ -126,37 +121,7 @@ begin
      Result.Y := ( 1 - ( Y_ - _DrawArea.Top  ) / _DrawArea.Height ) * Height;
 end;
 
-constructor TTabletFrame.Create( Owner_:TComponent );
-begin
-     inherited;
-
-     _Tablet := TPenTablet.Create;
-
-     SetLength( _Packets, _Tablet.QueueSize );
-
-     CalcDrawArea;
-
-     _Image := TBitmap.Create;
-
-     with _Image do
-     begin
-          BitmapScale := GetScreenScale;
-
-          SetSize( Round( GetScreenScale * Width  ),
-                   Round( GetScreenScale * Height ) );
-     end;
-end;
-
-destructor TTabletFrame.Destroy;
-begin
-     _Image.Free;
-
-     _Tablet.Free;
-
-     inherited;
-end;
-
-procedure TTabletFrame.Timer1Timer(Sender: TObject);
+procedure TTabletFrame.DrawFrame(Sender: TObject);
 var
    I :Integer;
    P :TTabletPacket;
@@ -197,6 +162,40 @@ begin
      end;
 
      Repaint;
+end;
+
+constructor TTabletFrame.Create( Owner_:TComponent );
+begin
+     inherited;
+
+     _Tablet := TPenTablet.Create;
+
+     SetLength( _Packets, _Tablet.QueueSize );
+
+     CalcDrawArea;
+
+     _Image := TBitmap.Create;
+
+     with _Image do
+     begin
+          BitmapScale := GetDisplayScale;
+
+          SetSize( Round( GetDisplayScale * Width  ),
+                   Round( GetDisplayScale * Height ) );
+     end;
+
+     _Timer := TTimer.Create( Self );
+     _Timer.Interval := 10;
+     _Timer.OnTimer  := DrawFrame;
+end;
+
+destructor TTabletFrame.Destroy;
+begin
+     _Image.Free;
+
+     _Tablet.Free;
+
+     inherited;
 end;
 
 end. //#########################################################################
