@@ -15,7 +15,7 @@ interface //####################################################################
 
 uses Winapi.Windows;
 
-const DLLNAME = 'WinTab32.dll';
+const DLLNAME = 'Wintab32.dll';
 
 {$IFNDEF _INC_WINTAB } (* prevent multiple includes *)
 {$DEFINE _INC_WINTAB }
@@ -352,7 +352,7 @@ const WTI_EXTENSIONS        = 300;
 
 const LCNAMELEN     = 40;
 const LC_NAMELEN    = 40;
-{$IFDEF WIN32 }
+//{$IFDEF WIN32 }
 type LOGCONTEXTA = record
        lcName       :array [ 0..LCNAMELEN-1 ] of AnsiChar;
        lcOptions    :UINT;
@@ -442,47 +442,47 @@ type  PLOGCONTEXT =  PLOGCONTEXTA;
 type NPLOGCONTEXT = NPLOGCONTEXTA;
 type LPLOGCONTEXT = LPLOGCONTEXTA;
 {$ENDIF} (* UNICODE *)
-{$ELSE} (* WIN32 *)
-type LOGCONTEXT = record
-       lcName       :array [ 0..LCNAMELEN-1 ] of Char;
-       lcOptions    :UINT;
-       lcStatus     :UINT;
-       lcLocks      :UINT;
-       lcMsgBase    :UINT;
-       lcDevice     :UINT;
-       lcPktRate    :UINT;
-       lcPktData    :WTPKT;
-       lcPktMode    :WTPKT;
-       lcMoveMask   :WTPKT;
-       lcBtnDnMask  :DWORD;
-       lcBtnUpMask  :DWORD;
-       lcInOrgX     :LONG;
-       lcInOrgY     :LONG;
-       lcInOrgZ     :LONG;
-       lcInExtX     :LONG;
-       lcInExtY     :LONG;
-       lcInExtZ     :LONG;
-       lcOutOrgX    :LONG;
-       lcOutOrgY    :LONG;
-       lcOutOrgZ    :LONG;
-       lcOutExtX    :LONG;
-       lcOutExtY    :LONG;
-       lcOutExtZ    :LONG;
-       lcSensX      :FIX32;
-       lcSensY      :FIX32;
-       lcSensZ      :FIX32;
-       lcSysMode    :BOOL;
-       lcSysOrgX    :Integer;
-       lcSysOrgY    :Integer;
-       lcSysExtX    :Integer;
-       lcSysExtY    :Integer;
-       lcSysSensX   :FIX32;
-       lcSysSensY   :FIX32;
-     end;
-    PLOGCONTEXT = ^LOGCONTEXT;
-   NPLOGCONTEXT = PLOGCONTEXT;
-   LPLOGCONTEXT = PLOGCONTEXT;
-{$ENDIF} (* WIN32 *)
+//{$ELSE} (* WIN32 *)
+//type LOGCONTEXT = record
+//       lcName       :array [ 0..LCNAMELEN-1 ] of Char;
+//       lcOptions    :UINT;
+//       lcStatus     :UINT;
+//       lcLocks      :UINT;
+//       lcMsgBase    :UINT;
+//       lcDevice     :UINT;
+//       lcPktRate    :UINT;
+//       lcPktData    :WTPKT;
+//       lcPktMode    :WTPKT;
+//       lcMoveMask   :WTPKT;
+//       lcBtnDnMask  :DWORD;
+//       lcBtnUpMask  :DWORD;
+//       lcInOrgX     :LONG;
+//       lcInOrgY     :LONG;
+//       lcInOrgZ     :LONG;
+//       lcInExtX     :LONG;
+//       lcInExtY     :LONG;
+//       lcInExtZ     :LONG;
+//       lcOutOrgX    :LONG;
+//       lcOutOrgY    :LONG;
+//       lcOutOrgZ    :LONG;
+//       lcOutExtX    :LONG;
+//       lcOutExtY    :LONG;
+//       lcOutExtZ    :LONG;
+//       lcSensX      :FIX32;
+//       lcSensY      :FIX32;
+//       lcSensZ      :FIX32;
+//       lcSysMode    :BOOL;
+//       lcSysOrgX    :Integer;
+//       lcSysOrgY    :Integer;
+//       lcSysExtX    :Integer;
+//       lcSysExtY    :Integer;
+//       lcSysSensX   :FIX32;
+//       lcSysSensY   :FIX32;
+//     end;
+//    PLOGCONTEXT = ^LOGCONTEXT;
+//   NPLOGCONTEXT = PLOGCONTEXT;
+//   LPLOGCONTEXT = PLOGCONTEXT;
+//{$ENDIF} (* WIN32 *)
 
     (* context option values *)
     const CXO_SYSTEM         = $0001;
@@ -697,7 +697,7 @@ const TABLET_LOC_TRANSDUCER    = 4;
 
     {$IFNDEF NOWTBASICFXNS }
     (* BASIC FUNCTIONS *)
-{$IFDEF WIN32 }
+//{$IFDEF WIN32 }
     function WTInfoA( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
     const ORD_WTInfoA    = 20;
     function WTInfoW( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
@@ -709,11 +709,11 @@ const TABLET_LOC_TRANSDUCER    = 4;
     function WTInfo( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME name 'WTInfoA';
     const ORD_WTInfo     = ORD_WTInfoA;
     {$ENDIF} (* !UNICODE *)
-{$ELSE}
-    function WTInfo( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
-    const ORD_WTInfo     = 20;
-{$ENDIF}
-{$IFDEF WIN32 }
+//{$ELSE}
+//    function WTInfo( _1:UINT; _2:UINT; _3:LPVOID ) :UINT; stdcall; external DLLNAME;
+//    const ORD_WTInfo     = 20;
+//{$ENDIF}
+//{$IFDEF WIN32 }
     function WTOpenA( _1:HWND; _2:LPLOGCONTEXTA; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
     const ORD_WTOpenA    = 21;
     function WTOpenW( _1:HWND; _2:LPLOGCONTEXTW; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
@@ -725,10 +725,10 @@ const TABLET_LOC_TRANSDUCER    = 4;
     function WTOpen( _1:HWND; _2:LPLOGCONTEXTA; _3:BOOL ) :HCTX; stdcall; external DLLNAME name 'WTOpenA';
     const ORD_WTOpen     = ORD_WTOpenA;
     {$ENDIF} (* !UNICODE *)
-{$ELSE}
-    function WTOpen( _1:HWND; _2:LPLOGCONTEXT; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
-    const ORD_WTOpen     = 21;
-{$ENDIF}
+//{$ELSE}
+//    function WTOpen( _1:HWND; _2:LPLOGCONTEXT; _3:BOOL ) :HCTX; stdcall; external DLLNAME;
+//    const ORD_WTOpen     = 21;
+//{$ENDIF}
     function WTClose( _1:HCTX ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTClose         = 22;
     function WTPacketsGet( _1:HCTX; _2:Integer; _3:LPVOID ) :Integer; stdcall; external DLLNAME;
@@ -765,7 +765,7 @@ const TABLET_LOC_TRANSDUCER    = 4;
     function WTGet( _1:HCTX; _2:LPLOGCONTEXT ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTGet     = 61;
 {$ENDIF}
-{$IFDEF WIN32 }
+//{$IFDEF WIN32 }
     function WTSetA( _1:HCTX; _2:LPLOGCONTEXTA ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTSetA    = 62;
     function WTSetW( _1:HCTX; _2:LPLOGCONTEXTW ) :BOOL; stdcall; external DLLNAME;
@@ -777,10 +777,10 @@ const TABLET_LOC_TRANSDUCER    = 4;
     function WTSet( _1:HCTX; _2:LPLOGCONTEXTA ) :BOOL; stdcall; external DLLNAME name 'WTSetA';
     const ORD_WTSet     = ORD_WTSetA;
     {$ENDIF} (* !UNICODE *)
-{$ELSE}
-    function WTSet( _1:HCTX; _2:LPLOGCONTEXT ) :BOOL; stdcall; external DLLNAME;
-    const ORD_WTSet     = 62;
-{$ENDIF}
+//{$ELSE}
+//    function WTSet( _1:HCTX; _2:LPLOGCONTEXT ) :BOOL; stdcall; external DLLNAME;
+//    const ORD_WTSet     = 62;
+//{$ENDIF}
     function WTExtGet( _1:HCTX; _2:UINT; _3:LPVOID ) :BOOL; stdcall; external DLLNAME;
     const ORD_WTExtGet     = 63;
     function WTExtSet( _1:HCTX; _2:UINT; _3:LPVOID ) :BOOL; stdcall; external DLLNAME;
@@ -845,9 +845,9 @@ const TABLET_LOC_TRANSDUCER    = 4;
     (* MANAGER PACKET HOOK FUNCTIONS *)
 {$IFNDEF WIN32 }
 (* OBSOLETE IN WIN32! *)
-    function WTMgrPacketHook( _1:HMGR; _2:BOOL; _3:int; _4:WTHOOKPROC ) :WTHOOKPROC; stdcall; external DLLNAME;
+    function WTMgrPacketHook( _1:HMGR; _2:BOOL; _3:Integer; _4:WTHOOKPROC ) :WTHOOKPROC; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHook           = 160;
-    function WTMgrPacketHookDefProc( _1:int; _2:WPARAM; _3:LPARAM; _4:LPWTHOOKPROC ) :LRESULT; stdcall; external DLLNAME;
+    function WTMgrPacketHookDefProc( _1:Integer; _2:WPARAM; _3:LPARAM; _4:LPWTHOOKPROC ) :LRESULT; stdcall; external DLLNAME;
     const ORD_WTMgrPacketHookDefProc    = 161;
 {$ENDIF}
     {$ENDIF}
