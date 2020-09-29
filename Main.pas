@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Memo.Types, FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo, FMX.TabControl, FMX.Objects,
-  LUX.WinTab.TabletFrame;
+  LUX.WinTab, LUX.WinTab.TabletFrame;
 
 type
   TForm1 = class(TForm)
@@ -37,25 +37,29 @@ implementation //###############################################################
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-     with TabletFrame1.Tablet do
+     with TabletFrame1 do
      begin
-          with Memo1.Lines do
+          with Tablet do
           begin
-               Add( 'PosX = ' + PosMinX.ToString + ' ～ ' + PosMaxX.ToString );
-               Add( 'PosY = ' + PosMinY.ToString + ' ～ ' + PosMaxY.ToString );
+               with Memo1.Lines do
+               begin
+                    Add( 'PosX = ' + PosMinX.ToString + ' ～ ' + PosMaxX.ToString );
+                    Add( 'PosY = ' + PosMinY.ToString + ' ～ ' + PosMaxY.ToString );
 
-               Add( 'ResX = ' + ResX.ToString + ' ( ' + UniX.ToString + ' )' );
-               Add( 'ResY = ' + ResY.ToString + ' ( ' + UniY.ToString + ' )' );
+                    Add( 'ResX = ' + ResX.ToString + ' ( ' + UniX.ToString + ' )' );
+                    Add( 'ResY = ' + ResY.ToString + ' ( ' + UniY.ToString + ' )' );
 
-               Add( 'Pre  = ' + PreMin.ToString + ' ～ ' + PreMax.ToString );
+                    Add( 'Pre  = ' + PreMin.ToString + ' ～ ' + PreMax.ToString );
 
-               Add( 'Whe  = ' + WheMin.ToString + ' ～ ' + WheMax.ToString );
+                    Add( 'Whe  = ' + WheMin.ToString + ' ～ ' + WheMax.ToString );
 
-               Add( 'Azi  = ' + AziMin.ToString + ' ～ ' + AziMax.ToString );
-               Add( 'Alt  = ' + AltMin.ToString + ' ～ ' + AltMax.ToString );
-               Add( 'Twi  = ' + TwiMin.ToString + ' ～ ' + TwiMax.ToString );
-
+                    Add( 'Azi  = ' + AziMin.ToString + ' ～ ' + AziMax.ToString );
+                    Add( 'Alt  = ' + AltMin.ToString + ' ～ ' + AltMax.ToString );
+                    Add( 'Twi  = ' + TwiMin.ToString + ' ～ ' + TwiMax.ToString );
+               end;
           end;
+
+          Brush.LoadFromFile( '..\..\_DATA\Brush.png' );
      end;
 end;
 

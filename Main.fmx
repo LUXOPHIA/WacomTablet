@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'WacomTablet'
-  ClientHeight = 480
-  ClientWidth = 640
+  ClientHeight = 621
+  ClientWidth = 880
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -16,17 +16,17 @@ object Form1: TForm1
     Margins.Top = 10.000000000000000000
     Margins.Right = 10.000000000000000000
     Margins.Bottom = 10.000000000000000000
-    Size.Width = 620.000000000000000000
-    Size.Height = 460.000000000000000000
+    Size.Width = 860.000000000000000000
+    Size.Height = 601.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 0
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
-      620s
-      434s
-      620s
-      434s)
+      860s
+      575s
+      860s
+      575s)
     object TabItem1: TTabItem
       CustomIcon = <
         item
@@ -47,8 +47,8 @@ object Form1: TForm1
         Margins.Top = 10.000000000000000000
         Margins.Right = 10.000000000000000000
         Margins.Bottom = 10.000000000000000000
-        Size.Width = 600.000000000000000000
-        Size.Height = 414.000000000000000000
+        Size.Width = 840.000000000000000000
+        Size.Height = 555.000000000000000000
         Size.PlatformDefault = False
       end
     end
@@ -75,12 +75,12 @@ object Form1: TForm1
         Margins.Top = 10.000000000000000000
         Margins.Right = 10.000000000000000000
         Margins.Bottom = 10.000000000000000000
-        Size.Width = 600.000000000000000000
-        Size.Height = 414.000000000000000000
+        Size.Width = 840.000000000000000000
+        Size.Height = 555.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
-        Viewport.Width = 596.000000000000000000
-        Viewport.Height = 410.000000000000000000
+        Viewport.Width = 836.000000000000000000
+        Viewport.Height = 551.000000000000000000
       end
     end
   end
