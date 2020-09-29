@@ -206,7 +206,7 @@ begin
      end;
 
      _Timer := TTimer.Create( Self );
-     _Timer.Interval := Round( 1000{ms/s} / 60{f/s} ){ms/f};
+     _Timer.Interval := Round( 1000{ms/s} / 100{f/s} ){ms/f};
      _Timer.OnTimer  := DrawFrame;
 end;
 
