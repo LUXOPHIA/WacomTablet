@@ -4,9 +4,9 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   Main in 'Main.pas' {Form1},
-  WINTAB in '_LIBRARY\WINTAB.pas',
   LUX.FMX.Messaging.Win in '_LIBRARY\LUXOPHIA\LUX\FMX\LUX.FMX.Messaging.Win.pas',
-  LUX.WinTab in '_LIBRARY\LUXOPHIA\LUX.PenTablet\LUX.WinTab.pas';
+  LUX.WinTab in '_LIBRARY\LUXOPHIA\LUX.PenTablet\LUX.WinTab.pas',
+  WINTAB in '_LIBRARY\LUXOPHIA\LUX.PenTablet\WINTAB.pas';
 
 {$R *.res}
 
