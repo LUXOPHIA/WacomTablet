@@ -5,7 +5,7 @@ interface //####################################################################
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  LUX.WinTab;
+  LUX, LUX.WinTab;
 
 type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【型】
 
@@ -22,6 +22,7 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        _PacketsN :Integer;
        _DrawArea :TRectF;
        _Timer    :TTimer;
+       _Brush    :TBitmap;
        ///// メソッド
        procedure Paint; override;
        procedure Resize; override;
@@ -33,13 +34,14 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        destructor Destroy; override;
        ///// プロパティ
        property Tablet :TPenTablet read _Tablet;
+       property Brush  :TBitmap    read _Brush ;
      end;
 
 implementation //############################################################### ■
 
 {$R *.fmx}
 
-uses System.Math.Vectors,
+uses System.Math, System.Math.Vectors,
      FMX.Platform,
      LUX.FMX.Pratform;
 
@@ -52,10 +54,13 @@ uses System.Math.Vectors,
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& protected
 
 procedure TTabletFrame.Paint;
+const
+     S = 10;
+     R :TRectF = ( Left:-S; Top:-S; Right:+S; Bottom:+S );
 var
    P :TTabletPacket;
-   C :TPointF;
-   S :Single;
+   Pos :TPointF;
+   Azi, Alt :Single;
 begin
      inherited;
 
@@ -67,14 +72,19 @@ begin
           begin
                P := _Packets[ _PacketsN-1 ];
 
-               C := TabToScr( P.X, P.Y );
+               Pos := TabToScr( P.X, P.Y );
+               Azi := P.Orientation.orAzimuth  / _Tablet.AziMax * Pi2;
+               Alt := P.Orientation.orAltitude / _Tablet.AltMax * P2i;
 
-               S := 10;
+               SetMatrix( TMatrix.CreateScaling( 1, 1 / Sin( Alt ) )
+                        * TMatrix.CreateRotation( Azi )
+                        * TMatrix.CreateTranslation( Pos.X, Pos.Y )
+                        * Matrix );
 
                with Stroke do
                begin
                     Kind      := TBrushKind.Solid;
-                    Thickness := 2;
+                    Thickness := 1;
 
                     case P.Status of
                       $00: Color := TAlphaColors.Red ;  // ペン
@@ -82,7 +92,7 @@ begin
                     end;
                end;
 
-               DrawEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 1 );
+               DrawEllipse( R, 1 );
           end;
      end;
 end;
@@ -141,42 +151,58 @@ end;
 //------------------------------------------------------------------------------
 
 procedure TTabletFrame.DrawFrame(Sender: TObject);
+const
+     S = 20;
+     R :TRectF = ( Left:-S; Top:-S; Right:+S; Bottom:+S );
 var
+   M :TMatrix;
    I :Integer;
    P :TTabletPacket;
-   C :TPointF;
-   S :Single;
+   Pos :TPointF;
+   Pre, Azi, Alt :Single;
 begin
-     _PacketsN := _Tablet.GetPakets( _Packets );  //すべての未処理パケットを取得
+     _PacketsN := _Tablet.GetPakets( _Packets );
 
-     if _PacketsN > 0 then  //未処理パケットがある場合
+     if _PacketsN > 0 then
      begin
           with _Image.Canvas do
           begin
-               BeginScene;  //描画開始
+               BeginScene;
 
-               Fill.Kind  := TBrushKind.Solid;
+               M := Matrix;
 
                for I := 0 to _PacketsN-1 do
                begin
-                    P := _Packets[ I ];  //単一のパケット
+                    P := _Packets[ I ];
 
-                    if P.Buttons = 1 then  //ペン先が押された場合
+                    if P.Buttons = 1 then
                     begin
+                         Pos := TabToScr( P.X, P.Y );
+                         Pre := P.NormalPressure / _Tablet.PreMax;
+                         Azi := P.Orientation.orAzimuth / _Tablet.AziMax * Pi2;
+                         Alt := P.Orientation.orAltitude / _Tablet.AltMax * P2i;
+
+                         SetMatrix( TMatrix.CreateRotation( -Azi )
+                                  * TMatrix.CreateScaling( Pre, Pre / Sin( Alt ) )
+                                  * TMatrix.CreateRotation( +Azi )
+                                  * TMatrix.CreateTranslation( Pos.X, Pos.Y )
+                                  * M );
+
                          case P.Status of
-                           $00: Fill.Color := TAlphaColors.Black;  // ペン
-                           $10: Fill.Color := TAlphaColors.White;  // 消しゴム
+                         $00: begin
+                                   DrawBitmap( _Brush, _Brush.BoundsF, R, 0.5 );
+                              end;
+                         $10: begin
+                                   Fill.Kind  := TBrushKind.Solid;
+                                   Fill.Color := TAlphaColors.White;
+
+                                   FillEllipse( R, 0.5 );
+                              end;
                          end;
-
-                         C := TabToScr( P.X, P.Y );
-
-                         S := 20 * ( P.NormalPressure / _Tablet.PreMax );
-
-                         FillEllipse( TRectF.Create( C.X-S, C.Y-S, C.X+S, C.Y+S ), 0.75 );  //円を描画
                     end;
                end;
 
-               EndScene;  //描画終了
+               EndScene;
           end;
      end;
 
@@ -208,10 +234,26 @@ begin
      _Timer := TTimer.Create( Self );
      _Timer.Interval := Round( 1000{ms/s} / 100{f/s} ){ms/f};
      _Timer.OnTimer  := DrawFrame;
+
+     _Brush := TBitmap.Create( 64, 64 );
+
+     with _Brush.Canvas do
+     begin
+          BeginScene;
+
+          Fill.Kind  := TBrushKind.Solid;
+          Fill.Color := TAlphaColors.Black;
+
+          FillEllipse( _Brush.BoundsF, 1 );
+
+          EndScene;
+     end;
 end;
 
 destructor TTabletFrame.Destroy;
 begin
+     _Brush.Free;
+
      _Image.Free;
 
      _Tablet.Free;

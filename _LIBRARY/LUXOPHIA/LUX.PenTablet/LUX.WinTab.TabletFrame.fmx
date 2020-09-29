@@ -1,6 +1,6 @@
 object TabletFrame: TTabletFrame
   ClipChildren = True
-  Size.Width = 320.000000000000000000
-  Size.Height = 240.000000000000000000
+  Size.Width = 560.000000000000000000
+  Size.Height = 370.000000000000000000
   Size.PlatformDefault = False
 end
