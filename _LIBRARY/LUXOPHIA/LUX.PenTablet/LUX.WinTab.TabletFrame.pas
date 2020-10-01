@@ -190,7 +190,7 @@ begin
 
                          case P.Status of
                          $00: begin
-                                   DrawBitmap( _Brush, _Brush.BoundsF, R, 0.5 );
+                                   DrawBitmap( _Brush, _Brush.BoundsF, R, 0.75 );
                               end;
                          $10: begin
                                    Fill.Kind  := TBrushKind.Solid;
@@ -232,7 +232,7 @@ begin
      end;
 
      _Timer := TTimer.Create( Self );
-     _Timer.Interval := Round( 1000{ms/s} / 100{f/s} ){ms/f};
+     _Timer.Interval{ms/f} := 1000{ms/s} div 100{f/s};
      _Timer.OnTimer  := DrawFrame;
 
      _Brush := TBitmap.Create( 64, 64 );
