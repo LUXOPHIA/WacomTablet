@@ -288,11 +288,8 @@
             <Form>Form1</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="_LIBRARY\LUXOPHIA\LUX\FMX\LUX.FMX.Messaging.Win.pas"/>
         <DCCReference Include="_LIBRARY\LUXOPHIA\LUX.PenTablet\LUX.WinTab.pas"/>
-        <DCCReference Include="_LIBRARY\LUXOPHIA\LUX\FMX\LUX.FMX.Pratform.pas"/>
         <DCCReference Include="_LIBRARY\LUXOPHIA\LUX.PenTablet\WINTAB.pas"/>
-        <DCCReference Include="_LIBRARY\LUXOPHIA\LUX\LUX.pas"/>
         <DCCReference Include="_LIBRARY\LUXOPHIA\LUX.PenTablet\LUX.WinTab.TabletFrame.pas">
             <Form>TabletFrame</Form>
             <FormType>fmx</FormType>
