@@ -8,11 +8,11 @@
 
 * [Wintab | WDN ワコムの技術情報提供サイト](http://wdnet.jp/library/windows/wintab)
 
-特に複雑なライブラリのインクルードが必要なわけではなく、ペンタブレットのドライバをインストールすると、システムに `Wintab32.dll` という DLL がインストールされるので、ただその中の C-API を叩けばいい。ただ、ペンタブレットのメーカー毎にドライバが異なるので、複数のタブレットを共存させるには、以下のように複数の DLL を使い分ける必要がある。
+特に複雑なライブラリのインクルードが必要なわけではなく、ペンタブレットのドライバをインストールすると、システムに `Wintab32.dll` という DLL がインストールされるので、その中の C-API を叩けばいい。ただ、ペンタブレットのメーカー毎にドライバが異なるので、複数のタブレットを共存させるには、以下のように複数の DLL を使い分ける必要がある。
 
 * [一台のWindows PCで複数のペンタブレット・液晶ペンタブレットを共存させ、『Wintab API』でソフトごとに使い分ける方法](https://hel.hatenablog.com/entry/2018/08/05/103422)
 
-`Wintab32.dll` の C-API が列挙されたヘッダファイル「[Wintab.h](https://github.com/LUXOPHIA/WacomTablet/blob/master/--------/WINTAB.H)」は、[以下のページからダウンロードできると記載](http://wdnet.jp/library/windows/notesfortabletawarepcdevelopers)されているが、実際はリンクが切れており、[Wacom for Developers](https://developer.wacom.com/ja-jp) のページへ飛ばされるだけ。
+`Wintab32.dll` 内の関数を列挙したヘッダファイル「[Wintab.h](https://github.com/LUXOPHIA/WacomTablet/blob/master/--------/WINTAB.H)」は、[以下のページからダウンロードできる](http://wdnet.jp/library/windows/notesfortabletawarepcdevelopers)と記載されているが、実際はリンクが切れており、[Wacom for Developers](https://developer.wacom.com/ja-jp) のページへ飛ばされるだけ。
 
 * [Windows | WDN ワコムの技術情報提供サイト](http://wdnet.jp/library/windows)
 
