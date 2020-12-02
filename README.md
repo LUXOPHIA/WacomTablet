@@ -2,6 +2,8 @@
 ペンタブレット（特に Wacom 製）から、ペン先の座標や筆圧や傾きなどのストローク情報を取得する方法。  
 ※ Windows のみ対応。
 
+![](https://github.com/LUXOPHIA/WacomTablet/raw/master/--------/_SCREENSHOT/WacomTablet.png)
+
 ----
 ## ■ 準備
 「Wacom SDK」と検索すると、デジタル署名の規格である「[Wacom Ink](https://developer.wacom.com/ja-jp/use-cases/signature-comparison-verification)」関係の情報ばかりがヒットしてしまうが、“絵を描く”ための実装は、Wacom 社製以外のタブレットも包括した、「Wintab」という統一規格によって扱われている。そして以下のサイトが、ほぼ唯一の情報源。
