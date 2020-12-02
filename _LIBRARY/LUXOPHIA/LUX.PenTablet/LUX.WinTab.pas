@@ -32,8 +32,6 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
      //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TPenTablet
 
-     TPacketEvent = reference to procedure( const Packet_:TTabletPacket );
-
      TPenTablet = class
      private
      protected
@@ -58,20 +56,15 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        _AltMax  :Integer;
        _TwiMin  :Integer;
        _TwiMax  :Integer;
-       ///// イベント
-       _OnPacket :TPacketEvent;
        ///// アクセス
        function GetQueueSize :Integer;
        procedure SetQueueSize( const QueueSize_:Integer );
-       function GetOnPacket :TPacketEvent;
-       procedure SetOnPacket( const OnPacket_:TPacketEvent );
        ///// メソッド
        procedure GetInfos;
        procedure GetDefContext;
        procedure ApplyContext;
        procedure OptionAdd( const Option_:UINT );
        procedure OptionDel( const Option_:UINT );
-       procedure OnMessage( const MSG_:TMsg );
      public
        constructor Create;
        destructor Destroy; override;
@@ -96,8 +89,6 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
        property TwiMin    :Integer read   _TwiMin                      ;
        property TwiMax    :Integer read   _TwiMax                      ;
        property QueueSize :Integer read GetQueueSize write SetQueueSize;
-       ///// イベント
-       property OnPacket :TPacketEvent read GetOnPacket write SetOnPacket;
        ///// メソッド
        function GetPakets( var Packets_:array of TTabletPacket ) :Integer;
      end;
@@ -122,8 +113,7 @@ const //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 implementation //############################################################### ■
 
-uses FMX.Platform.Win,
-     LUX.FMX.Messaging.Win;
+uses FMX.Platform.Win;
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【レコード】
 
@@ -145,30 +135,6 @@ end;
 procedure TPenTablet.SetQueueSize( const QueueSize_:Integer );
 begin
      WTQueueSizeSet( _Handle, QueueSize_ );
-end;
-
-//------------------------------------------------------------------------------
-
-function TPenTablet.GetOnPacket :TPacketEvent;
-begin
-     Result := _OnPacket;
-end;
-
-procedure TPenTablet.SetOnPacket( const OnPacket_:TPacketEvent );
-begin
-     if Assigned( _OnPacket ) then TMessageService.EventList.Remove( WT_PACKET );
-
-     _OnPacket := OnPacket_;
-
-     if Assigned( _OnPacket ) then
-     begin
-          TMessageService.EventList.Add( WT_PACKET, OnMessage );
-
-          OptionAdd( CXO_MESSAGES );
-     end
-     else OptionDel( CXO_MESSAGES );
-
-     ApplyContext;
 end;
 
 /////////////////////////////////////////////////////////////////////// メソッド
@@ -249,17 +215,6 @@ begin
      with _Context do lcOptions := lcOptions and not Option_;
 
      ApplyContext;
-end;
-
-//------------------------------------------------------------------------------
-
-procedure TPenTablet.OnMessage( const MSG_:TMsg );
-var
-   P :TTabletPacket;
-begin
-     WTPacket( MSG_.lParam, MSG_.wParam, @P );
-
-     if Assigned( _OnPacket ) then _OnPacket( P );
 end;
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& public

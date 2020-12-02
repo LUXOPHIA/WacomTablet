@@ -5,7 +5,7 @@ interface //####################################################################
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  LUX, LUX.WinTab;
+  LUX.WinTab;
 
 type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【型】
 
@@ -15,6 +15,8 @@ type //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
      TTabletFrame = class( TFrame )
      private
+       ///// メソッド
+       function GetDisplayScale :Single;
      protected
        _Tablet   :TPenTablet;
        _Image    :TBitmap;
@@ -42,14 +44,22 @@ implementation //###############################################################
 {$R *.fmx}
 
 uses System.Math, System.Math.Vectors,
-     FMX.Platform,
-     LUX.FMX.Pratform;
+     FMX.Platform;
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$【クラス】
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TTabletFrame
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& private
+
+function TTabletFrame.GetDisplayScale :Single;
+var
+   S :IFMXScreenService;
+begin
+     if TPlatformServices.Current.SupportsPlatformService( IFMXScreenService, IInterface( S ) )
+     then Result := S.GetScreenScale
+     else Result := 1;
+end;
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& protected
 
@@ -73,8 +83,8 @@ begin
                P := _Packets[ _PacketsN-1 ];
 
                Pos := TabToScr( P.X, P.Y );
-               Azi := P.Orientation.orAzimuth  / _Tablet.AziMax * Pi2;
-               Alt := P.Orientation.orAltitude / _Tablet.AltMax * P2i;
+               Azi := P.Orientation.orAzimuth  / _Tablet.AziMax * Pi*2;
+               Alt := P.Orientation.orAltitude / _Tablet.AltMax * Pi/2;
 
                SetMatrix( TMatrix.CreateScaling( 1, 1 / Sin( Alt ) )
                         * TMatrix.CreateRotation( Azi )
@@ -179,8 +189,8 @@ begin
                     begin
                          Pos := TabToScr( P.X, P.Y );
                          Pre := P.NormalPressure / _Tablet.PreMax;
-                         Azi := P.Orientation.orAzimuth / _Tablet.AziMax * Pi2;
-                         Alt := P.Orientation.orAltitude / _Tablet.AltMax * P2i;
+                         Azi := P.Orientation.orAzimuth  / _Tablet.AziMax * Pi*2;
+                         Alt := P.Orientation.orAltitude / _Tablet.AltMax * Pi/2;
 
                          SetMatrix( TMatrix.CreateRotation( -Azi )
                                   * TMatrix.CreateScaling( Pre, Pre / Sin( Alt ) )
