@@ -4,4 +4,4 @@ Wacom のタブレットから、ペン先の座標や筆圧や傾きなどの�
 
 ----
 
-[![Delphi Starter](https://github.com/delphiusers/FreeDelphi/raw/master/Banner/FreeDelphi-Banner_350x126.png)](https://www.embarcadero.com/jp/products/delphi/starter)
+[![Delphi Starter](https://github.com/delphiusers/FreeDelphi/raw/master/FreeDelphi_300px.png)](https://www.embarcadero.com/jp/products/delphi/starter)
