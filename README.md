@@ -6,7 +6,11 @@
 
 ----
 ## ■ 準備
-「Wacom SDK」と検索すると、デジタル署名の規格である「[Wacom Ink](https://developer.wacom.com/ja-jp/use-cases/signature-comparison-verification)」関係の情報ばかりがヒットしてしまうが、“絵を描く”ための実装は、Wacom 社製以外のタブレットも包括した、「Wintab」という統一規格によって扱われている。そして以下のサイトが、ほぼ唯一の情報源。
+「Wacom SDK」と検索すると、Wacom の提唱する新規格である「[WILL: Wacom Ink Layer Language](https://developer.wacom.com/ja-jp/products/will-sdk-for-ink)」関係の情報ばかりがヒットしてしまうが、Windows でのサンプルは C# 用のみ。ネイティブ言語で扱わせる気はなくなったらしい。
+
+* [Wacom-Developer-Welcome-Page](https://github.com/Wacom-Developer/Wacom-Developer-Welcome-Page) @ GitHub
+
+しかし従来から、Wacom 製以外のタブレットも包括した「Wintab」という統一規格が存在し、今も現役である。そして以下のサイトが、ほぼ唯一の情報源。
 
 * [Wintab | WDN ワコムの技術情報提供サイト](http://wdnet.jp/library/windows/wintab)
 
@@ -17,10 +21,6 @@
 `Wintab32.dll` 内の関数を列挙したヘッダファイル「[Wintab.h](https://github.com/LUXOPHIA/WacomTablet/blob/master/--------/WINTAB.H)」は、[以下のページからダウンロードできる](http://wdnet.jp/library/windows/notesfortabletawarepcdevelopers)と記載されているが、実際はリンクが切れており、[Wacom for Developers](https://developer.wacom.com/ja-jp) のページへ飛ばされるだけ。
 
 * [Windows | WDN ワコムの技術情報提供サイト](http://wdnet.jp/library/windows)
-
-しかも、公式リボジトリにさえ Wintab 関係のサンプルコードはなし。
-
-* [Wacom](https://github.com/Wacom-Developer) @ GitHub
 
 実際は以下の、Wacom のレガシーなドキュメント置き場からしかダウンロードできない。
 
