@@ -35,7 +35,7 @@
 
 ----
 ## ■ 実装
-結論から言うと、以下の４つのユニットをインクルードすれば完結する。しかも、（未だ汎用性のない実装であるが）`LUX.WinTab.TabletFrame` ユニットの `TTabletFrame`フレームをフォームに貼るだけで、初期化から描画までが完結する。
+結論から言うと、以下の３つのユニットをインクルードすれば完結する。しかも、（未だ汎用性のない実装であるが）`LUX.WinTab.TabletFrame` ユニットの `TTabletFrame`フレームをフォームに貼るだけで、初期化から描画までが完結する。
 
 * [LUX.PenTablet](https://github.com/LUXOPHIA/LUX.PenTablet)
     * [WINTAB.pas](https://github.com/LUXOPHIA/LUX.PenTablet/blob/master/WINTAB.pas)
